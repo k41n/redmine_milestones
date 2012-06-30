@@ -12,3 +12,4 @@ en:
   milestone_kind_internal: Internal
   milestone_kind_aggregate: Aggregating
   field_parent_milestone: Parent milestone
+  field_milestone: Milestone

@@ -4,7 +4,16 @@
 <div class="box tabular">
   <p><%= f.text_field :name, :size => 60, :required => true %></p>
   <p><%= f.text_field :description, :size => 60 %></p>
-  <p><%= f.select :kind, Milestone::MILESTONE_KINDS.collect {|s| [l("milestone_kind_#{s}"), s]} %></p>
+  <p><%= f.select :kind, Milestone::MILESTONE_KINDS.collect {|s| [l("milestone_kind_#{s}"), s]}, {}, {:onchange => 'milestone_type_changed()'} %></p>
+  <div id="internal_milestone_form_part">
+    <p><%= f.select :project, options_for_select(Project.all.collect {|x| [x.name, x.id]}, @project.id), {}, {:onchange => "new_milestone_project_selected()"} %></p>
+    <div id="subproject_placeholder" style="display:none">
+        <p><%= f.select :subproject, {}, {:onchange => "new_milestone_subproject_selected()"} %></p>
+    </div>
+    <div id="version_placeholder">
+        <p><%= f.select :version_id, @project.versions.collect {|x| [x.name, x.id]} %></p>
+    </div>
+  </div>
   <p><%= f.select :status, Milestone::MILESTONE_STATUSES.collect {|s| [l("version_status_#{s}"), s]} %></p>
   <p><%= f.text_field :start_date, :size => 10 %><%= calendar_for('milestone_start_date') %></p>
   <p><%= f.text_field :planned_end_date, :size => 10 %><%= calendar_for('milestone_planned_end_date') %></p>
@@ -19,3 +28,6 @@
 
 
 </div>
+<% content_for :header_tags do %>
+    <%= javascript_include_tag "milestones.js", :plugin => 'redmine_milestones' %>
+<% end %>

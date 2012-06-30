@@ -1,0 +1,5 @@
+<% if issue.fixed_version.present? %>
+    <p>
+        <%= form.select :milestone_id, [['',0]] + Milestone.find_all_by_version_id(issue.fixed_version.id).collect{|x| [x.name, x.id]} %>
+    </p>
+<% end %>

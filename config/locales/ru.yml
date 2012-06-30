@@ -11,3 +11,4 @@ ru:
   milestone_kind_internal: Внутренний
   milestone_kind_aggregate: Аггрегирующий
   field_parent_milestone: Родительский этап
+  field_milestone: Этап

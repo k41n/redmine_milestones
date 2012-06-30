@@ -13,6 +13,7 @@ class CreateMilestones < ActiveRecord::Migration
       t.string :sharing
       t.references :project
       t.references :user
+      t.references :version
     end
   end
 

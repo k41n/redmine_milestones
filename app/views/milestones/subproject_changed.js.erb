@@ -1,0 +1,9 @@
+<% if @subproject.present? %>
+    <% if @subproject.versions.empty? %>
+        $('version_placeholder').hide();
+    <% else %>
+        $('version_placeholder').show();
+        <% @project = @subproject %>
+        $('milestone_version').replace("<%= escape_javascript(render :partial=>"version") %>")
+    <% end %>
+<% end %>

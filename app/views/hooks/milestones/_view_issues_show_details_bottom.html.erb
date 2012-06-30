@@ -1,0 +1,8 @@
+<% if issue.milestone.present? %>
+    <th>
+      <%= t(:field_milestone) %>
+    </th>
+    <td>
+      <%= issue.milestone.name %>
+    </td>
+<% end %>

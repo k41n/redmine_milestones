@@ -35,7 +35,33 @@ class MilestonesController < ApplicationController
       end
     end
   end
-private
+
+  def parent_project_changed
+    @project = Project.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def subproject_changed
+    @subproject = Project.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    @subproject = nil
+  end
+
+  def show
+    @milestone = Milestone.find(params[:id])
+    @issues = @milestone.issues
+    @project = @milestone.project
+  end
+
+  def status_by
+    @milestone = Milestone.find(params[:id])
+    @issues = @milestone.issues
+    @project = @milestone.project
+    render :action => 'show'
+  end
+
+  private
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound

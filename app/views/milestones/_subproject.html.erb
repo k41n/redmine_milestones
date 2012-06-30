@@ -1,0 +1,1 @@
+<%= select "milestone", :subproject, [['',0]] + @project.descendants.collect {|x| [x.name, x.id]}, {}, {:onchange => "new_milestone_subproject_selected()"} %>

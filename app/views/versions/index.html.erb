@@ -69,3 +69,7 @@
 <% html_title(l(:label_roadmap)) %>
 
 <%= context_menu issues_context_menu_path %>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "milestones", :plugin => 'redmine_milestones' %>
+<% end %>

@@ -1,0 +1,7 @@
+<p><%=h milestone.description %></p>
+
+<% if milestone.issues.count > 0 %>
+    <%= progress_bar([milestone.closed_pourcent, milestone.completed_pourcent], :width => '40em', :legend => ('%0.0f%' % milestone.completed_pourcent)) %>
+<% else %>
+    <p class="progress-info"><%= l(:label_roadmap_no_issues) %></p>
+<% end %>

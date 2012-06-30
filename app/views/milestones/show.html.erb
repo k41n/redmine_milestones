@@ -1,0 +1,52 @@
+<div class="contextual">
+  <%= link_to(l(:button_edit), edit_milestone_path(@milestone), :class => 'icon icon-edit') if User.current.allowed_to?(:manage_versions, @milestone.project) %>
+  <%= link_to(l(:button_delete), milestone_path(@milestone, :back_url => url_for(:controller => 'versions', :action => 'index', :project_id => @milestone.project)),
+              :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del') if User.current.allowed_to?(:manage_versions, @milestone.project) %>
+  <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
+</div>
+
+<h2><%= h(@milestone.name) %></h2>
+
+<div id="roadmap">
+  <%= render :partial => 'milestones/overview', :locals => {:milestone => @milestone} %>
+
+  <div id="version-summary">
+    <% if @milestone.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
+        <fieldset class="time-tracking"><legend><%= l(:label_time_tracking) %></legend>
+          <table>
+            <tr>
+              <th><%= l(:field_estimated_hours) %></th>
+              <td class="total-hours"><%= html_hours(l_hours(@milestone.estimated_hours)) %></td>
+            </tr>
+            <% if User.current.allowed_to?(:view_time_entries, @project) %>
+                <tr>
+                  <th><%= l(:label_spent_time) %></th>
+                  <td class="total-hours"><%= html_hours(l_hours(@milestone.spent_hours)) %></td>
+                </tr>
+            <% end %>
+          </table>
+        </fieldset>
+    <% end %>
+
+    <div id="status_by">
+      <%= render_issue_status_by(@milestone, params[:status_by]) if @milestone.issues.count > 0 %>
+    </div>
+  </div>
+
+  <% if @issues.present? %>
+      <% form_tag({}) do -%>
+          <table class="list related-issues">
+            <caption><%= l(:label_related_issues) %></caption>
+            <%- @issues.each do |issue| -%>
+                <tr class="hascontextmenu">
+                  <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
+                  <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+                </tr>
+            <% end %>
+          </table>
+      <% end %>
+      <%= context_menu issues_context_menu_path %>
+  <% end %>
+</div>
+
+<% html_title @milestone.name %>

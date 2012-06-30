@@ -1,0 +1,1 @@
+<%= select "milestone", :version_id, @project.versions.collect {|x| [x.name, x.id]}%>
