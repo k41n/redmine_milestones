@@ -1,0 +1,13 @@
+ru:
+  label_milestone_new: Новый этап
+  field_kind: Тип
+  field_planned_end_date: Запланированная дата окончания
+  field_actual_date: Фактическая дата окончания
+  label_milestone_sharing_hierarchy: С иерархией проектов
+  label_milestone_sharing_system: Со всеми проектами
+  label_milestone_sharing_descendants: С подпроектами
+  label_milestone_sharing_tree: С деревом проектов
+  label_milestone_sharing_none: Без совместного использования
+  milestone_kind_internal: Внутренний
+  milestone_kind_aggregate: Аггрегирующий
+  field_parent_milestone: Родительский этап
