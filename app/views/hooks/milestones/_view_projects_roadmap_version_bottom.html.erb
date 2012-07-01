@@ -1,7 +1,7 @@
 <% if params[:milestones] %>
     <% if params[:completed_milestones] %>
-        <%= render :partial => "milestones/milestone", :collection => Milestone.find_all_by_version_id_and_parent_milestone_id(version.id, 0) %>
+        <%= render :partial => "milestones/milestone", :collection => Milestone.internal.find_all_by_version_id_and_parent_milestone_id(version.id, 0) %>
     <% else %>
-        <%= render :partial => "milestones/milestone", :collection => Milestone.opened.find_all_by_version_id_and_parent_milestone_id(version.id, 0) %>
+        <%= render :partial => "milestones/milestone", :collection => Milestone.internal.opened.find_all_by_version_id_and_parent_milestone_id(version.id, 0) %>
     <% end %>
 <% end %>

@@ -19,6 +19,8 @@ class Milestone < ActiveRecord::Base
   belongs_to :previous_planned_end_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_planned_end_date_milestone_id
 
   named_scope :opened, :conditions => {:status => %w(open locked)}
+  named_scope :aggregate, :conditions => {:kind => 'aggregate'}
+  named_scope :internal, :conditions => {:kind => 'internal'}
 
   safe_attributes 'name',
                   'description',

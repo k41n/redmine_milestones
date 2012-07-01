@@ -5,8 +5,20 @@
   <%= link_to l(:label_milestone_new), new_project_milestone_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
 </div>
 
-<h2><%=l(:label_roadmap)%></h2>
+<h3><%=l(:label_roadmap)%></h3>
 
+<% if params[:milestones] and not @project.milestones.aggregate.empty? %>
+    <h2>
+      <%= t(:aggregate_milestones) %>
+    </h2>
+    <% if params[:completed_milestones] %>
+        <%= render :partial => "milestones/milestone", :collection => @project.milestones.aggregate.find_all_by_parent_milestone_id(0) %>
+    <% else %>
+        <%= render :partial => "milestones/milestone", :collection => @project.milestones.aggregate.opened.find_all_by_parent_milestone_id(0) %>
+    <% end %>
+<% end %>
+
+<h3><%= t(:versions) %></h3>
 <% if @versions.empty? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
@@ -54,14 +66,25 @@
         <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
     <% end %>
 
+    <% if params[:milestones] and not @project.milestones.aggregate.empty? %>
+        <h3>
+          <%= t(:aggregate_milestones) %>
+        </h3>
+        <% if params[:completed_milestones] %>
+            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.milestones.aggregate.find_all_by_parent_milestone_id(0) %>
+        <% else %>
+            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.milestones.aggregate.opened.find_all_by_parent_milestone_id(0) %>
+        <% end %>
+    <% end %>
+
     <h3><%= l(:label_version_plural) %></h3>
     <% @versions.each do |version| %>
         <%= link_to format_version_name(version), "##{anchor(version.name)}" %><br />
         <% if not version.milestones.empty? and params[:milestones] %>
           <% if params[:completed_milestones] %>
-            <%= render :partial => 'milestones/sidebar_milestone', :collection => version.milestones.find_all_by_parent_milestone_id(0) %>
+            <%= render :partial => 'milestones/sidebar_milestone', :collection => version.milestones.internal.find_all_by_parent_milestone_id(0) %>
           <% else %>
-            <%= render :partial => 'milestones/sidebar_milestone', :collection => version.milestones.opened.find_all_by_parent_milestone_id(0) %>
+            <%= render :partial => 'milestones/sidebar_milestone', :collection => version.milestones.internal.opened.find_all_by_parent_milestone_id(0) %>
           <% end %>
         <% end %>
     <% end %>

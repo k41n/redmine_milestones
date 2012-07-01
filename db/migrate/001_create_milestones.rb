@@ -3,7 +3,7 @@ class CreateMilestones < ActiveRecord::Migration
     create_table :milestones do |t|
       t.string :name
       t.string :description
-      t.integer :kind
+      t.string :kind
       t.integer :sharing_model
       t.string :status
       t.date :start_date

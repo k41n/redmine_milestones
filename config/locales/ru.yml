@@ -28,3 +28,5 @@ ru:
   left: осталось
   project_module_milestones_module: Этапы
   field_milestones: Этап
+  aggregate_milestones: Аггрегирующие этапы
+  versions: Версии
