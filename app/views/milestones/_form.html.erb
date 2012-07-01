@@ -14,7 +14,7 @@
         <p><%= f.select :version_id, @project.versions.collect {|x| [x.name, x.id]} %></p>
     </div>
   </div>
-  <p><%= f.select :status, Milestone::MILESTONE_STATUSES.collect {|s| [l("version_status_#{s}"), s]} %></p>
+  <p><%= f.select :status, options_for_select(Milestone::MILESTONE_STATUSES.collect {|s| [l("version_status_#{s}"), s]}, @milestone.status) %></p>
 
   <div style="padding-left: 150px">
     <label for="milestone_fixed_start_date_true">

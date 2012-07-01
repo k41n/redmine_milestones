@@ -21,3 +21,8 @@ ru:
   milestone_planned_end_date: Завершение этапа
   recalculate_start_date: Пересчитать
   label_milestone_edit: Редактировать этап
+  label_show_milestones: Показывать этапы
+  label_show_completed_milestones: Показывать завершенные этапы
+  issues: задач
+  done: завершено
+  left: осталось

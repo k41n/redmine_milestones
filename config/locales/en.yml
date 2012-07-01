@@ -13,3 +13,17 @@ en:
   milestone_kind_aggregate: Aggregating
   field_parent_milestone: Parent milestone
   field_milestone: Milestone
+  fixed_planned_end_date: Fixed due date
+  field_previous_planned_end_date_milestone: From milestone
+  field_planned_end_date_offset: day offset
+  field_previous_start_date_milestone: From milestone
+  field_start_date_offset: day offset
+  milestone_start_date: Milestone start
+  milestone_planned_end_date: Milestone due date
+  recalculate_start_date: Recalculate
+  label_milestone_edit: Edit milestone
+  label_show_milestones: Show milestones
+  label_show_completed_milestones: Show completed milestones
+  issues: issues
+  done: done
+  left: left

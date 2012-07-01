@@ -1,12 +1,7 @@
-<% Milestone.find_all_by_version_id(version.id).each do |milestone| %>
-    <div id="milestone_#{milestone.id}" class="milestone">
-      <%= image_tag('milestone.png', :plugin=>'redmine_milestones', :style=>'vertical-align: top') %>
-      <div style="display: inline-block">
-        <strong>
-          <%= link_to milestone.name, milestone_path(milestone) %>
-        </strong>
-        <br>
-        <%=  milestone.description %>
-      </div>
-    </div>
+<% if params[:milestones] %>
+    <% if params[:completed_milestones] %>
+        <%= render :partial => "milestones/milestone", :collection => Milestone.find_all_by_version_id_and_parent_milestone_id(version.id, 0) %>
+    <% else %>
+        <%= render :partial => "milestones/milestone", :collection => Milestone.opened.find_all_by_version_id_and_parent_milestone_id(version.id, 0) %>
+    <% end %>
 <% end %>

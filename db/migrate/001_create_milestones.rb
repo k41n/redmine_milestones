@@ -5,7 +5,7 @@ class CreateMilestones < ActiveRecord::Migration
       t.string :description
       t.integer :kind
       t.integer :sharing_model
-      t.integer :status
+      t.string :status
       t.date :start_date
       t.date :planned_end_date
       t.date :actual_date

@@ -18,6 +18,8 @@ class Milestone < ActiveRecord::Base
   belongs_to :previous_start_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_start_date_milestone_id
   belongs_to :previous_planned_end_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_planned_end_date_milestone_id
 
+  named_scope :opened, :conditions => {:status => %w(open locked)}
+
   safe_attributes 'name',
                   'description',
                   'kind',
@@ -26,7 +28,7 @@ class Milestone < ActiveRecord::Base
                   'planned_end_date',
                   'start_date',
                   'actual_date',
-                  'parent_id',
+                  'parent_milestone_id',
                   'user_id',
                   'version_id'
                   'subproject'
@@ -132,6 +134,11 @@ class Milestone < ActiveRecord::Base
   def open_issues_count
     load_issue_counts
     @open_issues_count
+  end
+
+  def closed_issues_count
+    load_issue_counts
+    @closed_issues_count
   end
 
   def spent_hours

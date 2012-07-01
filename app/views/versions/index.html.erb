@@ -20,7 +20,7 @@
               <% form_tag({}) do -%>
                   <table class="list related-issues">
                     <caption><%= l(:label_related_issues) %></caption>
-                    <% issues.each do |issue| -%>
+                    <% issues.select{|x| x.milestone.nil?}.each do |issue| -%>
                         <tr class="hascontextmenu">
                           <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
                           <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
@@ -43,6 +43,10 @@
         <% end %>
         <br />
         <label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
+        <br/>
+        <label for="milestones"><%= check_box_tag "milestones", 1, params[:milestones] %> <%= l(:label_show_milestones) %></label>
+        <br/>
+        <label for="completed_milestones"><%= check_box_tag "completed_milestones", 1, params[:completed_milestones] %> <%= l(:label_show_completed_milestones) %></label>
         <% if @project.descendants.active.any? %>
             <%= hidden_field_tag 'with_subprojects', 0 %>
             <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
@@ -53,6 +57,13 @@
     <h3><%= l(:label_version_plural) %></h3>
     <% @versions.each do |version| %>
         <%= link_to format_version_name(version), "##{anchor(version.name)}" %><br />
+        <% if not version.milestones.empty? and params[:milestones] %>
+          <% if params[:completed_milestones] %>
+            <%= render :partial => 'milestones/sidebar_milestone', :collection => version.milestones.find_all_by_parent_milestone_id(0) %>
+          <% else %>
+            <%= render :partial => 'milestones/sidebar_milestone', :collection => version.milestones.opened.find_all_by_parent_milestone_id(0) %>
+          <% end %>
+        <% end %>
     <% end %>
     <% if @completed_versions.present? %>
         <p>

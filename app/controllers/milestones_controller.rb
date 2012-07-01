@@ -17,7 +17,12 @@ class MilestonesController < ApplicationController
   def update
     @milestone = Milestone.find(params[:id])
     @project = @milestone.project
-    if @milestone.update_attributes(params[:milestone])
+    if params[:milestone]
+      attributes = params[:milestone].dup
+      attributes.delete('sharing') unless attributes.nil? || @milestone.allowed_sharings.include?(attributes['sharing'])
+      @milestone.safe_attributes = attributes
+    end
+    if @milestone.save
       flash[:notice] = l(:notice_successful_create)
       redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
     else

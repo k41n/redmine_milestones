@@ -1,0 +1,10 @@
+<div style='padding-left: 15px'>
+    <%=  link_to sidebar_milestone.name, milestone_path(sidebar_milestone) %>
+    <% unless sidebar_milestone.children.empty? %>
+        <% if params[:completed_milestones] %>
+          <%= render :partial => "milestones/sidebar_milestone", :collection => sidebar_milestone.children %>
+        <% else %>
+          <%= render :partial => "milestones/sidebar_milestone", :collection => sidebar_milestone.children.opened %>
+        <% end %>
+    <% end %>
+</div>
