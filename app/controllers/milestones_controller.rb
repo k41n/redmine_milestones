@@ -100,7 +100,12 @@ class MilestonesController < ApplicationController
     render :action => 'show'
   end
 
-  private
+  def issue_version_changed
+    @version = Version.find(params[:id])
+    @milestones = @version.milestones
+  end
+
+private
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound

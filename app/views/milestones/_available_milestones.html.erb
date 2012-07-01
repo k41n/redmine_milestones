@@ -1,0 +1,6 @@
+<p id="milestone_placeholder">
+    <label for="issue_milestone_id">
+      <%= t(:field_milestone) %>
+    </label>
+    <%= select "issue", :milestone_id, [['',0]] + @milestones.collect{|x| [x.name, x.id]} %>
+</p>

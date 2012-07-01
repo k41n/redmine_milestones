@@ -1,5 +1,15 @@
-<% if issue.fixed_version.present? %>
-    <p>
-        <%= form.select :milestone_id, [['',0]] + Milestone.find_all_by_version_id(issue.fixed_version.id).collect{|x| [x.name, x.id]} %>
-    </p>
+<p id="milestone_placeholder">
+    <% if issue.fixed_version.present? %>
+      <%= form.select :milestone_id, [['',0]] + Milestone.find_all_by_version_id(issue.fixed_version.id).collect{|x| [x.name, x.id]} %>
+    <% end %>
+</p>
+<% content_for :header_tags do %>
+    <%= javascript_include_tag "milestones.js", :plugin => 'redmine_milestones' %>
+    <script>
+        document.observe("dom:loaded", function(){
+            Event.observe($("issue_fixed_version_id"), "change", function() {
+                issue_version_changed();
+            });
+        });
+    </script>
 <% end %>

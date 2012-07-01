@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
       :subproject_changed => [:get],
       :recalculate_planned_end_date => [:post],
       :recalculate_start_date => [:post],
-      :recalculate_actual_date => [:get]
+      :recalculate_actual_date => [:get],
+      :issue_version_changed => [:get]
   },:member => {:status_by => :post}
 end

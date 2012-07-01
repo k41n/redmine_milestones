@@ -164,4 +164,8 @@ class Milestone < ActiveRecord::Base
     (self.children.map(&:planned_end_date) + self.issues.map(&:due_date)).max
   end
 
+  def to_s
+    self.name
+  end
+
 end
