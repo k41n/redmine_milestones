@@ -1,7 +1,7 @@
 class AddCalculationsToMilestoneDates < ActiveRecord::Migration
   def self.up
-    add_column :milestones, :fixed_planned_end_date, :boolean
-    add_column :milestones, :fixed_start_date, :boolean
+    add_column :milestones, :fixed_planned_end_date, :boolean, :default => true
+    add_column :milestones, :fixed_start_date, :boolean, :default => true
     add_column :milestones, :previous_start_date_milestone_id, :integer
     add_column :milestones, :previous_planned_end_date_milestone_id, :integer
     add_column :milestones, :planned_end_date_offset, :integer
