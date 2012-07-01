@@ -1,6 +1,6 @@
 set :application, "Redmine Milestones"
 set :repository,  "git://github.com/k41n/redmine_milestones.git"
-set :deploy_to, "/var/data/saas/test/redmine/vendor/plugins/git-cache/redmine_milestones"
+set :deploy_to, "/var/data/saas/test/redmine/tmp/git-cache/redmine_milestones"
 
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
@@ -41,7 +41,7 @@ namespace :deploy do
                    else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
                  end
      #run "cd #{directory}; bundle update"
-     run "cd /var/data/saas/test/redmine; #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate:plugin NAME=redmine_milestones"
+     run "cd /var/data/saas/test/redmine; #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate:plugin NAME=redmine_milestones --trace"
    end
 
 end

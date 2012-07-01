@@ -1,0 +1,5 @@
+<% if @calculated_date.present? %>
+    $('milestone_planned_end_date').value = "<%= @calculated_date.strftime('%Y-%m-%d') %>";
+<% else %>
+    $('milestone_planned_end_date').value = "";
+<% end %>

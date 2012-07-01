@@ -11,8 +11,12 @@ class Milestone < ActiveRecord::Base
   belongs_to :project
   belongs_to :user
   belongs_to :version
-  belongs_to :parent_milestone, :class_name => 'Milestone', :foreign_key => :parent_id
+  belongs_to :parent_milestone, :class_name => 'Milestone', :foreign_key => :parent_milestone_id
   has_many :issues
+  has_many :children, :class_name => 'Milestone', :foreign_key => :parent_milestone_id
+
+  belongs_to :previous_start_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_start_date_milestone_id
+  belongs_to :previous_planned_end_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_planned_end_date_milestone_id
 
   safe_attributes 'name',
                   'description',
@@ -51,8 +55,8 @@ class Milestone < ActiveRecord::Base
     end
   end
 
-  def subproject
-    self.project
+  def subproject_id
+    self.project.present? ? self.project.id : nil
   end
 
   def estimated_hours
@@ -69,6 +73,23 @@ class Milestone < ActiveRecord::Base
 
   def issues_count
     issues.count
+  end
+
+  def start_date
+    if fixed_start_date
+      read_attribute(:start_date)
+    else
+      start_date_offset.days.since(self.previous_start_date_milestone.planned_end_date)
+    end
+  end
+
+  def planned_end_date
+    if fixed_planned_end_date
+      read_attribute(:planned_end_date)
+    else
+      planned_end_date_offset.days.since(self.previous_planned_end_date_milestone.planned_end_date)
+    end
+
   end
 
   def issues_progress(open)
@@ -130,6 +151,10 @@ class Milestone < ActiveRecord::Base
       end
       @issue_count = @open_issues_count + @closed_issues_count
     end
+  end
+
+  def actual_date
+    (self.children.map(&:planned_end_date) + self.issues.map(&:due_date)).max
   end
 
 end

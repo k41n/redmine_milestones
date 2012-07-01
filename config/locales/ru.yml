@@ -2,7 +2,7 @@ ru:
   label_milestone_new: Новый этап
   field_kind: Тип
   field_planned_end_date: Запланированная дата окончания
-  field_actual_date: Фактическая дата окончания
+  field_actual_date: Фактически окончен
   label_milestone_sharing_hierarchy: С иерархией проектов
   label_milestone_sharing_system: Со всеми проектами
   label_milestone_sharing_descendants: С подпроектами
@@ -12,3 +12,12 @@ ru:
   milestone_kind_aggregate: Аггрегирующий
   field_parent_milestone: Родительский этап
   field_milestone: Этап
+  fixed_planned_end_date: Фиксированная дата завершения
+  field_previous_planned_end_date_milestone: От этапа
+  field_planned_end_date_offset: Смещение в днях
+  field_previous_start_date_milestone: От этапа
+  field_start_date_offset: Смещение в днях
+  milestone_start_date: Начало этапа
+  milestone_planned_end_date: Завершение этапа
+  recalculate_start_date: Пересчитать
+  label_milestone_edit: Редактировать этап

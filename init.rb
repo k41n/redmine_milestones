@@ -5,6 +5,7 @@ VERSION_STATUS = '-alpha1'
 
 require_dependency 'milestones/hooks'
 require_dependency 'milestones/issue_patch'
+require_dependency 'milestones/version_patch'
 
 Redmine::Plugin.register :redmine_milestones do
   name 'Redmine Milestones plugin'
@@ -16,3 +17,4 @@ Redmine::Plugin.register :redmine_milestones do
   requires_redmine :version_or_higher => '1.2.2'
 end
 Issue.send(:include, IssuePatch)
+Version.send(:include, VersionPatch)

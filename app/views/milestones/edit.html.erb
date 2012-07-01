@@ -1,0 +1,6 @@
+<h2><%=l(:label_milestone_edit)%></h2>
+
+<% labelled_form_for @milestone do |f| %>
+    <%= render :partial => 'milestones/form', :locals => { :f => f } %>
+    <%= submit_tag l(:button_update) %>
+<% end %>

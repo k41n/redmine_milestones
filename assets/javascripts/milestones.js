@@ -13,7 +13,7 @@ function milestone_type_changed()
 
 function new_milestone_project_selected()
 {
-    selected = $('milestone_project').value;
+    selected = $('milestone_project_id').value;
     new Ajax.Request('/milestones/parent_project_changed/?id='+selected,
         {
             method:'get',
@@ -27,16 +27,110 @@ function new_milestone_project_selected()
 
 function new_milestone_subproject_selected()
 {
-    selected = $('milestone_subproject').value;
+    selected = $('milestone_subproject_id').value;
     if (selected == '0')
     {
-        selected = $('milestone_project').value;
+        selected = $('milestone_project_id').value;
     }
     new Ajax.Request('/milestones/subproject_changed/?id='+selected,
         {
             method:'get',
             onSuccess: function(transport){
                 var response = transport.responseText || "";
+                eval(response);
+            },
+            onFailure: function(){ alert('Something went wrong...') }
+        });
+}
+
+function planned_end_date_radio_changed()
+{
+    if (!$('milestone_fixed_planned_end_date_true').checked)
+    {
+        $('milestone_planned_end_date').disable();
+        $('milestone_planned_end_date_trigger').hide();
+        $('milestone_previous_planned_end_date_milestone_id').enable();
+        $('milestone_planned_end_date_offset').enable();
+        // Chrome bug workaround. In chrome link cannot reappear if simply hidden/shown twice
+        $('recalculate_planned_end_date').appear({duration: 0.2});
+    }
+    else
+    {
+        $('milestone_planned_end_date').enable();
+        $('milestone_planned_end_date_trigger').show();
+        $('milestone_previous_planned_end_date_milestone_id').disable();
+        $('milestone_planned_end_date_offset').disable();
+        $('recalculate_planned_end_date').hide();
+    }
+}
+
+function start_date_radio_changed()
+{
+    if (!$('milestone_fixed_start_date_true').checked)
+    {
+        $('milestone_start_date').disable();
+        $('milestone_start_date_trigger').hide();
+        $('milestone_previous_start_date_milestone_id').enable();
+        $('milestone_start_date_offset').enable();
+        // Chrome bug workaround. In chrome link cannot reappear if simply hidden/shown twice
+        $('recalculate_start_date').appear({duration: 0.2});
+    }
+    else
+    {
+        $('milestone_start_date').enable();
+        $('milestone_start_date_trigger').show();
+        $('milestone_previous_start_date_milestone_id').disable();
+        $('milestone_start_date_offset').disable();
+        $('recalculate_start_date').hide();
+    }
+}
+
+function recalculate_start_date()
+{
+    from_milestone = $('milestone_previous_start_date_milestone_id').value;
+    offset = $('milestone_start_date_offset').value;
+    new Ajax.Request('/milestones/recalculate_start_date',
+        {
+            method:'post',
+            parameters: {
+                from: from_milestone,
+                offset: offset
+            },
+            onSuccess: function(transport){
+                var response = transport.responseText || "no response text";
+                eval(response);
+            },
+            onFailure: function(){ alert('Something went wrong...') }
+        });
+}
+
+function recalculate_planned_end_date()
+{
+    from_milestone = $('milestone_previous_planned_end_date_milestone_id').value;
+    offset = $('milestone_planned_end_date_offset').value;
+    new Ajax.Request('/milestones/recalculate_planned_end_date',
+        {
+            method:'post',
+            parameters: {
+                from: from_milestone,
+                offset: offset
+            },
+            onSuccess: function(transport){
+                var response = transport.responseText || "no response text";
+                eval(response);
+            },
+            onFailure: function(){ alert('Something went wrong...') }
+        });
+}
+
+function recalculate_actual_date(id)
+{
+    new Ajax.Request('/milestones/recalculate_actual_date',
+        {
+            method:'get',
+            parameters: {id: id},
+            onSuccess: function(transport){
+                var response = transport.responseText || "no response text";
                 eval(response);
             },
             onFailure: function(){ alert('Something went wrong...') }

@@ -9,7 +9,7 @@ class CreateMilestones < ActiveRecord::Migration
       t.date :start_date
       t.date :planned_end_date
       t.date :actual_date
-      t.integer :parent_id
+      t.integer :parent_milestone_id
       t.string :sharing
       t.references :project
       t.references :user
