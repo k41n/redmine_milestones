@@ -27,3 +27,7 @@ en:
   issues: issues
   done: done
   left: left
+  project_module_milestones_module: Milestones
+  field_milestones: Milestone
+  aggregate_milestones: Aggregate milestones
+  versions: Versions
