@@ -45,9 +45,8 @@ module Milestones
     end
   end
 end
-
+require 'dispatcher'
 Dispatcher.to_prepare do  
-
   unless Query.included_modules.include?(Milestones::QueryPatch)
     Query.send(:include, Milestones::QueryPatch)
   end

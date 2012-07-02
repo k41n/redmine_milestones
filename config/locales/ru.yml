@@ -30,3 +30,5 @@ ru:
   field_milestones: Этап
   aggregate_milestones: Аггрегирующие этапы
   versions: Версии
+  label_milestone_plural: Этапы
+  label_milestone: Этап
