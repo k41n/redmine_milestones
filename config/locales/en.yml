@@ -32,3 +32,10 @@ en:
   aggregate_milestones: Aggregate milestones
   versions: Versions
   label_milestone_plural: Milestones
+  label_milestone: Milestone
+  milestone_settings: Milestone settings
+  default_show_milestones: Show milestones by default
+  default_show_closed_milestones: Show completed milestones by default
+  update: Update
+  label_hide_milestones: Hide milestones
+  label_hide_completed_milestones: Hide completed milestones
