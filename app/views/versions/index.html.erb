@@ -32,7 +32,7 @@
           <%= render :partial => 'versions/overview', :locals => {:version => version} %>
           <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 
-          <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
+          <% if (issues = @issues_by_version[version]) && issues.select{|x| x.milestone.nil?}.size > 0 %>
               <% form_tag({}) do -%>
                   <table class="list related-issues">
                     <caption><%= l(:label_related_issues) %></caption>
