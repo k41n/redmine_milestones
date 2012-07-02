@@ -20,12 +20,12 @@ module ProjectsHelperPatch
       def link_to_version(version, options = {})
         active_milestone = Milestone.active_for_version(version)
         if active_milestone.present?
-          active_milestone_text = "#{t(:active_milestone)}: #{active_milestone.name}"
+          active_milestone_text = "(#{t(:active_milestone)}: #{active_milestone.name})"
         else
           active_milestone_text = ""
         end
         return '' unless version && version.is_a?(Version)
-        link_to_if version.visible?, "#{format_version_name(version)} (#{active_milestone_text})", { :controller => 'versions', :action => 'show', :id => version }, options
+        link_to_if version.visible?, "#{format_version_name(version)} #{active_milestone_text}", { :controller => 'versions', :action => 'show', :id => version }, options
       end
     end
   end
