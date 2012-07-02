@@ -14,6 +14,23 @@ class MilestonesController < ApplicationController
     session[:version_id] = @milestone.version.id if @milestone.version
   end
 
+  def update_settings
+    @project = Project.find(params[:project_id])
+    @default_show_milestones = MilestonesSettings.find_by_key_and_project_id("default_show_milestones", @project.id)
+    if params[:default_show_milestones]
+      @default_show_milestones.update_attribute(:value, "true")
+    else
+      @default_show_milestones.update_attribute(:value, "false")
+    end
+    @default_show_closed_milestones = MilestonesSettings.find_by_key("default_show_closed_milestones")
+    if params[:default_show_milestones]
+      @default_show_closed_milestones.update_attribute(:value, "true")
+    else
+      @default_show_closed_milestones.update_attribute(:value, "false")
+    end
+    redirect_to settings_project_path(@project)
+  end
+
   def update
     @milestone = Milestone.find(params[:id])
     @project = @milestone.project

@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
       :recalculate_planned_end_date => [:post],
       :recalculate_start_date => [:post],
       :recalculate_actual_date => [:get],
-      :issue_version_changed => [:get]
+      :issue_version_changed => [:get],
+      :update_settings => [:post]
   },:member => {:status_by => :post}
 end

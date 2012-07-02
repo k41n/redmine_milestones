@@ -32,3 +32,9 @@ ru:
   versions: Версии
   label_milestone_plural: Этапы
   label_milestone: Этап
+  milestone_settings: Настройки этапов
+  default_show_milestones: Показывать этапы по умолчанию
+  default_show_closed_milestones: Показывать закрытые этапы по умолчанию
+  update: Обновить настройки
+  label_hide_milestones: Скрыть этапы
+  label_hide_completed_milestones: Скрыть завершенные этапы
