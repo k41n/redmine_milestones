@@ -36,7 +36,9 @@ class Milestone < ActiveRecord::Base
                   'subproject'
 
 
-
+  def self.active_for_version(version)
+    version.milestones.select{|x| x.start_date.present? and x.planned_end_date.present? and x.start_date <= Date.today and x.planned_end_date >= Date.today}.first
+  end
 
   # Returns the sharings that +user+ can set the version to
   def allowed_sharings(user = User.current)
