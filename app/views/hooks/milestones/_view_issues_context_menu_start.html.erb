@@ -1,0 +1,13 @@
+<% unless @project.nil? || @project.shared_versions.open.empty? -%>
+    <li class="folder">
+      <a href="#" class="submenu"><%= l(:field_milestone) %></a>
+      <ul>
+        <% @project.milestones.sort.each do |milestone| -%>
+            <li><%= context_menu_link milestone.name, {:controller => 'issues', :action => 'bulk_update', :ids => @issues.collect(&:id), :issue => {'milestone_id' => milestone}, :back_url => @back}, :method => :post,
+                                      :selected => (@issue && milestone == @issue.milestone), :disabled => !@can[:update] %></li>
+        <% end -%>
+        <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'bulk_update', :ids => @issues.collect(&:id), :issue => {'milestone_id' => nil}, :back_url => @back}, :method => :post,
+                                  :selected => (@issue && @issue.milestone.nil?), :disabled => !@can[:update] %></li>
+      </ul>
+    </li>
+<% end %>
