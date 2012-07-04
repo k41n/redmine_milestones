@@ -41,7 +41,7 @@ class MilestonesController < ApplicationController
     end
     if @milestone.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+      redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
     else
       render :action => :edit
     end
@@ -70,7 +70,7 @@ class MilestonesController < ApplicationController
         respond_to do |format|
           format.html do
             flash[:notice] = l(:notice_successful_create)
-            redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+            redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
           end
           format.js do
             render(:update) {|page|
