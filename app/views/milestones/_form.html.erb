@@ -11,7 +11,7 @@
         <p><%= f.select :subproject_id, {}, {:onchange => "new_milestone_subproject_selected()"} %></p>
     </div>
     <div id="version_placeholder">
-        <p><%= f.select :version_id, @project.versions.collect {|x| [x.name, x.id]}, {}, {:onchange => "milestone_version_changed()"} %></p>
+        <p><%= f.select :version_id, @project.versions.collect {|x| [x.name, x.id]}, {}, {:onchange => "milestone_version_changed('#{@project.id}')"} %></p>
     </div>
   </div>
   <p><%= f.select :status, options_for_select(Milestone::MILESTONE_STATUSES.collect {|s| [l("version_status_#{s}"), s]}, @milestone.status) %></p>

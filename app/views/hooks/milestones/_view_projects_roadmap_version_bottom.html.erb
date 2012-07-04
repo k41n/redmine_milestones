@@ -3,8 +3,8 @@
 
 <% if (@default_show_milestones.enabled? and not params[:hide_milestones]) or (@default_show_milestones.disabled? and params[:milestones]) %>
     <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones]) or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
-        <%= render :partial => "milestones/milestone", :collection => Milestone.internal.find_all_by_version_id_and_parent_milestone_id(version.id, 0) %>
+        <%= render :partial => "milestones/milestone", :collection => Milestone.direct_children_of_version(version) %>
     <% else %>
-        <%= render :partial => "milestones/milestone", :collection => Milestone.internal.opened.find_all_by_version_id_and_parent_milestone_id(version.id, 0) %>
+        <%= render :partial => "milestones/milestone", :collection => Milestone.internal.opened..direct_children_of_version(version) %>
     <% end %>
 <% end %>

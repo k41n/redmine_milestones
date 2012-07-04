@@ -41,7 +41,11 @@ class MilestonesController < ApplicationController
     end
     if @milestone.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
+      if params[:back_url]
+        redirect_back_or_default(nil)
+      else
+        redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
+      end
     else
       render :action => :edit
     end
@@ -67,16 +71,11 @@ class MilestonesController < ApplicationController
 
     if request.post?
       if @milestone.save
-        respond_to do |format|
-          format.html do
-            flash[:notice] = l(:notice_successful_create)
-            redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
-          end
-          format.js do
-            render(:update) {|page|
-              page << 'hideModal();'
-            }
-          end
+        flash[:notice] = l(:notice_successful_create)
+        if params[:back_url]
+          redirect_back_or_default(nil)
+        else
+          redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
         end
       else
         respond_to do |format|
