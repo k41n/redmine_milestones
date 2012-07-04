@@ -1,8 +1,5 @@
 <div id="milestone_#{milestone.id}" class="milestone">
-  <% if milestone.parent_milestone.present? %>
-    <%=  image_tag('arrow_up.png', :size=>'16x16', :plugin=>'redmine_milestones', :style=>'vertical-align: top') %>
-  <% end %>
-  <%= image_tag('milestone.png', :plugin=>'redmine_milestones', :style=>'vertical-align: top') %>
+  <%= image_tag('flag_red.png', :plugin=>'redmine_milestones', :style=>'vertical-align: top') %>
   <div style="display: inline-block">
     <strong>
       <%= link_to "#{milestone.name} (#{milestone.issues_count} #{t(:issues)}, #{milestone.closed_issues_count} #{t(:done)} #{milestone.open_issues_count} #{t(:left)})", milestone_path(milestone) %>
