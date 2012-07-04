@@ -1,7 +1,5 @@
 <div class="contextual">
   <%= link_to l(:label_version_new), new_project_version_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
-</div>
-<div class="contextual">
   <%= link_to l(:label_milestone_new), new_project_milestone_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
 </div>
 
@@ -36,37 +34,21 @@
           <h3 class="version"><%= tag 'a', :name => anchor(version.name) %><%= link_to_version version %></h3>
           <%= render :partial => 'versions/overview', :locals => {:version => version} %>
           <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
-
-          <% if (@default_show_milestones.enabled? and not params[:hide_milestones]) or (@default_show_milestones.disabled? and params[:milestones]) %>          
-              <% if (issues = @issues_by_version[version]) && issues.select{|x| x.milestone.nil?}.size > 0 %>
-                  <% form_tag({}) do -%>
-                      <table class="list related-issues">
-                        <caption><%= l(:label_related_issues) %></caption>
-                        <% issues.select{|x| x.milestone.nil?}.each do |issue| -%>
-                            <tr class="hascontextmenu">
-                              <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
-                              <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
-                            </tr>
-                        <% end -%>
-                      </table>
-                  <% end %>
+          <% logger.info "@issues = #{@issues_by_version[version]}" %>
+          <% if (issues = @issues_by_version[version]) && issues.select{|x| x.milestone.nil?}.size > 0 %>
+              <% form_tag({}) do -%>
+                  <table class="list related-issues">
+                    <caption><%= l(:label_related_issues) %></caption>
+                    <% issues.select{|x| x.milestone.nil?}.each do |issue| -%>
+                        <tr class="hascontextmenu">
+                          <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
+                          <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+                        </tr>
+                    <% end -%>
+                  </table>
               <% end %>
-          <% else %>
-              <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-                  <% form_tag({}) do -%>
-                      <table class="list related-issues">
-                        <caption><%= l(:label_related_issues) %></caption>
-                        <% issues.each do |issue| -%>
-                            <tr class="hascontextmenu">
-                              <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
-                              <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
-                            </tr>
-                        <% end -%>
-                      </table>
-                  <% end %>
-              <% end %>
-        <% end %>
-          <%= call_hook :view_projects_roadmap_version_bottom, :version => version %>
+          <% end %>
+        <%= call_hook :view_projects_roadmap_version_bottom, :version => version %>
       <% end %>
     </div>
 <% end %>
@@ -141,3 +123,4 @@
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag "milestones", :plugin => 'redmine_milestones' %>
 <% end %>
+<%= context_menu issues_context_menu_path %>

@@ -8,15 +8,17 @@
     <%=  milestone.description %>
   </div>
   <% unless milestone.issues.empty? %>
-      <table class="list related-issues">
-        <caption><%= l(:label_related_issues) %></caption>
-        <% milestone.issues.each do |issue| -%>
-            <tr class="hascontextmenu">
-              <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
-              <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
-            </tr>
-        <% end -%>
-      </table>
+      <% form_tag({}) do -%>
+          <table class="list related-issues">
+            <caption><%= l(:label_related_issues) %></caption>
+            <% milestone.issues.each do |issue| -%>
+                <tr class="hascontextmenu">
+                  <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
+                  <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+                </tr>
+            <% end -%>
+          </table>
+      <% end %>
   <% end %>
   <% unless milestone.children.empty? %>
     <% if params[:completed_milestones] %>
