@@ -26,8 +26,6 @@ Redmine::Plugin.register :redmine_milestones do
     permission :manage_milestones, {
         :milestones => [:show, :index, :new, :edit, :create, :update]
     }
-    menu :settings, :milestones, {:controller => :milestones, :action=>:index}, :caption => I18n.t(:milestones), :after => :versions
-
   end
 
 end

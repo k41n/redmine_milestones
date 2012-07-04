@@ -47,6 +47,16 @@ class MilestonesController < ApplicationController
     end
   end
 
+  def destroy
+    @milestone = Milestone.find(params[:id])
+    @milestone.destroy
+    if params[:back_url]
+      redirect_to params[:back_url]
+    else
+      redirect_to settings_project_path(@milestone.project, :tab => :milestones)
+    end
+  end
+
   def create
     @milestone = Milestone.new(:project => @project)
     if params[:milestone]
