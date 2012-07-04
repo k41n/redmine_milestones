@@ -1,4 +1,6 @@
-<div style='padding-left: 15px'>
+<div>
+    <% prefix = (sidebar_milestone.level > 0 ? ('&nbsp;' * 2 * sidebar_milestone.level + '&#187; ') : '') %>
+    <%= prefix %>
     <%=  link_to sidebar_milestone.name, milestone_path(sidebar_milestone) %>
     <% unless sidebar_milestone.children.empty? %>
         <% if params[:completed_milestones] %>

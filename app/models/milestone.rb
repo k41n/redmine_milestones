@@ -176,4 +176,9 @@ class Milestone < ActiveRecord::Base
     self.name <=> a.name
   end
 
+  def level
+    return 0 if self.parent_milestone.nil?
+    return parent_milestone.level + 1
+  end
+
 end
