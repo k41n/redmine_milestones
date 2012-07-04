@@ -15,11 +15,13 @@
     <h3>
       <%= t(:aggregate_milestones) %>
     </h3>
-    <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones]) or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
-        <%= render :partial => "milestones/milestone", :collection => @project.milestones.aggregate.find_all_by_parent_milestone_id(0) %>
-    <% else %>
-        <%= render :partial => "milestones/milestone", :collection => @project.milestones.aggregate.opened.find_all_by_parent_milestone_id(0) %>
-    <% end %>
+    <div id="roadmap">
+        <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones]) or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
+            <%= render :partial => "milestones/milestone", :collection => @project.milestones.aggregate.find_all_by_parent_milestone_id(0) %>
+        <% else %>
+            <%= render :partial => "milestones/milestone", :collection => @project.milestones.aggregate.opened.find_all_by_parent_milestone_id(0) %>
+        <% end %>
+    </div>
 <% end %>
 
 <% @default_show_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_milestones") %>
