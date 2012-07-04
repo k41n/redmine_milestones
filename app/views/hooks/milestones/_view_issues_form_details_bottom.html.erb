@@ -1,5 +1,5 @@
 <p id="milestone_placeholder">
-    <% if issue.fixed_version.present? %>
+    <% if issue.fixed_version.present? and not issue.fixed_version.milestones.empty? %>
       <%= form.select :milestone_id, [['',0]] + Milestone.find_all_by_version_id(issue.fixed_version.id).collect{|x| [x.name, x.id]} %>
     <% end %>
 </p>

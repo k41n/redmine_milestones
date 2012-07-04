@@ -1,1 +1,1 @@
-<%= select "milestone", :version_id, @project.versions.collect {|x| [x.name, x.id]}%>
+<%= select "milestone", :version_id, @project.versions.collect {|x| [x.name, x.id]}, {}, {:onchange => "milestone_version_changed()"} %>

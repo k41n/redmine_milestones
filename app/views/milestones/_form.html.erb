@@ -11,7 +11,7 @@
         <p><%= f.select :subproject_id, {}, {:onchange => "new_milestone_subproject_selected()"} %></p>
     </div>
     <div id="version_placeholder">
-        <p><%= f.select :version_id, @project.versions.collect {|x| [x.name, x.id]} %></p>
+        <p><%= f.select :version_id, @project.versions.collect {|x| [x.name, x.id]}, {}, {:onchange => "milestone_version_changed()"} %></p>
     </div>
   </div>
   <p><%= f.select :status, options_for_select(Milestone::MILESTONE_STATUSES.collect {|s| [l("version_status_#{s}"), s]}, @milestone.status) %></p>
@@ -58,10 +58,8 @@
     <%= link_to_function t(:recalculate_start_date), "recalculate_actual_date(#{@milestone.id})", :style=>'float: left; margin-left: -150px' %>
   </p>
   <p><%= f.select :sharing, @milestone.allowed_sharings.collect {|v| [format_version_sharing(v), v]} %></p>
-  <% @milestones = Milestone.find_all_by_project_id(@project.id) %>
-  <% unless @milestones.empty? %>
-    <p><%= f.select :parent_milestone_id, [['',0]] + @milestones.collect {|v| [v.name, v.id]} %></p>
-  <% end %>
+  <% @milestones = @project.milestones.aggregate %>
+  <%= render :partial =>"milestones/available_milestones" %>
 
   <p><%= f.select :user, @project.users.collect {|u| [u.name, u.id]} %></p>
 

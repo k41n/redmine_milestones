@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
       :recalculate_start_date => [:post],
       :recalculate_actual_date => [:get],
       :issue_version_changed => [:get],
+      :milestone_version_changed => [:get],
       :update_settings => [:post]
   },:member => {:status_by => :post}
 end
