@@ -12,9 +12,9 @@
 
 
 <% if ((@default_show_milestones.enabled? and not params[:hide_milestones]) or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.aggregate.empty? %>
-    <h2>
+    <h3>
       <%= t(:aggregate_milestones) %>
-    </h2>
+    </h3>
     <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones]) or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
         <%= render :partial => "milestones/milestone", :collection => @project.milestones.aggregate.find_all_by_parent_milestone_id(0) %>
     <% else %>
