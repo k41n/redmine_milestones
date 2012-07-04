@@ -177,7 +177,8 @@ class Milestone < ActiveRecord::Base
   end
 
   def level
-    return 0 if self.parent_milestone.nil?
+    return 0 if self.parent_milestone.nil? and self.kind == "aggregate"
+    return 1 if self.parent_milestone.nil? and self.kind == "internal"
     return parent_milestone.level + 1
   end
 
