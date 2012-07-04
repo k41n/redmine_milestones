@@ -172,4 +172,8 @@ class Milestone < ActiveRecord::Base
     self.name
   end
 
+  def <=> (a)
+    self.name <=> a.name
+  end
+
 end

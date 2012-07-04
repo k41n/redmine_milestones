@@ -22,8 +22,8 @@ class MilestonesController < ApplicationController
     else
       @default_show_milestones.update_attribute(:value, "false")
     end
-    @default_show_closed_milestones = MilestonesSettings.find_by_key("default_show_closed_milestones")
-    if params[:default_show_milestones]
+    @default_show_closed_milestones = MilestonesSettings.find_by_key_and_project_id("default_show_closed_milestones", @project.id)
+    if params[:default_show_closed_milestones]
       @default_show_closed_milestones.update_attribute(:value, "true")
     else
       @default_show_closed_milestones.update_attribute(:value, "false")
