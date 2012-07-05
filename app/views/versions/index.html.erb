@@ -15,9 +15,9 @@
     </h3>
     <div id="roadmap">
         <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones]) or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
-            <%= render :partial => "milestones/milestone", :collection => @project.milestones.aggregate.find_all_by_parent_milestone_id(0) %>
+            <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned?} %>
         <% else %>
-            <%= render :partial => "milestones/milestone", :collection => @project.milestones.aggregate.opened.find_all_by_parent_milestone_id(0) %>
+            <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned? and x.opened?} %>
         <% end %>
     </div>
 <% end %>
@@ -87,9 +87,9 @@
           <%= t(:aggregate_milestones) %>
         </h3>
         <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones]) or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
-            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.milestones.aggregate.find_all_by_parent_milestone_id(0) %>
+            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned?} %>
         <% else %>
-            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.milestones.aggregate.opened.find_all_by_parent_milestone_id(0) %>
+            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned? and x.opened?} %>
         <% end %>
     <% end %>
 

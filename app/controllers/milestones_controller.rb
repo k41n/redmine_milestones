@@ -40,7 +40,7 @@ class MilestonesController < ApplicationController
       @milestone.safe_attributes = attributes
     end
     if @milestone.save
-      flash[:notice] = l(:notice_successful_create)
+      flash[:notice] = l(:notice_successful_update)
       if params[:back_url]
         uri = URI.parse(CGI.unescape(params[:back_url].to_s))
         if /\/projects\/[^\/]+\/settings/.match uri.path

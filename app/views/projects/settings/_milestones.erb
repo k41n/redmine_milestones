@@ -12,7 +12,8 @@
     <br/>
     <%= submit_tag t(:update) %>
 <% end %>
-<% if @project.milestones.any? %>
+<% logger.info "Calling all_milestones" %>
+<% unless @project.all_milestones.empty? %>
     <table class="list versions">
       <thead><tr>
         <th><%= l(:label_milestone) %></th>
@@ -25,7 +26,7 @@
         <th style="width:15%"></th>
       </tr></thead>
       <tbody>
-      <% for milestone in @project.milestones.sort %>
+      <% for milestone in @project.all_milestones.sort %>
           <tr class="version <%= cycle 'odd', 'even' %> <%=h milestone.status %> <%= 'shared' if milestone.project != @project %>">
             <td class="name"><%= link_to milestone.name, milestone_path(milestone) %></td>
             <td class="description"><%=h milestone.description %></td>

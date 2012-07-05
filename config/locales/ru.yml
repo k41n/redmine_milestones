@@ -8,6 +8,7 @@ ru:
   label_milestone_sharing_descendants: С подпроектами
   label_milestone_sharing_tree: С деревом проектов
   label_milestone_sharing_none: Без совместного использования
+  label_milestone_sharing_specific: Указанные проекты
   milestone_kind_internal: Внутренний
   milestone_kind_aggregate: Аггрегирующий
   field_parent_milestone: Родительский этап
@@ -39,3 +40,4 @@ ru:
   label_hide_milestones: Скрыть этапы
   label_hide_completed_milestones: Скрыть завершенные этапы
   active_milestone: активный этап
+  add_assigned_project: Добавить связанный проект

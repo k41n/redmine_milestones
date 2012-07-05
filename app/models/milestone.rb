@@ -4,7 +4,7 @@ class Milestone < ActiveRecord::Base
 
   MILESTONE_KINDS = %w(internal aggregate)
   MILESTONE_STATUSES = %w(open closed locked)
-  MILESTONE_SHARINGS = %w(none descendants hierarchy tree system)
+  MILESTONE_SHARINGS = %w(none descendants hierarchy tree system specific)
 
   validates_inclusion_of :sharing, :in => MILESTONE_SHARINGS
 
@@ -22,8 +22,11 @@ class Milestone < ActiveRecord::Base
   named_scope :aggregate, :conditions => {:kind => 'aggregate'}
   named_scope :direct_children_of_version, lambda {|version| {:conditions=>["version_id = ? and (parent_milestone_id IS NULL or parent_milestone_id = 0) and kind='internal'", version.id], :order => 'start_date ASC'}}
   named_scope :internal, :conditions => {:kind => 'internal'}
+  named_scope :orphaned, :conditions => ['parent_milestone_id IS NULL or parent_milestone_id = ?', 0]
 
+  has_many :milestone_project_assignments
 
+  accepts_nested_attributes_for :milestone_project_assignments, :allow_destroy => true
 
   safe_attributes 'name',
                   'description',
@@ -35,8 +38,9 @@ class Milestone < ActiveRecord::Base
                   'actual_date',
                   'parent_milestone_id',
                   'user_id',
-                  'version_id'
-                  'subproject'
+                  'version_id',
+                  'subproject',
+                  'milestone_project_assignments_attributes'
 
 
   def self.active_for_version(version)
@@ -185,4 +189,15 @@ class Milestone < ActiveRecord::Base
     return parent_milestone.level + 1
   end
 
+  def aggregate?
+    self.kind == 'aggregate'
+  end
+
+  def orphaned?
+    self.parent_milestone.nil?
+  end
+
+  def opened?
+    %w(open locked).include? self.status
+  end
 end

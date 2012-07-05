@@ -1,8 +1,7 @@
 <div class="contextual">
-  <%= link_to(l(:button_edit), edit_milestone_path(@milestone), :class => 'icon icon-edit') if User.current.allowed_to?(:manage_versions, @milestone.project) %>
+  <%= link_to(l(:button_edit), edit_milestone_path(@milestone), :class => 'icon icon-edit') if User.current.allowed_to?(:manage_milestones, @milestone.project) %>
   <%= link_to(l(:button_delete), milestone_path(@milestone, :back_url => url_for(:controller => 'versions', :action => 'index', :project_id => @milestone.project)),
               :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del') if User.current.allowed_to?(:manage_versions, @milestone.project) %>
-  <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
 </div>
 
 <h2><%= h(@milestone.name) %></h2>

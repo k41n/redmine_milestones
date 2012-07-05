@@ -166,3 +166,29 @@ function milestone_version_changed(project)
             onFailure: function(){ alert('Something went wrong...') }
         });
 }
+
+function milestone_sharing_changed(project)
+{
+    val = $('milestone_sharing').value;
+    if (val == "specific")
+    {
+        $('assigned_projects_placeholder').show();
+    }
+    else
+    {
+        $('assigned_projects_placeholder').hide();
+    }
+}
+
+function add_fields(link, association, content)
+{
+    var new_id = new Date().getTime();
+    var regexp = new RegExp("new_"+association, "g");
+    $('assigned_projects_placeholder').insert({bottom: content.replace(regexp, new_id)});
+}
+
+function remove_fields(link)
+{
+    $(link).previous("input[type=hidden]").value = "1";
+    $(link).up(".fields").hide();
+}

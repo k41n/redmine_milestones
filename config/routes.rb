@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
       :recalculate_actual_date => [:get],
       :issue_version_changed => [:get],
       :milestone_version_changed => [:get],
+      :add_assigned_project => [:get],
       :update_settings => [:post]
   },:member => {:status_by => :post}
 end

@@ -5,8 +5,9 @@
   <p><%= f.text_field :name, :size => 60, :required => true %></p>
   <p><%= f.text_field :description, :size => 60 %></p>
   <p><%= f.select :kind, Milestone::MILESTONE_KINDS.collect {|s| [l("milestone_kind_#{s}"), s]}, {}, {:onchange => 'milestone_type_changed()'} %></p>
+  <p><%= f.select :project_id, options_for_select(Project.all.collect {|x| [x.name, x.id]}, @project.id), {}, {:onchange => "new_milestone_project_selected()"} %></p>
+
   <div id="internal_milestone_form_part">
-    <p><%= f.select :project_id, options_for_select(Project.all.collect {|x| [x.name, x.id]}, @project.id), {}, {:onchange => "new_milestone_project_selected()"} %></p>
     <div id="subproject_placeholder" style="display:none">
         <p><%= f.select :subproject_id, {}, {:onchange => "new_milestone_subproject_selected()"} %></p>
     </div>
@@ -57,12 +58,17 @@
     <br>
     <%= link_to_function t(:recalculate_start_date), "recalculate_actual_date(#{@milestone.id})", :style=>'float: left; margin-left: -150px' %>
   </p>
-  <p><%= f.select :sharing, @milestone.allowed_sharings.collect {|v| [format_version_sharing(v), v]} %></p>
-  <% @milestones = @project.milestones.aggregate %>
+  <p><%= f.select :sharing, @milestone.allowed_sharings.collect {|v| [format_version_sharing(v), v]}, {}, {:onchange => "milestone_sharing_changed('#{@project.id}')"} %></p>
+  <div id="assigned_projects_placeholder" style="#{\"display: none\" if @milestone.sharing == "specific"}>
+    <%= link_to_add_fields(t(:add_assigned_project),f, :milestone_project_assignments ) %>
+    <% f.fields_for :milestone_project_assignments do |assignment| %>
+        <%= render :partial => "milestone_project_assignment_fields", :locals=>{:f=>assignment} %>
+    <% end %>
+  </div>
+  <% @milestones = @project.milestones.aggregate.reject{|x| x.id == @milestone.id} %>
   <%= render :partial =>"milestones/available_milestones" %>
 
   <p><%= f.select :user, @project.users.collect {|u| [u.name, u.id]} %></p>
-
 
 </div>
 <% content_for :header_tags do %>
