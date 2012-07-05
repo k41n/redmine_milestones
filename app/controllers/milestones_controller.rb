@@ -42,7 +42,12 @@ class MilestonesController < ApplicationController
     if @milestone.save
       flash[:notice] = l(:notice_successful_create)
       if params[:back_url]
-        redirect_back_or_default(nil)
+        uri = URI.parse(CGI.unescape(params[:back_url].to_s))
+        if /\/projects\/[^\/]+\/settings/.match uri.path
+          redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
+        else
+          redirect_back_or_default(nil)
+        end
       else
         redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
       end
@@ -73,7 +78,12 @@ class MilestonesController < ApplicationController
       if @milestone.save
         flash[:notice] = l(:notice_successful_create)
         if params[:back_url]
-          redirect_back_or_default(nil)
+          uri = URI.parse(CGI.unescape(params[:back_url].to_s))
+          if /\/projects\/[^\/]+\/settings/.match uri.path
+            redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
+          else
+            redirect_back_or_default(nil)
+          end
         else
           redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
         end
