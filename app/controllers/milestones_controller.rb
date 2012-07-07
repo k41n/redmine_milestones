@@ -102,7 +102,7 @@ class MilestonesController < ApplicationController
 
   def recalculate_start_date
     @reference_milestone = Milestone.find(params[:from])
-    @calculated_date = @reference_milestone.planned_end_date.present? ? params[:offset].to_i.days.since(@reference_milestone.planned_end_date) : nil
+    @calculated_date = @reference_milestone.start_date.present? ? params[:offset].to_i.days.since(@reference_milestone.start_date) : nil
   end
 
   def recalculate_actual_date
