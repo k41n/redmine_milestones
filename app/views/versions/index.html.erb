@@ -9,12 +9,12 @@
 <% @default_show_closed_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_closed_milestones") %>
 
 
-<% if ((@default_show_milestones.enabled? and not params[:hide_milestones]) or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.aggregate.empty? %>
+<% if ((@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.aggregate.empty? %>
     <h3>
       <%= t(:aggregate_milestones) %>
     </h3>
     <div id="roadmap">
-        <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones]) or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
+        <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones] == '1') or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
             <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned?} %>
         <% else %>
             <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned? and x.opened?} %>
@@ -65,13 +65,15 @@
         <label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
         <br/>
         <% if @default_show_milestones.enabled? %>
-            <label for="hide_milestones"><%= check_box_tag "hide_milestones", 1, params[:hide_milestones] %> <%= l(:label_hide_milestones) %></label>
+            <label for="show_milestones"><%= check_box_tag "show_milestones", 1, params[:hide_milestones] != '1', :onclick => 'show_milestones_changed()' %> <%= l(:label_show_milestones) %></label>
+            <%= hidden_field_tag "hide_milestones", params[:hide_milestones] %>
         <% else %>
             <label for="milestones"><%= check_box_tag "milestones", 1, params[:milestones] %> <%= l(:label_show_milestones) %></label>
         <% end %>
         <br/>
         <% if @default_show_closed_milestones.enabled? %>
-            <label for="hide_completed_milestones"><%= check_box_tag "hide_completed_milestones", 1, params[:hide_completed_milestones].present? %> <%= l(:label_hide_completed_milestones) %></label>
+            <label for="show_completed_milestones"><%= check_box_tag "show_completed_milestones", 1, params[:hide_completed_milestones] != '1', :onclick => 'show_hidden_milestones_changed()' %> <%= l(:label_show_completed_milestones) %></label>
+            <%= hidden_field_tag "hide_completed_milestones", params[:hide_completed_milestones] %>
         <% else %>
             <label for="completed_milestones"><%= check_box_tag "completed_milestones", 1, params[:completed_milestones] %> <%= l(:label_show_completed_milestones) %></label>
         <% end %>
@@ -82,11 +84,11 @@
         <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
     <% end %>
 
-    <% if ((@default_show_milestones.enabled? and not params[:hide_milestones]) or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.aggregate.empty? %>
+    <% if ((@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.aggregate.empty? %>
         <h3>
           <%= t(:aggregate_milestones) %>
         </h3>
-        <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones]) or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
+        <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones] == '1') or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
             <%= render :partial => "milestones/sidebar_milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned?} %>
         <% else %>
             <%= render :partial => "milestones/sidebar_milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned? and x.opened?} %>
@@ -122,5 +124,6 @@
 
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag "milestones", :plugin => 'redmine_milestones' %>
+    <%= javascript_include_tag "milestones", :plugin => 'redmine_milestones' %>
 <% end %>
 <%= context_menu issues_context_menu_path %>
