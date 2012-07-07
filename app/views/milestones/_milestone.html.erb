@@ -2,7 +2,7 @@
   <%= image_tag('flag_red.png', :plugin=>'redmine_milestones', :style=>'vertical-align: top') %>
   <div style="display: inline-block">
     <strong>
-      <%= link_to "#{milestone.name} (#{milestone.issues_count} #{t(:issues)}, #{milestone.closed_issues_count} #{t(:done)} #{milestone.open_issues_count} #{t(:left)})", milestone_path(milestone) %>
+      <%= link_to milestone.composite_description, milestone_path(milestone) %>
     </strong>
     <br>
     <%=  milestone.description %>

@@ -68,7 +68,7 @@
   <% @milestones = @project.milestones.aggregate.reject{|x| x.id == @milestone.id} %>
   <%= render :partial =>"milestones/available_milestones" %>
 
-  <p><%= f.select :user, @project.users.collect {|u| [u.name, u.id]} %></p>
+  <p><%= f.select :user_id, @project.users.collect {|u| [u.name, u.id]} %></p>
 
 </div>
 <% content_for :header_tags do %>

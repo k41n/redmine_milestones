@@ -41,3 +41,6 @@ ru:
   label_hide_completed_milestones: Скрыть завершенные этапы
   active_milestone: активный этап
   add_assigned_project: Добавить связанный проект
+  internal: внутренний
+  aggregate: агрегатный
+  owner: владелец
