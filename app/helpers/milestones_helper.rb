@@ -56,4 +56,21 @@ module MilestonesHelper
     link_to_function(name, h("add_parent_milestone_fields(this,\"#{association}\", \"#{escape_javascript(fields)}\")"))
   end
 
+  def milestone_name_from_pov_of(project, milestone)
+    if milestone.project_id == project.id
+      if milestone.aggregate?
+        milestone.name
+      else
+        "#{milestone.version.name}/#{milestone.name}"
+      end
+    else
+      if milestone.aggregate?
+        "#{milestone.project.name}/#{milestone.name}"
+      else
+        "#{milestone.project.name}/#{milestone.version.name}/#{milestone.name}"
+      end
+
+    end
+  end
+
 end
