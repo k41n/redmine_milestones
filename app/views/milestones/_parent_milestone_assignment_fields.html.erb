@@ -1,0 +1,5 @@
+<p class='fields'>
+  <%= f.select :child_id, options_for_select(Milestone.aggregate.collect{|x| [x.name, x.id]}, f.object.child_id) %>
+  <%= f.hidden_field :_destroy %>
+  <%= link_to_function l(:button_delete), "remove_fields(this)" %>
+</p>

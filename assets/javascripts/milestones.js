@@ -4,10 +4,12 @@ function milestone_type_changed()
     if (selected == 'internal')
     {
         $('internal_milestone_form_part').show();
+        $('aggregate_milestone_form_part').hide();
     }
     else
     {
         $('internal_milestone_form_part').hide();
+        $('aggregate_milestone_form_part').show();
     }
 }
 
@@ -185,6 +187,20 @@ function add_fields(link, association, content)
     var new_id = new Date().getTime();
     var regexp = new RegExp("new_"+association, "g");
     $('assigned_projects_placeholder').insert({bottom: content.replace(regexp, new_id)});
+}
+
+function add_children_milestone_fields(link, association, content)
+{
+    var new_id = new Date().getTime();
+    var regexp = new RegExp("new_"+association, "g");
+    $('aggregate_milestone_form_part').insert({bottom: content.replace(regexp, new_id)});
+}
+
+function add_parent_milestone_fields(link, association, content)
+{
+    var new_id = new Date().getTime();
+    var regexp = new RegExp("new_"+association, "g");
+    $('internal_milestone_form_part').insert({bottom: content.replace(regexp, new_id)});
 }
 
 function remove_fields(link)

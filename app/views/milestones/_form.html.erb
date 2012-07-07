@@ -7,13 +7,23 @@
   <p><%= f.select :kind, Milestone::MILESTONE_KINDS.collect {|s| [l("milestone_kind_#{s}"), s]}, {}, {:onchange => 'milestone_type_changed()'} %></p>
   <p><%= f.select :project_id, options_for_select(Project.all.collect {|x| [x.name, x.id]}, @project.id), {}, {:onchange => "new_milestone_project_selected()"} %></p>
 
-  <div id="internal_milestone_form_part">
+  <div id="internal_milestone_form_part" style="<%= "display:none" if @milestone.kind == 'aggregate' %>">
     <div id="subproject_placeholder" style="display:none">
         <p><%= f.select :subproject_id, {}, {:onchange => "new_milestone_subproject_selected()"} %></p>
     </div>
     <div id="version_placeholder">
         <p><%= f.select :version_id, @project.versions.collect {|x| [x.name, x.id]}, {}, {:onchange => "milestone_version_changed('#{@project.id}')"} %></p>
     </div>
+    <%= link_to_add_parent_milestone_fields(t(:assign_milestone), f, :child_milestone_assignments ) %>
+    <% f.fields_for :child_milestone_assignments do |assignment| %>
+        <%= render :partial => "child_milestone_assignment_fields", :locals=>{:f=>assignment} unless assignment.object.nil? %>
+    <% end %>
+  </div>
+  <div id="aggregate_milestone_form_part" style="<%= "display:none" if @milestone.kind == 'internal' %>">
+    <%= link_to_add_children_milestone_fields(t(:add_assigned_milestone), f, :parent_milestone_assignments ) %>
+    <% f.fields_for :parent_milestone_assignments do |assignment| %>
+        <%= render :partial => "parent_milestone_assignment_fields", :locals=>{:f=>assignment} unless assignment.object.nil? %>
+    <% end %>
   </div>
   <p><%= f.select :status, options_for_select(Milestone::MILESTONE_STATUSES.collect {|s| [l("version_status_#{s}"), s]}, @milestone.status) %></p>
 
@@ -67,8 +77,6 @@
         <%= render :partial => "milestone_project_assignment_fields", :locals=>{:f=>assignment} %>
     <% end %>
   </div>
-  <% @milestones = @project.milestones.aggregate.reject{|x| x.id == @milestone.id} %>
-  <%= render :partial =>"milestones/available_milestones" %>
 
   <p><%= f.select :user_id, @project.users.collect {|u| [u.name, u.id]} %></p>
 

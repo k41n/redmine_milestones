@@ -44,3 +44,6 @@ ru:
   internal: внутренний
   aggregate: агрегатный
   owner: владелец
+  add_assigned_milestone: Привязать этап
+  field_child: Дочерний этап
+  assign_milestone: Привязать к этапу

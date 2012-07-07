@@ -14,9 +14,9 @@ class Milestone < ActiveRecord::Base
   belongs_to :project
   belongs_to :user
   belongs_to :version
-  belongs_to :parent_milestone, :class_name => 'Milestone', :foreign_key => :parent_milestone_id
+  #belongs_to :parent_milestone, :class_name => 'Milestone', :foreign_key => :parent_milestone_id
   has_many :issues
-  has_many :children, :class_name => 'Milestone', :foreign_key => :parent_milestone_id
+  #has_many :children, :class_name => 'Milestone', :foreign_key => :parent_milestone_id
 
   belongs_to :previous_start_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_start_date_milestone_id
   belongs_to :previous_planned_end_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_planned_end_date_milestone_id
@@ -29,7 +29,14 @@ class Milestone < ActiveRecord::Base
 
   has_many :milestone_project_assignments
 
+  has_many :parent_milestone_assignments, :class_name => 'MilestoneAssignment', :foreign_key => :parent_id
+  has_many :children, :through => :parent_milestone_assignments, :as => :parent
+  has_many :child_milestone_assignments, :class_name => 'MilestoneAssignment', :foreign_key => :child_id
+  has_many :parents, :through => :child_milestone_assignments, :as => :child
+
   accepts_nested_attributes_for :milestone_project_assignments, :allow_destroy => true
+  accepts_nested_attributes_for :parent_milestone_assignments, :allow_destroy => true
+  accepts_nested_attributes_for :child_milestone_assignments, :allow_destroy => true
 
   safe_attributes 'name',
                   'description',
@@ -49,7 +56,9 @@ class Milestone < ActiveRecord::Base
                   'planned_end_date_offset',
                   'start_date_offset',
                   'previous_planned_end_date_milestone_id',
-                  'previous_start_date_milestone_id'
+                  'previous_start_date_milestone_id',
+                  'parent_milestone_assignments_attributes',
+                  'child_milestone_assignments_attributes'
 
 
   def self.active_for_version(version)
@@ -192,18 +201,18 @@ class Milestone < ActiveRecord::Base
     self.name <=> a.name
   end
 
-  def level
-    return 0 if self.parent_milestone.nil? and self.kind == "aggregate"
-    return 1 if self.parent_milestone.nil? and self.kind == "internal"
-    return parent_milestone.level + 1
-  end
+  #def level
+  #  return 0 if self.parent_milestone.nil? and self.kind == "aggregate"
+  #  return 1 if self.parent_milestone.nil? and self.kind == "internal"
+  #  return parent_milestone.level + 1
+  #end
 
   def aggregate?
     self.kind == 'aggregate'
   end
 
   def orphaned?
-    self.parent_milestone.nil?
+    self.parents.internal.empty?
   end
 
   def opened?
