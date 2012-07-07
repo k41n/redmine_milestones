@@ -1,5 +1,8 @@
 class Milestone < ActiveRecord::Base
   include Redmine::SafeAttributes
+  class MilestoneInternalHelper
+    include ActionView::Helpers::DateHelper
+  end
   unloadable
 
   MILESTONE_KINDS = %w(internal aggregate)
@@ -40,7 +43,13 @@ class Milestone < ActiveRecord::Base
                   'user_id',
                   'version_id',
                   'subproject',
-                  'milestone_project_assignments_attributes'
+                  'milestone_project_assignments_attributes',
+                  'fixed_planned_end_date',
+                  'fixed_start_date',
+                  'planned_end_date_offset',
+                  'start_date_offset',
+                  'previous_planned_end_date_milestone_id',
+                  'previous_start_date_milestone_id'
 
 
   def self.active_for_version(version)
@@ -204,7 +213,7 @@ class Milestone < ActiveRecord::Base
   def composite_description
     ret = "#{name} #{closed_issues_count} #{I18n.t(:done)} (#{'%0.2f' % completed_pourcent}%) #{open_issues_count} #{I18n.t(:left)} (#{'%0.2f' % (100 - completed_pourcent)}%)"
     ret += " #{I18n.t(:owner)}: #{user.name}" if self.user.present?
-    ret += " #{distance_of_time_in_words_from_now(self.planned_end_date)}" if self.planned_end_date.present?
+    ret += " #{MilestoneInternalHelper.new.distance_of_time_in_words_to_now(self.planned_end_date)}" if self.planned_end_date.present?
     ret += " #{I18n.t(kind)}"
   end
 
