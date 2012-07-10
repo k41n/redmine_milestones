@@ -44,7 +44,7 @@ en:
   internal: internal
   aggregate: aggregate
   owner: owner
-  add_assigned_milestone: Assign milestone
+  add_assigned_milestone: Include milestone
   field_child: Child milestone
   assign_milestone: Assign to
   Owner: Owner
