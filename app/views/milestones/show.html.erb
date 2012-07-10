@@ -47,13 +47,18 @@
                   </td>
                 </tr>
             <% end %>
+            <% if @milestone.user.present? %>
+                <tr>
+                  <th><%= l(:Owner) %></th>
+                  <td class="total-hours">
+                    <%= @milestone.user.name %>
+                  </td>
+                </tr>
+            <% end %>
           </table>
         </fieldset>
     <% end %>
 
-    <div id="status_by">
-      <%= render_issue_status_by(@milestone, params[:status_by]) if @milestone.issues.count > 0 %>
-    </div>
   </div>
 
   <% if @issues.present? %>
