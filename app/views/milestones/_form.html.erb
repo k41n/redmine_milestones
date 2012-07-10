@@ -17,7 +17,6 @@
     <label for="milestone_fixed_start_date_true">
       <%= t(:milestone_start_date) %>
     </label><br>
-    <%= link_to_function t(:recalculate_start_date), 'recalculate_start_date()', :style=>"float: left; margin-left: -150px;  #{"display: none" if @milestone.fixed_start_date}", :id=>'recalculate_start_date' %>
     <%= f.radio_button :fixed_start_date, true, :style=> 'display: inline-block; position: relative; top: -15px', :checked=>@milestone.fixed_start_date, :onchange => 'start_date_radio_changed()' %>
     <div style="display: inline-block; top: -15px; position: relative" >
       <%= text_field_tag "milestone[start_date]", @milestone.start_date, :size => 10, :disabled => !@milestone.fixed_start_date %><%= calendar_for('milestone_start_date') %>
@@ -36,7 +35,6 @@
     <label for="milestone_fixed_start_date_false">
       <%= t(:milestone_planned_end_date) %>
     </label><br>
-    <%= link_to_function t(:recalculate_start_date), 'recalculate_planned_end_date()', :style=>"float: left; margin-left: -150px; #{"display: none" if @milestone.fixed_planned_end_date}", :id=>'recalculate_planned_end_date' %>
     <%= f.radio_button :fixed_planned_end_date, true, :style=> 'display: inline-block; position: relative; top: -15px', :checked=>@milestone.fixed_planned_end_date, :onchange => 'planned_end_date_radio_changed()' %>
     <div style="display: inline-block; top: -15px; position: relative" >
       <%= text_field_tag "milestone[planned_end_date]", @milestone.planned_end_date, :size => 10, :disabled => !@milestone.fixed_planned_end_date %><%= calendar_for('milestone_planned_end_date') %>
@@ -54,7 +52,6 @@
   <p>
     <%= f.text_field :actual_date, :size => 10, :disabled => true, :value=> @milestone.actual_date %>
     <br>
-    <%= link_to_function t(:recalculate_start_date), "recalculate_actual_date(#{@milestone.id})", :style=>'float: left; margin-left: -150px' %>
   </p>
   <p><%= f.select :sharing, @milestone.allowed_sharings.collect {|v| [format_version_sharing(v), v]}, {}, {:onchange => "milestone_sharing_changed('#{@project.id}')"} %></p>
   <div id="assigned_projects_placeholder" style="#{\"display: none\" if @milestone.sharing == "specific"}>

@@ -48,3 +48,5 @@ ru:
   field_child: Дочерний этап
   assign_milestone: Привязать к этапу
   Owner: Владелец
+  recalculate_planned_end_date: Пересчитать плановую дату завершения
+  recalculate_actual_date: Пересчитать фактическую дату завершения

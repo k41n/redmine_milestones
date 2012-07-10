@@ -20,7 +20,7 @@ en:
   field_start_date_offset: day offset
   milestone_start_date: Milestone start
   milestone_planned_end_date: Milestone due date
-  recalculate_start_date: Recalculate
+  recalculate_start_date: Recalculate start date
   label_milestone_edit: Edit milestone
   label_show_milestones: Show milestones
   label_show_completed_milestones: Show completed milestones
@@ -48,3 +48,5 @@ en:
   field_child: Child milestone
   assign_milestone: Assign to
   Owner: Owner
+  recalculate_planned_end_date: Recalculate planned end date
+  recalculate_actual_date: Recalculate actual date
