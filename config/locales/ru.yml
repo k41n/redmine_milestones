@@ -50,3 +50,6 @@ ru:
   Owner: Владелец
   recalculate_planned_end_date: Пересчитать плановую дату завершения
   recalculate_actual_date: Пересчитать фактическую дату завершения
+  Start_date: Дата начала
+  Previous_milestone: Предыдущий этап
+  Next_milestone: Следующий этап

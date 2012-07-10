@@ -23,6 +23,30 @@
                   <td class="total-hours"><%= html_hours(l_hours(@milestone.spent_hours)) %></td>
                 </tr>
             <% end %>
+            <% if @milestone.start_date.present? %>
+                <tr>
+                  <th><%= l(:Start_date) %></th>
+                  <td class="total-hours">
+                    <%= @milestone.start_date %>
+                  </td>
+                </tr>
+            <% end %>
+            <% if @milestone.previous_start_date_milestone.present? %>
+                <tr>
+                  <th><%= l(:Previous_milestone) %></th>
+                  <td class="total-hours">
+                    <%= link_to @milestone.previous_start_date_milestone.composite_description, milestone_path(@milestone.previous_start_date_milestone) %>
+                  </td>
+                </tr>
+            <% end %>
+            <% if @milestone.next_milestone.present? %>
+                <tr>
+                  <th><%= l(:Next_milestone) %></th>
+                  <td class="total-hours">
+                    <%= link_to @milestone.next_milestone.composite_description, milestone_path(@milestone.next_milestone) %>
+                  </td>
+                </tr>
+            <% end %>
           </table>
         </fieldset>
     <% end %>

@@ -50,3 +50,6 @@ en:
   Owner: Owner
   recalculate_planned_end_date: Recalculate planned end date
   recalculate_actual_date: Recalculate actual date
+  Start_date: Start date
+  Previous_milestone: Previous milestone
+  Next_milestone: Next milestone

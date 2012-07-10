@@ -108,7 +108,7 @@ class Milestone < ActiveRecord::Base
     if fixed_start_date
       read_attribute(:start_date)
     else
-      start_date_offset.days.since(self.previous_start_date_milestone.planned_end_date)
+      start_date_offset.days.since(self.previous_start_date_milestone.planned_end_date) unless self.previous_start_date_milestone.nil? or self.previous_start_date_milestone.planned_end_date.nil?
     end
   end
 
@@ -118,7 +118,10 @@ class Milestone < ActiveRecord::Base
     else
       planned_end_date_offset.days.since(self.previous_planned_end_date_milestone.planned_end_date) unless self.previous_planned_end_date_milestone.nil? or self.previous_planned_end_date_milestone.planned_end_date.nil?
     end
+  end
 
+  def next_milestone
+    Milestone.find_by_previous_start_date_milestone_id_and_fixed_start_date(self.id, false)
   end
 
   def issues_progress(open)
