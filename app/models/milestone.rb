@@ -218,7 +218,7 @@ class Milestone < ActiveRecord::Base
   end
 
   def composite_description
-    ret = "#{name} #{closed_issues_count} #{I18n.t(:done)} (#{'%0.0f' % completed_pourcent}%) #{open_issues_count} #{I18n.t(:left)} (#{'%0.0f' % (100 - completed_pourcent)}%)"
+    ret = "\"#{name}\" #{closed_issues_count} #{I18n.t(:done)} (#{'%0.0f' % completed_pourcent}%) #{open_issues_count} #{I18n.t(:left)} (#{'%0.0f' % (100 - completed_pourcent)}%)"
     ret += " #{I18n.t(:owner)}: #{user.name}" if self.user.present?
     ret += " #{MilestoneInternalHelper.new.distance_of_time_in_words_to_now(self.planned_end_date)}" if self.planned_end_date.present?
     ret
