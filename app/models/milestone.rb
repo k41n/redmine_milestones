@@ -5,7 +5,6 @@ class Milestone < ActiveRecord::Base
   end
   unloadable
 
-  MILESTONE_KINDS = %w(internal aggregate)
   MILESTONE_STATUSES = %w(open closed locked)
   MILESTONE_SHARINGS = %w(none descendants hierarchy tree system specific)
 
@@ -22,7 +21,7 @@ class Milestone < ActiveRecord::Base
   belongs_to :previous_planned_end_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_planned_end_date_milestone_id
 
   named_scope :opened, :conditions => {:status => %w(open locked)}
-  named_scope :direct_children_of_version, lambda {|version| {:conditions=>["version_id = ? and (parent_milestone_id IS NULL or parent_milestone_id = 0) and kind='internal'", version.id], :order => 'start_date ASC'}}
+  named_scope :direct_children_of_version, lambda {|version| {:conditions=>["version_id = ? and (parent_milestone_id IS NULL or parent_milestone_id = 0)", version.id], :order => 'start_date ASC'}}
   named_scope :orphaned, :conditions => ['parent_milestone_id IS NULL or parent_milestone_id = ?', 0]
   named_scope :versionless, :conditions => ['version_id IS NULL OR version_id = ?', 0]
 

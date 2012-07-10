@@ -1,5 +1,5 @@
 <p class='fields'>
-  <%= f.select :child_id, options_for_select(Milestone.internal.collect{|x| [milestone_name_from_pov_of(@project,x), x.id]}, f.object.child_id) %>
+  <%= f.select :child_id, options_for_select(Milestone.all.collect{|x| [milestone_name_from_pov_of(@project,x), x.id]}, f.object.child_id) %>
   <%= f.hidden_field :_destroy %>
   <%= link_to_function l(:button_delete), "remove_fields(this)" %>
 </p>
