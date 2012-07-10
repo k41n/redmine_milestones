@@ -9,15 +9,15 @@
 <% @default_show_closed_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_closed_milestones") %>
 
 
-<% if ((@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.aggregate.empty? %>
+<% if ((@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.versionless.empty? %>
     <h3>
       <%= t(:aggregate_milestones) %>
     </h3>
     <div id="roadmap">
         <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones] == '1') or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
-            <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned?} %>
+            <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.versionless? and x.orphaned?} %>
         <% else %>
-            <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned? and x.opened?} %>
+            <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.versionless? and x.orphaned? and x.opened?} %>
         <% end %>
     </div>
 <% end %>
@@ -84,14 +84,14 @@
         <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
     <% end %>
 
-    <% if ((@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.aggregate.empty? %>
+    <% if ((@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.versionless.empty? %>
         <h3>
           <%= t(:aggregate_milestones) %>
         </h3>
         <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones] == '1') or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
-            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned?} %>
+            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.all_milestones.select{|x| x.versionless? and x.orphaned?} %>
         <% else %>
-            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.all_milestones.select{|x| x.aggregate? and x.orphaned? and x.opened?} %>
+            <%= render :partial => "milestones/sidebar_milestone", :collection => @project.all_milestones.select{|x| x.versionless? and x.orphaned? and x.opened?} %>
         <% end %>
     <% end %>
 

@@ -22,10 +22,9 @@ class Milestone < ActiveRecord::Base
   belongs_to :previous_planned_end_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_planned_end_date_milestone_id
 
   named_scope :opened, :conditions => {:status => %w(open locked)}
-  named_scope :aggregate, :conditions => {:kind => 'aggregate'}
   named_scope :direct_children_of_version, lambda {|version| {:conditions=>["version_id = ? and (parent_milestone_id IS NULL or parent_milestone_id = 0) and kind='internal'", version.id], :order => 'start_date ASC'}}
-  named_scope :internal, :conditions => {:kind => 'internal'}
   named_scope :orphaned, :conditions => ['parent_milestone_id IS NULL or parent_milestone_id = ?', 0]
+  named_scope :versionless, :conditions => ['version_id IS NULL OR version_id = ?', 0]
 
   has_many :milestone_project_assignments
 
@@ -207,12 +206,12 @@ class Milestone < ActiveRecord::Base
   #  return parent_milestone.level + 1
   #end
 
-  def aggregate?
-    self.kind == 'aggregate'
+  def versionless?
+    self.version.nil?
   end
 
   def orphaned?
-    self.parents.internal.empty?
+    self.parents.empty?
   end
 
   def opened?
@@ -223,7 +222,7 @@ class Milestone < ActiveRecord::Base
     ret = "#{name} #{closed_issues_count} #{I18n.t(:done)} (#{'%0.0f' % completed_pourcent}%) #{open_issues_count} #{I18n.t(:left)} (#{'%0.0f' % (100 - completed_pourcent)}%)"
     ret += " #{I18n.t(:owner)}: #{user.name}" if self.user.present?
     ret += " #{MilestoneInternalHelper.new.distance_of_time_in_words_to_now(self.planned_end_date)}" if self.planned_end_date.present?
-    ret += " #{I18n.t(kind)}"
+    ret
   end
 
 end
