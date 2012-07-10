@@ -102,7 +102,7 @@
           <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones] == '1') or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
             <%= render :partial => 'milestones/sidebar_milestone', :collection => version.milestones.orphaned, :locals => {:level => 1} %>
           <% else %>
-            <%= render :partial => 'milestones/sidebar_milestone', :collection => version.milestones.opened.orphaned, :locals => {level => 1} %>
+            <%= render :partial => 'milestones/sidebar_milestone', :collection => version.milestones.opened.orphaned, :locals => {:level => 1} %>
           <% end %>
         <% end %>
     <% end %>
