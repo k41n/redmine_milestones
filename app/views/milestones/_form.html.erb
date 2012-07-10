@@ -4,6 +4,7 @@
 <div class="box tabular">
   <p><%= f.text_field :name, :size => 60, :required => true %></p>
   <p><%= f.text_field :description, :size => 60 %></p>
+  <p><%= f.select :version_id, [['', 0]] + @project.versions.collect {|x| [x.name, x.id]} %></p>
   <div id="aggregate_milestone_form_part">
     <%= link_to_add_children_milestone_fields(t(:add_assigned_milestone), f, :parent_milestone_assignments ) %>
     <% f.fields_for :parent_milestone_assignments do |assignment| %>

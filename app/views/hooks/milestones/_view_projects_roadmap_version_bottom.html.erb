@@ -1,8 +1,8 @@
 <% @default_show_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_milestones") %>
 <% @default_show_closed_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_closed_milestones") %>
 
-<% if (@default_show_milestones.enabled? and not params[:hide_milestones]) or (@default_show_milestones.disabled? and params[:milestones]) %>
-    <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones]) or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
+<% if ((@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones])) %>
+    <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones] == '1') or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
         <%= render :partial => "milestones/milestone", :collection => Milestone.direct_children_of_version(version) %>
     <% else %>
         <%= render :partial => "milestones/milestone", :collection => Milestone.internal.opened.direct_children_of_version(version) %>
