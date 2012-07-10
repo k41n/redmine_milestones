@@ -35,7 +35,7 @@
                 <tr>
                   <th><%= l(:Previous_milestone) %></th>
                   <td class="total-hours">
-                    <%= link_to @milestone.previous_start_date_milestone.composite_description, milestone_path(@milestone.previous_start_date_milestone) %>
+                    <%= link_to @milestone.previous_start_date_milestone.name, milestone_path(@milestone.previous_start_date_milestone) %>
                   </td>
                 </tr>
             <% end %>
@@ -43,7 +43,7 @@
                 <tr>
                   <th><%= l(:Next_milestone) %></th>
                   <td class="total-hours">
-                    <%= link_to @milestone.next_milestone.composite_description, milestone_path(@milestone.next_milestone) %>
+                    <%= link_to @milestone.next_milestone.name, milestone_path(@milestone.next_milestone) %>
                   </td>
                 </tr>
             <% end %>
