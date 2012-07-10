@@ -58,13 +58,13 @@ module MilestonesHelper
 
   def milestone_name_from_pov_of(project, milestone)
     if milestone.project_id == project.id
-      if milestone.aggregate?
+      if milestone.versionless?
         milestone.name
       else
         "#{milestone.version.name}/#{milestone.name}"
       end
     else
-      if milestone.aggregate?
+      if milestone.versionless?
         "#{milestone.project.name}/#{milestone.name}"
       else
         "#{milestone.project.name}/#{milestone.version.name}/#{milestone.name}"
