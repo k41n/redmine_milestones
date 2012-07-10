@@ -236,3 +236,33 @@ function show_hidden_milestones_changed()
         $('hide_completed_milestones').value = '1';
     }
 }
+
+function move_selected_to_assigned()
+{
+    move('available_projects', 'milestone_assigned_projects');
+}
+
+function move_assigned_to_selected()
+{
+    move('milestone_assigned_projects', 'available_projects');
+}
+
+function move(to, from)
+{
+    var selected = $(from);
+    var pool = $(to);
+    while (pool.selectedIndex != -1)
+    {
+        selected.appendChild(pool.options.item(pool.selectedIndex))
+    }
+}
+
+function select_assigned()
+{
+    var assigned = $('milestone_assigned_projects');
+    for (x = 0; x < assigned.options.length; x++)
+    {
+        assigned.options[x].selected = true;
+    }
+    return true;
+}

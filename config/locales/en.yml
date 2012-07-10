@@ -8,7 +8,7 @@ en:
   label_milestone_sharing_hierarchy: With project hierarchy
   label_milestone_sharing_tree: With project tree
   label_milestone_sharing_system: With all projects
-  label_milestone_sharing_specific: Projects specified
+  label_milestone_sharing_specific: With projects specified
   milestone_kind_internal: Internal
   milestone_kind_aggregate: Aggregating
   field_parent_milestone: Parent milestone

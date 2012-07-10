@@ -54,11 +54,14 @@
     <br>
   </p>
   <p><%= f.select :sharing, @milestone.allowed_sharings.collect {|v| [format_version_sharing(v), v]}, {}, {:onchange => "milestone_sharing_changed('#{@project.id}')"} %></p>
-  <div id="assigned_projects_placeholder" style="#{\"display: none\" if @milestone.sharing == "specific"}>
-    <%= link_to_add_fields(t(:add_assigned_project),f, :milestone_project_assignments ) %>
-    <% f.fields_for :milestone_project_assignments do |assignment| %>
-        <%= render :partial => "milestone_project_assignment_fields", :locals=>{:f=>assignment} %>
-    <% end %>
+  <div id="assigned_projects_placeholder" style="<%= "display: none" unless @milestone.sharing == "specific" %>"}>
+    <%= select_tag :available_projects, options_for_select(Project.unassigned_with(@milestone).collect{|x| [x.name, x.id]}), :multiple => true, :style=>'margin-left: 180px; width: 200px' %>
+    <div id="buttons" style="display: inline-block">
+      <%= button_to_function ">>", 'move_selected_to_assigned()', :id=>'move_selected_to_assigned_button' %>
+      <br/>
+      <%= button_to_function "<<", 'move_assigned_to_selected()', :id=>'move_selected_to_assigned_button' %>
+    </div>
+    <%= select_tag "milestone[assigned_projects]", options_for_select(@milestone.projects.collect{|x| [x.name, x.id]}), :multiple => true, :style=>'width: 200px' %>
   </div>
 
   <p><%= f.select :user_id, [['',0]] + @project.users.collect {|u| [u.name, u.id]}, :label => t(:Owner) %></p>

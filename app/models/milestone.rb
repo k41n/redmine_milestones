@@ -26,6 +26,7 @@ class Milestone < ActiveRecord::Base
   named_scope :versionless, :conditions => ['version_id IS NULL OR version_id = ?', 0]
 
   has_many :milestone_project_assignments
+  has_many :projects, :through => :milestone_project_assignments
 
   has_many :parent_milestone_assignments, :class_name => 'MilestoneAssignment', :foreign_key => :parent_id
   has_many :children, :through => :parent_milestone_assignments, :as => :parent
@@ -56,11 +57,16 @@ class Milestone < ActiveRecord::Base
                   'previous_planned_end_date_milestone_id',
                   'previous_start_date_milestone_id',
                   'parent_milestone_assignments_attributes',
-                  'child_milestone_assignments_attributes'
+                  'child_milestone_assignments_attributes',
+                  'assigned_projects'
 
 
   def self.active_for_version(version)
     version.milestones.select{|x| x.start_date.present? and x.planned_end_date.present? and x.start_date <= Date.today and x.planned_end_date >= Date.today}.first
+  end
+
+  def assigned_projects=(projects)
+    self.projects = projects.collect{|x| Project.find(x)}
   end
 
   # Returns the sharings that +user+ can set the version to

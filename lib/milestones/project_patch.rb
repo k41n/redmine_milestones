@@ -7,6 +7,10 @@ module ProjectPatch
       has_many :milestone_project_assignments
       has_many :assigned_milestones, :through => :milestone_project_assignments, :source => :milestone
 
+      def self.unassigned_with(milestone)
+        Project.all - milestone.projects
+      end
+
     end
 
     base.send(:include, InstanceMethods)
