@@ -78,7 +78,7 @@
     <% end %>
   </div>
 
-  <p><%= f.select :user_id, @project.users.collect {|u| [u.name, u.id]} %></p>
+  <p><%= f.select :user_id, [['',0]] + @project.users.collect {|u| [u.name, u.id]} %></p>
 
 </div>
 <% content_for :header_tags do %>
