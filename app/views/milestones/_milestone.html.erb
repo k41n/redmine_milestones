@@ -22,9 +22,10 @@
   <% end %>
   <% unless milestone.children.empty? %>
     <% if params[:completed_milestones] %>
-      <%= render :partial => "milestones/milestone", :collection => milestone.children %>
+      <% level ||= 1 %>
+      <%= render :partial => "milestones/milestone", :collection => milestone.children, :locals => {:level => level + 1} unless level >= 5 %>
     <% else %>
-      <%= render :partial => "milestones/milestone", :collection => milestone.children.opened %>
+      <%= render :partial => "milestones/milestone", :collection => milestone.children.opened, :locals => {:level => level + 1}  unless level >= 5 %>
     <% end %>
   <% end %>
 </div>
