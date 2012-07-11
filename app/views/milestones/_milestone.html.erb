@@ -20,9 +20,9 @@
           </table>
       <% end %>
   <% end %>
+  <% level ||= 1 %>
   <% unless milestone.children.empty? %>
     <% if params[:completed_milestones] %>
-      <% level ||= 1 %>
       <%= render :partial => "milestones/milestone", :collection => milestone.children, :locals => {:level => level + 1} unless level >= 5 %>
     <% else %>
       <%= render :partial => "milestones/milestone", :collection => milestone.children.opened, :locals => {:level => level + 1}  unless level >= 5 %>
