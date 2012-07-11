@@ -132,6 +132,7 @@ class Milestone < ActiveRecord::Base
   end
 
   def next_milestone
+    return nil if self.start_date.nil?
     available = self.project.milestones.select{|x| x.start_date.present? and x.start_date > self.start_date}
     if available.empty?
       nil
@@ -141,6 +142,7 @@ class Milestone < ActiveRecord::Base
   end
 
   def previous_milestone
+    return nil if self.start_date.nil?
     available = self.project.milestones.select{|x| x.start_date.present? and x.start_date < self.start_date}
     if available.empty?
       nil
