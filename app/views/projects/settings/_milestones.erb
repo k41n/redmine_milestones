@@ -34,7 +34,7 @@
             <td class="date"><%= format_date(milestone.planned_end_date) %></td>
             <td class="date"><%= format_date(milestone.actual_date) %></td>
             <td class="status"><%= l("version_status_#{milestone.status}") %></td>
-            <td class="sharing"><%=h format_version_sharing(milestone.sharing) %></td>
+            <td class="sharing"><%=h format_milestone_sharing(milestone.sharing) %></td>
             <td class="buttons">
               <% if milestone.project == @project && User.current.allowed_to?(:manage_milestones, @project) %>
                   <%= link_to l(:button_edit), edit_milestone_path(milestone), :class => 'icon icon-edit' %>

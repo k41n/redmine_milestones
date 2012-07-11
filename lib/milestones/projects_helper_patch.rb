@@ -27,6 +27,11 @@ module ProjectsHelperPatch
         return '' unless version && version.is_a?(Version)
         link_to_if version.visible?, "#{format_version_name(version)} #{active_milestone_text}", { :controller => 'versions', :action => 'show', :id => version }, options
       end
+
+      def format_milestone_sharing(sharing)
+        sharing = 'none' unless Milestone::MILESTONE_SHARINGS.include?(sharing)
+        l("label_milestone_sharing_#{sharing}")
+      end
     end
   end
 end
