@@ -242,9 +242,19 @@ function move_selected_to_assigned()
     move('available_projects', 'milestone_assigned_projects');
 }
 
+function move_selected_milestone_to_assigned()
+{
+    move('available_milestones', 'milestone_assigned_milestones');
+}
+
 function move_assigned_to_selected()
 {
     move('milestone_assigned_projects', 'available_projects');
+}
+
+function move_assigned_milestone_to_selected()
+{
+    move('milestone_assigned_milestones', 'available_milestones');
 }
 
 function move(to, from)
@@ -260,6 +270,11 @@ function move(to, from)
 function select_assigned()
 {
     var assigned = $('milestone_assigned_projects');
+    for (x = 0; x < assigned.options.length; x++)
+    {
+        assigned.options[x].selected = true;
+    }
+    var assigned = $('milestone_assigned_milestones');
     for (x = 0; x < assigned.options.length; x++)
     {
         assigned.options[x].selected = true;

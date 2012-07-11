@@ -6,10 +6,13 @@
   <p><%= f.text_field :description, :size => 60 %></p>
   <p><%= f.select :version_id, [['', 0]] + @project.versions.collect {|x| [x.name, x.id]} %></p>
   <div id="aggregate_milestone_form_part">
-    <%= link_to_add_children_milestone_fields(t(:add_assigned_milestone), f, :parent_milestone_assignments ) %>
-    <% f.fields_for :parent_milestone_assignments do |assignment| %>
-        <%= render :partial => "parent_milestone_assignment_fields", :locals=>{:f=>assignment} unless assignment.object.nil? %>
-    <% end %>
+    <%= select_tag :available_milestones, options_for_select((Milestone.all - @milestone.children).collect{|x| [milestone_name_from_pov_of(@project,x), x.id]}), :multiple => true, :style=>'margin-left: 180px; width: 200px' %>
+    <div id="buttons" style="display: inline-block; width: 40px !important; min-width: 40px !important">
+      <%= button_to_function ">>", 'move_selected_milestone_to_assigned()', :id=>'move_selected_milestone_to_assigned_button' %>
+      <br/>
+      <%= button_to_function "<<", 'move_assigned_milestone_to_selected()', :id=>'move_selected_milestone_to_assigned_button' %>
+    </div>
+    <%= select_tag "milestone[assigned_milestones]", options_for_select(@milestone.children.collect{|x| [milestone_name_from_pov_of(@project,x), x.id]}), :multiple => true, :style=>'width: 200px; display: inline-block' %>
   </div>
   <p><%= f.select :status, options_for_select(Milestone::MILESTONE_STATUSES.collect {|s| [l("version_status_#{s}"), s]}, @milestone.status) %></p>
 
@@ -55,7 +58,7 @@
   </p>
   <p><%= f.select :sharing, @milestone.allowed_sharings.collect {|v| [format_version_sharing(v), v]}, {}, {:onchange => "milestone_sharing_changed('#{@project.id}')"} %></p>
   <div id="assigned_projects_placeholder" style="width: 800px; display: inline-block; <%= "display: none" unless @milestone.sharing == "specific" %>">
-    <%= select_tag :available_projects, options_for_select(Project.unassigned_with(@milestone).collect{|x| [x.name, x.id]}), :multiple => true, :style=>'margin-left: 180px; width: 200px' %>
+    <%= select_tag :available_projects, options_for_select(Project.visible.unassigned_with(@milestone).collect{|x| [x.name, x.id]}), :multiple => true, :style=>'margin-left: 180px; width: 200px' %>
     <div id="buttons" style="display: inline-block; width: 40px !important; min-width: 40px !important">
       <%= button_to_function ">>", 'move_selected_to_assigned()', :id=>'move_selected_to_assigned_button' %>
       <br/>

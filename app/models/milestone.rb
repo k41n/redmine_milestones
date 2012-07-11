@@ -58,7 +58,8 @@ class Milestone < ActiveRecord::Base
                   'previous_start_date_milestone_id',
                   'parent_milestone_assignments_attributes',
                   'child_milestone_assignments_attributes',
-                  'assigned_projects'
+                  'assigned_projects',
+                  'assigned_milestones'
 
 
   def self.active_for_version(version)
@@ -67,6 +68,10 @@ class Milestone < ActiveRecord::Base
 
   def assigned_projects=(projects)
     self.projects = projects.collect{|x| Project.find(x)}
+  end
+
+  def assigned_milestones=(milestones)
+    self.children = milestones.collect{|x| Milestone.find(x)}
   end
 
   # Returns the sharings that +user+ can set the version to
