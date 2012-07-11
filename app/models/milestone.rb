@@ -132,7 +132,21 @@ class Milestone < ActiveRecord::Base
   end
 
   def next_milestone
-    Milestone.find_by_previous_start_date_milestone_id_and_fixed_start_date(self.id, false)
+    available = self.project.milestones.select{|x| x.start_date.present? and x.start_date > self.start_date}
+    if available.empty?
+      nil
+    else
+      available.sort{|a,b| a.start_date <=> b.start_date}.first
+    end
+  end
+
+  def previous_milestone
+    available = self.project.milestones.select{|x| x.start_date.present? and x.start_date < self.start_date}
+    if available.empty?
+      nil
+    else
+      available.sort{|a,b| a.start_date <=> b.start_date}.last
+    end
   end
 
   def issues_progress(open)

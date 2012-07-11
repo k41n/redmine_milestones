@@ -39,11 +39,27 @@
                   </td>
                 </tr>
             <% end %>
-            <% if @milestone.previous_start_date_milestone.present? %>
+            <% if @milestone.planned_end_date.present? %>
+                <tr>
+                  <th><%= l(:Due_date) %></th>
+                  <td class="total-hours">
+                    <%= @milestone.planned_end_date %>
+                  </td>
+                </tr>
+            <% end %>
+            <% if @milestone.actual_date.present? %>
+                <tr>
+                  <th><%= l(:Actual_date) %></th>
+                  <td class="total-hours">
+                    <%= @milestone.actual_date %>
+                  </td>
+                </tr>
+            <% end %>
+            <% if @milestone.previous_milestone.present? %>
                 <tr>
                   <th><%= l(:Previous_milestone) %></th>
                   <td class="total-hours">
-                    <%= link_to @milestone.previous_start_date_milestone.name, milestone_path(@milestone.previous_start_date_milestone) %>
+                    <%= link_to @milestone.previous_milestone.name, milestone_path(@milestone.previous_milestone) %>
                   </td>
                 </tr>
             <% end %>
