@@ -6,7 +6,7 @@
   <p><%= f.text_field :description, :size => 60 %></p>
   <p><%= f.select :version_id, [['', 0]] + @project.versions.collect {|x| [x.name, x.id]} %></p>
   <div id="aggregate_milestone_form_part">
-    <%= select_tag :available_milestones, options_for_select((Milestone.all - @milestone.children).collect{|x| [milestone_name_from_pov_of(@project,x), x.id]}), :multiple => true, :style=>'margin-left: 180px; width: 200px' %>
+    <%= select_tag :available_milestones, options_for_select((@project.all_milestones - @milestone.children).collect{|x| [milestone_name_from_pov_of(@project,x), x.id]}), :multiple => true, :style=>'margin-left: 180px; width: 200px' %>
     <div id="buttons" style="display: inline-block; width: 40px !important; min-width: 40px !important">
       <%= button_to_function ">>", 'move_selected_milestone_to_assigned()', :id=>'move_selected_milestone_to_assigned_button' %>
       <br/>
@@ -28,7 +28,7 @@
     <%= f.radio_button :fixed_start_date, false, :style=>'display: inline-block;', :onchange => 'start_date_radio_changed()', :checked => !@milestone.fixed_start_date %>
     <div style="display: inline-block; margin-left: 0px">
       <%= label_tag "milestone[start_date_offset]", t(:field_previous_start_date_milestone), :style=>'float: none !important; margin-left: 0px !important' %>
-      <%= select "milestone", "previous_start_date_milestone_id", options_for_select([['',0]] + Milestone.all.reject{|x| x.id == @milestone.id}.collect{|x| [milestone_name_from_pov_of(@project, x), x.id]}, @milestone.previous_start_date_milestone_id), {}, {:disabled => @milestone.fixed_start_date} %>
+      <%= select "milestone", "previous_start_date_milestone_id", options_for_select([['',0]] + @project.all_milestones.reject{|x| x.id == @milestone.id}.collect{|x| [milestone_name_from_pov_of(@project, x), x.id]}, @milestone.previous_start_date_milestone_id), {}, {:disabled => @milestone.fixed_start_date} %>
       <%= label_tag "milestone[start_date_offset]", t(:field_start_date_offset), :style=>'float: none !important; margin-left: 0px !important' %>
       <%= text_field_tag "milestone[start_date_offset]", @milestone.start_date_offset, :disabled => @milestone.fixed_start_date %>
     </div>
@@ -46,7 +46,7 @@
     <%= f.radio_button :fixed_planned_end_date, false, :style=>'display: inline-block', :onchange => 'planned_end_date_radio_changed()', :checked => !@milestone.fixed_planned_end_date %>
     <div style="display: inline-block; margin-left: 0px">
       <%= label_tag "milestone[planned_end_date_offset]", t(:field_previous_planned_end_date_milestone), :style=>'float: none !important; margin-left: 0px !important' %>
-      <%= select "milestone", "previous_planned_end_date_milestone_id", options_for_select([['',0]] + Milestone.all.reject{|x| x.id == @milestone.id}.collect{|x| [milestone_name_from_pov_of(@project, x), x.id]}, @milestone.previous_planned_end_date_milestone_id), {}, {:disabled => @milestone.fixed_planned_end_date} %>
+      <%= select "milestone", "previous_planned_end_date_milestone_id", options_for_select([['',0]] + @project.all_milestones.reject{|x| x.id == @milestone.id}.collect{|x| [milestone_name_from_pov_of(@project, x), x.id]}, @milestone.previous_planned_end_date_milestone_id), {}, {:disabled => @milestone.fixed_planned_end_date} %>
       <%= label_tag "milestone[planned_end_date_offset]", t(:field_planned_end_date_offset), :style=>'float: none !important; margin-left: 0px !important' %>
       <%= text_field_tag "milestone[planned_end_date_offset]", @milestone.planned_end_date_offset, :disabled => @milestone.fixed_planned_end_date %>
     </div>
