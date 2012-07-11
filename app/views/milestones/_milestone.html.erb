@@ -20,12 +20,13 @@
           </table>
       <% end %>
   <% end %>
-  <% level ||= 1 %>
+  <% visited_milestones ||= Set.new %>
+  <% visited_milestones << milestone.id %>
   <% unless milestone.children.empty? %>
     <% if params[:completed_milestones] %>
-      <%= render :partial => "milestones/milestone", :collection => milestone.children, :locals => {:level => level + 1} unless level >= 5 %>
+      <%= render :partial => "milestones/milestone", :collection => milestone.children.reject{|x| visited_milestones.include? x.id}, :locals => {:visited_milestones => visited_milestones} %>
     <% else %>
-      <%= render :partial => "milestones/milestone", :collection => milestone.children.opened, :locals => {:level => level + 1}  unless level >= 5 %>
+      <%= render :partial => "milestones/milestone", :collection => milestone.children.opened.reject{|x| visited_milestones.include? x.id}, :locals => {:visited_milestones => visited_milestones} %>
     <% end %>
   <% end %>
 </div>
