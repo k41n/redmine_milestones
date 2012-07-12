@@ -36,7 +36,7 @@ module ProjectPatch
     end
 
     def all_milestones
-      shared_milestones + assigned_milestones
+      (shared_milestones + assigned_milestones).uniq
     end
   end
 

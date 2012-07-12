@@ -6,7 +6,8 @@
   <p><%= f.text_field :description, :size => 60 %></p>
   <p><%= f.select :version_id, [['', 0]] + @project.versions.collect {|x| [x.name, x.id]} %></p>
   <div id="aggregate_milestone_form_part">
-    <%= select_tag :available_milestones, options_for_select((@project.all_milestones - @milestone.children).collect{|x| [milestone_name_from_pov_of(@project,x), x.id]}), :multiple => true, :style=>'margin-left: 180px; width: 200px' %>
+    <% ansectors = @milestone.ansectors %>
+    <%= select_tag :available_milestones, options_for_select((@project.all_milestones - @milestone.children).reject{|x| ansectors.include? x.id}.collect{|x| [milestone_name_from_pov_of(@project,x), x.id]}), :multiple => true, :style=>'margin-left: 180px; width: 200px' %>
     <div id="buttons" style="display: inline-block; width: 40px !important; min-width: 40px !important">
       <%= button_to_function ">>", 'move_selected_milestone_to_assigned()', :id=>'move_selected_milestone_to_assigned_button' %>
       <br/>

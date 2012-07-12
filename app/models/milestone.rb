@@ -66,6 +66,12 @@ class Milestone < ActiveRecord::Base
     version.milestones.select{|x| x.start_date.present? and x.planned_end_date.present? and x.start_date <= Date.today and x.planned_end_date >= Date.today}.first
   end
 
+  def ansectors(visited = [])
+    visited << self.id
+    visited << self.parents.collect{|x| x.ansectors} unless self.parents.empty?
+    visited.flatten.uniq
+  end
+
   def assigned_projects=(projects)
     self.projects = projects.collect{|x| Project.find(x)}
   end
