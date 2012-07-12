@@ -68,7 +68,7 @@ class Milestone < ActiveRecord::Base
 
   def ansectors(visited = [])
     visited << self.id
-    visited << self.parents.reject{|x| xvisited.include? x.id}.collect{|x| x.ansectors} unless self.parents.empty?
+    visited << self.parents.reject{|x| visited.include? x.id}.collect{|x| x.ansectors} unless self.parents.empty?
     visited.flatten.uniq
   end
 
