@@ -55,3 +55,5 @@ en:
   Next_milestone: Next milestone
   Due_date: Due date
   Actual_date: Actual due date
+  change_start_date_confirmation: Are you sure you want all dependent milestones to be recalculated?
+  change_planned_date_confirmation: Are you sure you want all dependent milestones to be recalculated?

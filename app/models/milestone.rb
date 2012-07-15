@@ -260,4 +260,12 @@ class Milestone < ActiveRecord::Base
     ret
   end
 
+  def depending_from_this_start_date
+    Milestone.find_all_by_previous_start_date_milestone_id_and_fixed_start_date(self.id, false)
+  end
+
+  def depending_from_this_planned_end_date
+    Milestone.find_all_by_previous_planned_end_date_milestone_id_and_fixed_planned_end_date(self.id, false)
+  end
+
 end

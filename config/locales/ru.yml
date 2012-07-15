@@ -55,3 +55,5 @@ ru:
   Next_milestone: Следующий этап
   Due_date: Дата окончания
   Actual_date: Фактически окончание
+  change_start_date_confirmation: Пересчитать все зависящие даты?
+  change_planned_date_confirmation: Пересчитать все зависящие даты?

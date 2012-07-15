@@ -23,7 +23,15 @@
     </label><br>
     <%= f.radio_button :fixed_start_date, true, :style=> 'display: inline-block; position: relative; top: -15px', :checked=>@milestone.fixed_start_date, :onchange => 'start_date_radio_changed()' %>
     <div style="display: inline-block; top: -15px; position: relative" >
-      <%= text_field_tag "milestone[start_date]", @milestone.start_date, :size => 10, :disabled => !@milestone.fixed_start_date %><%= calendar_for('milestone_start_date') %>
+      <%= text_field_tag "milestone[start_date]", @milestone.start_date, :size => 10, :disabled => !@milestone.fixed_start_date %>
+      <% unless @milestone.depending_from_this_start_date.empty? %>
+        <%= special_calendar_for('milestone_start_date', "start_date_changed(\"#{t(:change_start_date_confirmation)}\",\"#{@milestone.start_date}\")") %>
+        <% javascript_tag do %>
+          confirm_start_date_change('<%= t(:change_start_date_confirmation) %>','<%= @milestone.start_date %>');
+        <% end %>
+      <% else %>
+        <%= calendar_for('milestone_start_date') %>
+      <% end %>
     </div>
     <br>
     <%= f.radio_button :fixed_start_date, false, :style=>'display: inline-block;', :onchange => 'start_date_radio_changed()', :checked => !@milestone.fixed_start_date %>
@@ -32,7 +40,7 @@
       <%= select "milestone", "previous_start_date_milestone_id", options_for_select([['',0]] + @project.all_milestones.reject{|x| x.id == @milestone.id}.collect{|x| [milestone_name_from_pov_of(@project, x), x.id]}, @milestone.previous_start_date_milestone_id), {}, {:disabled => @milestone.fixed_start_date} %>
       <%= label_tag "milestone[start_date_offset]", t(:field_start_date_offset), :style=>'float: none !important; margin-left: 0px !important' %>
       <%= text_field_tag "milestone[start_date_offset]", @milestone.start_date_offset, :disabled => @milestone.fixed_start_date %>
-    </div>
+q    </div>
   </div>
 
   <div style="padding-left: 175px">
@@ -41,7 +49,15 @@
     </label><br>
     <%= f.radio_button :fixed_planned_end_date, true, :style=> 'display: inline-block; position: relative; top: -15px', :checked=>@milestone.fixed_planned_end_date, :onchange => 'planned_end_date_radio_changed()' %>
     <div style="display: inline-block; top: -15px; position: relative" >
-      <%= text_field_tag "milestone[planned_end_date]", @milestone.planned_end_date, :size => 10, :disabled => !@milestone.fixed_planned_end_date %><%= calendar_for('milestone_planned_end_date') %>
+      <%= text_field_tag "milestone[planned_end_date]", @milestone.planned_end_date, :size => 10, :disabled => !@milestone.fixed_planned_end_date %>
+      <% unless @milestone.depending_from_this_planned_end_date.empty? %>
+          <%= special_calendar_for('milestone_planned_end_date', "planned_date_changed(\"#{t(:change_planned_date_confirmation)}\",\"#{@milestone.planned_end_date}\")") %>
+          <% javascript_tag do %>
+              confirm_planned_end_date_change('<%= t(:change_planned_date_confirmation) %>','<%= @milestone.planned_end_date %>');
+          <% end %>
+      <% else %>
+          <%= calendar_for('milestone_planned_end_date') %>
+      <% end %>
     </div>
     <br>
     <%= f.radio_button :fixed_planned_end_date, false, :style=>'display: inline-block', :onchange => 'planned_end_date_radio_changed()', :checked => !@milestone.fixed_planned_end_date %>

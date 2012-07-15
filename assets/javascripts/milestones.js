@@ -281,3 +281,43 @@ function select_assigned()
     }
     return true;
 }
+
+function start_date_changed(confirmation, old_val)
+{
+    var new_val = $('milestone_start_date').value;
+    if (new_val != undefined && new_val != old_val)
+    {
+        if (!confirm(confirmation))
+        {
+            $('milestone_start_date').value = old_val;
+        }
+    }
+    return true;
+}
+
+function confirm_start_date_change(confirmation, old_val)
+{
+    Event.observe('milestone_start_date', 'change', function(event){
+      start_date_changed(confirmation, old_val);
+    });
+}
+
+function planned_date_changed(confirmation, old_val)
+{
+    var new_val = $('milestone_planned_end_date').value;
+    if (new_val != undefined && new_val != old_val)
+    {
+        if (!confirm(confirmation))
+        {
+            $('milestone_planned_end_date').value = old_val;
+        }
+    }
+    return true;
+}
+
+function confirm_planned_end_date_change(confirmation, old_val)
+{
+    Event.observe('milestone_planned_end_date', 'change', function(event){
+        planned_date_changed(confirmation, old_val);
+    });
+}
