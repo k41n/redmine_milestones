@@ -40,7 +40,7 @@
       <%= select "milestone", "previous_start_date_milestone_id", options_for_select([['',0]] + @project.all_milestones.reject{|x| x.id == @milestone.id}.collect{|x| [milestone_name_from_pov_of(@project, x), x.id]}, @milestone.previous_start_date_milestone_id), {}, {:disabled => @milestone.fixed_start_date} %>
       <%= label_tag "milestone[start_date_offset]", t(:field_start_date_offset), :style=>'float: none !important; margin-left: 0px !important' %>
       <%= text_field_tag "milestone[start_date_offset]", @milestone.start_date_offset, :disabled => @milestone.fixed_start_date %>
-q    </div>
+    </div>
   </div>
 
   <div style="padding-left: 175px">
@@ -84,7 +84,7 @@ q    </div>
     <%= select_tag "milestone[assigned_projects]", options_for_select(@milestone.projects.collect{|x| [x.name, x.id]}), :multiple => true, :style=>'width: 200px; display: inline-block' %>
   </div>
 
-  <p><%= f.select :user_id, [['',0]] + @project.users.collect {|u| [u.name, u.id]}, :label => t(:Owner) %></p>
+  <p><%= f.select :user_id, [['',0]] + User.all.collect {|u| [u.name, u.id]}, {:label => t(:Owner)} %></p>
 
 </div>
 <% content_for :header_tags do %>
