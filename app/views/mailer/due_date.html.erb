@@ -1,0 +1,5 @@
+<% if @owner %>
+    Please note that milestone, owned by you <%= link_to @milestone.composite_description, milestone_url(@milestone) %>is due in <%= distance_of_time_in_words_to_now(@milestone.planned_end_date) %>
+<% else %>
+    Please note that milestone, watched by you <%= link_to @milestone.composite_description, milestone_url(@milestone) %>is due in <%= distance_of_time_in_words_to_now(@milestone.planned_end_date) %>
+<% end %>

@@ -280,4 +280,9 @@ class Milestone < ActiveRecord::Base
     (self.children.map(&:start_date) + self.issues.map(&:start_date)).reject{|x| x.nil?}.min
   end
 
+  def observer_recipients
+    return [] if self.observers.nil?
+    self.observers.collect{|x| User.find(x).mail}
+  end
+
 end

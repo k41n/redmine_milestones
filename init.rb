@@ -10,6 +10,7 @@ require_dependency 'milestones/query_patch'
 require_dependency 'milestones/project_patch'
 require_dependency 'milestones/projects_helper_patch'
 require_dependency "milestones/gantt_patch"
+require_dependency 'milestones/mailer_patch'
 
 Redmine::Plugin.register :redmine_milestones do
   name 'Redmine Milestones plugin'
@@ -36,3 +37,4 @@ Project.send(:include, ProjectPatch)
 Query.send(:include, Milestones::QueryPatch)
 ProjectsHelper.send(:include, ProjectsHelperPatch)
 Redmine::Helpers::Gantt.send(:include, GanttPatch)
+Mailer.send(:include, RedmineMilestones::MailerPatch)
