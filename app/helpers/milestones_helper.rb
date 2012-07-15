@@ -73,6 +73,11 @@ module MilestonesHelper
     end
   end
 
+  def link_to_milestone(milestone, options = {})
+    return '' unless milestone && milestone.is_a?(Milestone)
+    link_to_if milestone.project.visible?, milestone.name, { :controller => 'milestones', :action => 'show', :id => milestone }, options
+  end
+
   def special_calendar_for(field_id, onselect)
     include_calendar_headers_tags
     image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +

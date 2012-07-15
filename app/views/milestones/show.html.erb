@@ -9,7 +9,16 @@
 
 <div id="roadmap">
   <%= render :partial => 'milestones/overview', :locals => {:milestone => @milestone} %>
-
+  <% unless @milestone.children.empty? %>
+      <table class="list related-issues">
+        <caption><%= l(:label_related_milestones) %></caption>
+        <%- @milestone.children.each do |milestone| -%>
+            <tr class="hascontextmenu">
+              <td><%= link_to_milestone(milestone) %></td>
+            </tr>
+        <% end %>
+      </table>
+  <% end %>
   <div id="version-summary">
     <% if @milestone.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
         <fieldset class="time-tracking"><legend><%= l(:label_time_tracking) %></legend>
