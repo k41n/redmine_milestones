@@ -33,6 +33,7 @@ class MilestonesController < ApplicationController
 
   def update
     @milestone = Milestone.find(params[:id])
+    params[:milestone][:observers] ||= []
     @project = @milestone.project
     if params[:milestone]
       attributes = params[:milestone].dup
@@ -67,6 +68,7 @@ class MilestonesController < ApplicationController
   end
 
   def create
+    params[:milestone][:observers] ||= []
     @milestone = Milestone.new(:project => @project)
     if params[:milestone]
       attributes = params[:milestone].dup

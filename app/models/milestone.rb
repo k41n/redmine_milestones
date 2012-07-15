@@ -33,6 +33,8 @@ class Milestone < ActiveRecord::Base
   has_many :child_milestone_assignments, :class_name => 'MilestoneAssignment', :foreign_key => :child_id
   has_many :parents, :through => :child_milestone_assignments, :as => :child
 
+  serialize :observers
+
   accepts_nested_attributes_for :milestone_project_assignments, :allow_destroy => true
   accepts_nested_attributes_for :parent_milestone_assignments, :allow_destroy => true
   accepts_nested_attributes_for :child_milestone_assignments, :allow_destroy => true
@@ -59,7 +61,8 @@ class Milestone < ActiveRecord::Base
                   'parent_milestone_assignments_attributes',
                   'child_milestone_assignments_attributes',
                   'assigned_projects',
-                  'assigned_milestones'
+                  'assigned_milestones',
+                  'observers'
 
 
   def self.active_for_version(version)
@@ -266,6 +269,11 @@ class Milestone < ActiveRecord::Base
 
   def depending_from_this_planned_end_date
     Milestone.find_all_by_previous_planned_end_date_milestone_id_and_fixed_planned_end_date(self.id, false)
+  end
+
+  def watched_by?(user)
+    logger.info self.observers
+    not self.observers.nil? and self.observers.include? user.id.to_s
   end
 
 end
