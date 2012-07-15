@@ -14,6 +14,7 @@ module ProjectsHelperPatch
                 {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
                 {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities}
         ]
+        tabs.reject!{|x| x[:name] == 'repositories'} unless Redmine::VERSION.to_s.include? "1.4"
         tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
       end
 
