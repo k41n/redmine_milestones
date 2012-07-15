@@ -276,4 +276,8 @@ class Milestone < ActiveRecord::Base
     not self.observers.nil? and self.observers.include? user.id.to_s
   end
 
+  def actual_start_date
+    (self.children.map(&:start_date) + self.issues.map(&:start_date)).reject{|x| x.nil?}.min
+  end
+
 end

@@ -7,100 +7,122 @@
 
 <h2><%= h(@milestone.name) %></h2>
 
-<div id="roadmap">
-  <%= render :partial => 'milestones/overview', :locals => {:milestone => @milestone} %>
-  <% unless @milestone.children.empty? %>
-      <table class="list related-issues">
-        <caption><%= l(:label_related_milestones) %></caption>
-        <%- @milestone.children.each do |milestone| -%>
-            <tr class="hascontextmenu">
-              <td><%= link_to_milestone(milestone) %></td>
-            </tr>
-        <% end %>
-      </table>
-  <% end %>
-  <div id="version-summary">
-    <% if @milestone.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
-        <fieldset class="time-tracking"><legend><%= l(:label_time_tracking) %></legend>
-          <table>
-            <tr>
-              <th><%= l(:field_estimated_hours) %></th>
-              <td class="total-hours"><%= html_hours(l_hours(@milestone.estimated_hours)) %></td>
-            </tr>
-            <% if User.current.allowed_to?(:view_time_entries, @project) %>
-                <tr>
-                  <th><%= l(:label_spent_time) %></th>
-                  <td class="total-hours"><%= html_hours(l_hours(@milestone.spent_hours)) %></td>
-                </tr>
-            <% end %>
-            <% if @milestone.start_date.present? %>
-                <tr>
-                  <th><%= l(:Start_date) %></th>
-                  <td class="total-hours">
-                    <%= @milestone.start_date %>
-                  </td>
-                </tr>
-            <% end %>
-            <% if @milestone.planned_end_date.present? %>
-                <tr>
-                  <th><%= l(:Due_date) %></th>
-                  <td class="total-hours">
-                    <%= @milestone.planned_end_date %>
-                  </td>
-                </tr>
-            <% end %>
-            <% if @milestone.actual_date.present? %>
-                <tr>
-                  <th><%= l(:Actual_date) %></th>
-                  <td class="total-hours">
-                    <%= @milestone.actual_date %>
-                  </td>
-                </tr>
-            <% end %>
-            <% if @milestone.previous_milestone.present? %>
-                <tr>
-                  <th><%= l(:Previous_milestone) %></th>
-                  <td class="total-hours">
-                    <%= link_to @milestone.previous_milestone.name, milestone_path(@milestone.previous_milestone) %>
-                  </td>
-                </tr>
-            <% end %>
-            <% if @milestone.next_milestone.present? %>
-                <tr>
-                  <th><%= l(:Next_milestone) %></th>
-                  <td class="total-hours">
-                    <%= link_to @milestone.next_milestone.name, milestone_path(@milestone.next_milestone) %>
-                  </td>
-                </tr>
-            <% end %>
-            <% if @milestone.user.present? %>
-                <tr>
-                  <th><%= l(:Owner) %></th>
-                  <td class="total-hours">
-                    <%= @milestone.user.name %>
-                  </td>
-                </tr>
-            <% end %>
-          </table>
-        </fieldset>
-    <% end %>
+<table width='100%'>
+  <tr valign='top'>
+    <td valign='top'>
+      <% if @issues.present? %>
+          <% form_tag({}) do -%>
+              <table class="list related-issues">
+                <caption><%= l(:label_related_issues) %></caption>
+                <%- @issues.each do |issue| -%>
+                    <tr class="hascontextmenu">
+                      <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
+                      <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+                    </tr>
+                <% end %>
+              </table>
+          <% end %>
+          <%= context_menu issues_context_menu_path %>
+      <% end %>
 
-  </div>
-
-  <% if @issues.present? %>
-      <% form_tag({}) do -%>
+      <%= render :partial => 'milestones/overview', :locals => {:milestone => @milestone} %>
+      <% unless @milestone.children.empty? %>
           <table class="list related-issues">
-            <caption><%= l(:label_related_issues) %></caption>
-            <%- @issues.each do |issue| -%>
+            <caption><%= l(:label_related_milestones) %></caption>
+            <%- @milestone.children.each do |milestone| -%>
                 <tr class="hascontextmenu">
-                  <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
-                  <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+                  <td><%= link_to_milestone(milestone) %></td>
                 </tr>
             <% end %>
           </table>
       <% end %>
-      <%= context_menu issues_context_menu_path %>
-  <% end %>
-</div>
+    </td>
+    <td width="420px" valign='top'>
+      <% if @milestone.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
+          <fieldset class="time-tracking"><legend><%= l(:label_time_tracking) %></legend>
+            <table>
+              <tr>
+                <th><%= l(:field_estimated_hours) %></th>
+                <td class="total-hours"><%= html_hours(l_hours(@milestone.estimated_hours)) %></td>
+              </tr>
+              <% if User.current.allowed_to?(:view_time_entries, @project) %>
+                  <tr>
+                    <th><%= l(:label_spent_time) %></th>
+                    <td class="total-hours"><%= html_hours(l_hours(@milestone.spent_hours)) %></td>
+                  </tr>
+              <% end %>
+              <% if @milestone.previous_milestone.present? %>
+                  <tr>
+                    <th><%= l(:Previous_milestone) %></th>
+                    <td class="total-hours">
+                      <%= link_to @milestone.previous_milestone.name, milestone_path(@milestone.previous_milestone) %>
+                    </td>
+                  </tr>
+              <% end %>
+              <% if @milestone.next_milestone.present? %>
+                  <tr>
+                    <th><%= l(:Next_milestone) %></th>
+                    <td class="total-hours">
+                      <%= link_to @milestone.next_milestone.name, milestone_path(@milestone.next_milestone) %>
+                    </td>
+                  </tr>
+              <% end %>
+              <% if @milestone.user.present? %>
+                  <tr>
+                    <th><%= l(:Owner) %></th>
+                    <td class="total-hours">
+                      <%= @milestone.user.name %>
+                    </td>
+                  </tr>
+              <% end %>
+            </table>
+          </fieldset>
+          <fieldset class="time-tracking"><legend><%= l(:dates) %></legend>
+            <table>
+              <tr>
+                <td>
+                  <%= t(:planned_start_date) %>:
+                  <% if @milestone.start_date.present? %>
+                    <%= @milestone.start_date %>
+                  <% else %>
+                    <%= t(:n_a) %>
+                  <% end %>
+                </td>
+                <td>
+                  /
+                  <%= t(:actual_start_date) %>:
+                  <% if @milestone.actual_start_date.present? %>
+                    <%= @milestone.actual_start_date %>
+                  <% else %>
+                    <%= t(:n_a) %>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= t(:planned_end_date) %>:
+                  <% if @milestone.planned_end_date.present? %>
+                      <%= @milestone.planned_end_date %>
+                  <% else %>
+                      <%= t(:n_a) %>
+                  <% end %>
+                </td>
+                <td>
+                  /
+                  <%= t(:actual_date) %>:
+                  <% if @milestone.actual_date.present? %>
+                      <%= @milestone.actual_date %>
+                  <% else %>
+                      <%= t(:n_a) %>
+                  <% end %>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+    <% end %>
+    </td>
+  </tr>
+</table>
+
 
 <% html_title @milestone.name %>

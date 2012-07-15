@@ -74,10 +74,6 @@
     </div>
   </div>
 
-  <p>
-    <%= f.text_field :actual_date, :size => 10, :disabled => true, :value=> @milestone.actual_date %>
-    <br>
-  </p>
   <p><%= f.select :sharing, @milestone.allowed_sharings.collect {|v| [format_version_sharing(v), v]}, {}, {:onchange => "milestone_sharing_changed('#{@project.id}')"} %></p>
   <div id="assigned_projects_placeholder" style="width: 800px; display: inline-block; <%= "display: none" unless @milestone.sharing == "specific" %>">
     <%= select_tag :available_projects, options_for_select(Project.visible.unassigned_with(@milestone).collect{|x| [x.name, x.id]}), :multiple => true, :style=>'margin-left: 180px; width: 200px' %>

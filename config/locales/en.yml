@@ -58,3 +58,9 @@ en:
   change_start_date_confirmation: Are you sure you want all dependent milestones to be recalculated?
   change_planned_date_confirmation: Are you sure you want all dependent milestones to be recalculated?
   label_related_milestones: Related milestones
+  dates: Dates
+  planned_start_date: Planned start date
+  n_a: N/A
+  actual_start_date: Actual start date
+  planned_end_date: Planned end date
+  actual_date: Actual end date
