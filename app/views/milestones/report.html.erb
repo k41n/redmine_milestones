@@ -1,0 +1,57 @@
+<h2>
+  <%= t(:report_for_milestone, :milestone => @milestone.name) %>
+</h2>
+<table width="100%" border="1">
+  <tr>
+    <th>
+      <%= t(:label_name) %>
+    </th>
+    <th>
+      <%= t(:label_owner) %>
+    </th>
+    <th>
+      <%= t(:label_planned_start_date) %>
+    </th>
+    <th>
+      <%= t(:label_actual_start_date) %>
+    </th>
+    <th>
+      <%= t(:label_planned_due_date) %>
+    </th>
+    <th>
+      <%= t(:label_actual_due_date) %>
+    </th>
+    <th>
+      <%= t(:label_difference) %>
+    </th>
+  </tr>
+  <% @milestone.children.each do |milestone| %>
+      <tr class="<%= milestone.cssclass %>">
+        <td>
+          <%= link_to milestone.name, milestone_path(milestone) %>
+        </td>
+        <td>
+          <%= milestone.user.name if milestone.user.present? %>
+        </td>
+        <td>
+          <%= milestone.start_date if milestone.start_date.present? %>
+        </td>
+        <td>
+          <%= milestone.actual_start_date if milestone.actual_start_date.present? %>
+        </td>
+        <td>
+          <%= milestone.planned_end_date if milestone.planned_end_date.present? %>
+        </td>
+        <td>
+          <%= milestone.actual_date if milestone.actual_date.present? %>
+        </td>
+        <td>
+          <%= distance_of_time_in_words(milestone.planned_end_date, milestone.actual_date) if milestone.planned_end_date.present? and milestone.actual_date.present? and milestone.actual_date > milestone.planned_end_date %>
+        </td>
+      </tr>
+  <% end %>
+</table>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "milestones", :plugin => 'redmine_milestones' %>
+<% end %>

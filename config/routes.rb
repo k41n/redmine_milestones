@@ -3,6 +3,12 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :milestones
   end
 
+  map.resources :versions do |version|
+    version.resources :milestones, :collection => {
+        :report_for_version => [:get]
+    }
+  end
+
   map.resources :milestones, :collection => {
       :parent_project_changed => [:get],
       :subproject_changed => [:get],
@@ -12,6 +18,9 @@ ActionController::Routing::Routes.draw do |map|
       :issue_version_changed => [:get],
       :milestone_version_changed => [:get],
       :add_assigned_project => [:get],
-      :update_settings => [:post]
-  },:member => {:status_by => :post}
+      :update_settings => [:post],
+  },:member => {
+      :status_by => :post,
+      :report => [:get]
+  }
 end

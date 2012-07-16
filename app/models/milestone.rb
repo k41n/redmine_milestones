@@ -285,4 +285,9 @@ class Milestone < ActiveRecord::Base
     self.observers.collect{|x| User.find(x).mail}
   end
 
+  def cssclass
+    return "yellow" if not self.planned_end_date.nil? and not self.actual_date.nil? and self.planned_end_date == self.actual_date
+    return "rose" if not self.planned_end_date.nil? and not self.actual_date.nil? and self.planned_end_date < self.actual_date
+  end
+
 end

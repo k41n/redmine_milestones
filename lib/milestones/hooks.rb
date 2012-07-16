@@ -6,5 +6,6 @@ module Milestones
     render_on :view_issues_show_details_bottom, :partial => 'hooks/milestones/view_issues_show_details_bottom'
     render_on :view_issues_context_menu_start, :partial => 'hooks/milestones/view_issues_context_menu_start'
     render_on :view_versions_show_bottom, :partial => 'hooks/milestones/view_versions_show_bottom'
+    render_on :view_versions_show_contextual, :partial => 'hooks/milestones/view_versions_show_contextual'
   end
 end

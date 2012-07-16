@@ -67,3 +67,13 @@ en:
   planned_actual_start_date: "Planned/actual start date"
   planned_actual_end_date: "Planned/actual end date"
   days_delay: days delay
+  label_reports: Reports
+  report_for_version: Report for version {{version}}
+  label_name: Milestone name
+  label_owner: Owner
+  label_planned_start_date: Planned start date
+  label_actual_start_date: Actual start date
+  label_planned_due_date: Planned due date
+  label_actual_due_date: Actual due date
+  label_difference: Difference
+  report_for_milestone: Report for milestone {{milestone}}

@@ -3,3 +3,13 @@
     padding-left: 20px;
 }
 .icon-milestone { background-image: url(/plugin_assets/redmine_milestones/images/milestone.png); }
+
+.yellow
+{
+    background: #FDBF3B;
+}
+
+.rose
+{
+    background: #ffaaaa;
+}

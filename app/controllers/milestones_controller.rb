@@ -154,6 +154,14 @@ class MilestonesController < ApplicationController
     @milestones = @project.milestones.versionless
   end
 
+  def report_for_version
+    @version = Version.find(params[:version_id])
+  end
+
+  def report
+    @milestone = Milestone.find(params[:id])
+  end
+
 private
   def find_project
     @project = Project.find(params[:project_id])
