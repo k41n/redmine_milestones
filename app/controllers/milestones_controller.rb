@@ -156,10 +156,18 @@ class MilestonesController < ApplicationController
 
   def report_for_version
     @version = Version.find(params[:version_id])
+    @data = {}
+    @data["percentage"] = @version.milestones.collect{|x| x.completed_pourcent}
+    @data["legend"] = @version.milestones.collect{|x| "%%.%% #{x.name}"}
+    @data["href"] = @version.milestones.collect{|x| milestone_path(x)}
   end
 
   def report
     @milestone = Milestone.find(params[:id])
+    @data = {}
+    @data["percentage"] = @milestone.children.collect{|x| x.completed_pourcent}
+    @data["legend"] = @milestone.children.collect{|x| "%%.%% #{x.name}"}
+    @data["href"] = @milestone.children.collect{|x| milestone_path(x)}
   end
 
 private

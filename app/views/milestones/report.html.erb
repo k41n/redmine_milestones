@@ -51,7 +51,25 @@
       </tr>
   <% end %>
 </table>
+<div id="chart">
+  <% unless @data["percentage"].select{|x| x > 0}.length > 1 %>
+      <p class="nodata">
+        <%= t(:not_enough_data_for_piechart) %>
+      </p>
+  <% end %>
+</div>
 
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag "milestones", :plugin => 'redmine_milestones' %>
+    <% if @data["percentage"].select{|x| x > 0}.length > 1 %>
+        <%= javascript_include_tag "milestones", :plugin => 'redmine_milestones' %>
+        <%= javascript_include_tag "raphael", :plugin => 'redmine_milestones' %>
+        <%= javascript_include_tag "g.raphael.js", :plugin => 'redmine_milestones' %>
+        <%= javascript_include_tag "g.pie.js", :plugin => 'redmine_milestones' %>
+        <% javascript_tag do %>
+            Event.observe(window, 'load', function(){
+            draw_chart(<%= @data.to_json %>, '<%= t(:piechart_title) %>');
+            });
+        <% end %>
+    <% end %>
 <% end %>

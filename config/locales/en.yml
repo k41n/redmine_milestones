@@ -77,3 +77,5 @@ en:
   label_actual_due_date: Actual due date
   label_difference: Difference
   report_for_milestone: Report for milestone {{milestone}}
+  piechart_title: Completeness chart
+  not_enough_data_for_piechart: Not enough data for piechart (need at least 2 items with nonzero completeness)
