@@ -34,12 +34,18 @@
           <h3 class="version"><%= tag 'a', :name => version.name.gsub(' ','_') %><%= link_to_version version %></h3>
           <%= render :partial => 'versions/overview', :locals => {:version => version} %>
           <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
-          <% logger.info "@issues = #{@issues_by_version[version]}" %>
-          <% if (issues = @issues_by_version[version]) && issues.select{|x| x.milestone.nil?}.size > 0 %>
+          <% @issues = @issues_by_version[version] %>
+          <% logger.info "Issues for version #{version} = #{@issues}" %>
+          <% if (@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones]) %>
+              <% unless @issues.nil? %>
+                <% @issues = @issues.select{|x| x.milestone.nil?} %>
+              <% end %>
+          <% end %>
+          <% unless @issues.nil? or @issues.empty? %>
               <% form_tag({}) do -%>
                   <table class="list related-issues">
                     <caption><%= l(:label_related_issues) %></caption>
-                    <% issues.select{|x| x.milestone.nil?}.each do |issue| -%>
+                    <% @issues.each do |issue| -%>
                         <tr class="hascontextmenu">
                           <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
                           <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
