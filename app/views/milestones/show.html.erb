@@ -36,7 +36,7 @@
           </table>
       <% end %>
     </td>
-    <td width="420px" valign='top'>
+    <td width="540px" valign='top'>
       <% if @milestone.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
           <fieldset class="time-tracking"><legend><%= l(:label_time_tracking) %></legend>
             <table>
@@ -80,39 +80,45 @@
             <table>
               <tr>
                 <td>
-                  <%= t(:planned_start_date) %>:
+                  <%= t(:planned_actual_start_date) %>:
+                </td>
+                <td>
                   <% if @milestone.start_date.present? %>
-                    <%= @milestone.start_date %>
+                      <%= @milestone.start_date.strftime("%d-%m-%Y") %>
+                  <% else %>
+                      <%= t(:n_a) %>
+                  <% end %>
+                  /
+                  <% if @milestone.actual_start_date.present? %>
+                    <%= @milestone.actual_start_date.strftime("%d-%m/%Y") %>
                   <% else %>
                     <%= t(:n_a) %>
                   <% end %>
-                </td>
-                <td>
-                  /
-                  <%= t(:actual_start_date) %>:
-                  <% if @milestone.actual_start_date.present? %>
-                    <%= @milestone.actual_start_date %>
-                  <% else %>
-                    <%= t(:n_a) %>
+                  <% if @milestone.actual_start_date.present? and @milestone.start_date.present? and @milestone.actual_start_date > @milestone.start_date %>
+                    <%= distance_of_time_in_words(@milestone.actual_start_date, @milestone.start_date) %>
+                    <%= t(:days_delay) %>
                   <% end %>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <%= t(:planned_end_date) %>:
+                  <%= t(:planned_actual_end_date) %>:
+                </td>
+                <td>
                   <% if @milestone.planned_end_date.present? %>
-                      <%= @milestone.planned_end_date %>
+                      <%= @milestone.planned_end_date.strftime("%d-%m-%Y") %>
                   <% else %>
                       <%= t(:n_a) %>
                   <% end %>
-                </td>
-                <td>
                   /
-                  <%= t(:actual_date) %>:
                   <% if @milestone.actual_date.present? %>
-                      <%= @milestone.actual_date %>
+                      <%= @milestone.actual_date.strftime("%d-%m/%Y") %>
                   <% else %>
                       <%= t(:n_a) %>
+                  <% end %>
+                  <% if @milestone.actual_date.present? and @milestone.planned_end_date.present? and @milestone.actual_date > @milestone.planned_end_date %>
+                      <%= distance_of_time_in_words(@milestone.actual_date, @milestone.planned_end_date) %>
+                      <%= t(:days_delay) %>
                   <% end %>
                 </td>
               </tr>

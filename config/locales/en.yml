@@ -64,3 +64,6 @@ en:
   actual_start_date: Actual start date
   planned_end_date: Planned end date
   actual_date: Actual end date
+  planned_actual_start_date: "Planned/actual start date"
+  planned_actual_end_date: "Planned/actual end date"
+  days_delay: days delay
