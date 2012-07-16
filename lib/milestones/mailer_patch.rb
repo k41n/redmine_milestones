@@ -10,7 +10,6 @@ module RedmineMilestones
         if owner
           recipients milestone.user.mail
         else
-          puts "Recipients: #{milestone.observer_recipients}"
           recipients milestone.observer_recipients
         end
 
