@@ -6,14 +6,15 @@ module RedmineMilestones
     end
 
     module InstanceMethods
-      def due_date_approaches(milestone, owner = false)
+      def due_date_approaches(milestone, period, owner = false)
         if owner
           recipients milestone.user.mail
         else
           recipients milestone.observer_recipients
         end
 
-        subject "[#{milestone.project.name}] - #{milestone.version.name + ' - ' if milestone.version} #{milestone.name}"
+        subject "Milestone`s [#{milestone.project.name}] - #{milestone.version.name + ' - ' if milestone.version} #{milestone.name} alert (due date in #{period} days)"
+
 
         body :milestone => milestone,
              :owner => owner

@@ -1,5 +1,9 @@
-<% if @owner %>
-    Please note that milestone, owned by you <%= link_to @milestone.composite_description, milestone_url(@milestone) %>is due in <%= distance_of_time_in_words_to_now(@milestone.planned_end_date) %>
-<% else %>
-    Please note that milestone, watched by you <%= link_to @milestone.composite_description, milestone_url(@milestone) %>is due in <%= distance_of_time_in_words_to_now(@milestone.planned_end_date) %>
-<% end %>
+Hello <%= @milestone.user.name if @milestone.user.present? %>,
+
+<%= distance_of_time_in_words_to_now(@milestone.planned_end_date) %> left for Milestone`s <%= @milestone.composite_description %> due date.
+Current milestone progress is <%= @milestone.completed_pourcent %>%.
+
+Click <%= milestone_url(@milestone) %> for more info
+
+Regards,
+Redmine Admin.
