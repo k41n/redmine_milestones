@@ -313,8 +313,8 @@ function draw_chart(data, title)
 {
     window.data = data;
     window.percentage = data['percentage'];
-    var r = Raphael("chart"),
-        pie = r.piechart(320, 240, 100, data['percentage'], { legend: data['legend'], legendpos: "west", href: data['href']});
+    var r = Raphael("chart", 800, 480),
+        pie = r.piechart(320, 240, 100, data['percentage'], { legend: data['legend'], legendpos: "east", href: data['href']});
 
     r.text(320, 100, title).attr({ font: "20px sans-serif" });
     pie.hover(function () {
