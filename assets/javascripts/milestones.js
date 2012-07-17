@@ -282,52 +282,35 @@ function select_assigned()
     return true;
 }
 
-function start_date_changed(confirmation, old_val)
-{
-    var new_val = $('milestone_start_date').value;
-    if (new_val != undefined && new_val != old_val)
-    {
-        if (!confirm(confirmation))
-        {
-            $('milestone_start_date').value = old_val;
-        }
-    }
-    return true;
-}
-
-function confirm_start_date_change(confirmation, old_val)
-{
-    Event.observe('milestone_start_date', 'change', function(event){
-      start_date_changed(confirmation, old_val);
-    });
-}
-
-function planned_date_changed(confirmation, old_val)
+function planned_date_changed(milestone_id, old_val)
 {
     var new_val = $('milestone_planned_end_date').value;
+    console.log('old_val = '+old_val+', new_val = '+new_val);
     if (new_val != undefined && new_val != old_val)
     {
-        if (!confirm(confirmation))
-        {
-            $('milestone_planned_end_date').value = old_val;
-        }
+        new Ajax.Request('/milestones/'+milestone_id+'/planned_end_date_changed',
+            {
+                method:'get',
+                parameters: {newval: new_val, oldval: old_val},
+                onSuccess: function(transport){
+                    var response = transport.responseText || "no response text";
+                    //eval(response);
+                },
+                onFailure: function(){ alert('Something went wrong...') }
+            });
     }
     return true;
 }
 
-function confirm_planned_end_date_change(confirmation, old_val)
+function confirm_planned_end_date_change(milestone_id, old_val)
 {
     Event.observe('milestone_planned_end_date', 'change', function(event){
-        planned_date_changed(confirmation, old_val);
+        planned_date_changed(milestone_id, old_val);
     });
 }
 
 function draw_chart(data, title)
 {
-    console.log("Drawing chart");
-    console.log(data['percentage']);
-    console.log(data['legend']);
-    console.log(data['href']);
     window.data = data;
     window.percentage = data['percentage'];
     var r = Raphael("chart"),

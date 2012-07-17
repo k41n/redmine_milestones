@@ -1,0 +1,5 @@
+console.log('Response');
+if (!confirm('<%= escape_javascript(@confirmations) %>'))
+{
+    $('milestone_planned_end_date').value = '<%= params[:oldval] %>';
+}

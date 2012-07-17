@@ -81,7 +81,7 @@ module MilestonesHelper
   def special_calendar_for(field_id, onselect)
     include_calendar_headers_tags
     image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
-    javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger', onUpdate: function(){#{onselect}} });")
+    javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%d-%m-%Y', button : '#{field_id}_trigger', onUpdate: function(){#{onselect}} });")
   end
 
 end

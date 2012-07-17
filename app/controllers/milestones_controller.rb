@@ -172,6 +172,17 @@ class MilestonesController < ApplicationController
     @data["href"] = @milestone.children.collect{|x| milestone_path(x)}
   end
 
+  def planned_end_date_changed
+    @milestone = Milestone.find(params[:id])
+    @newval = Date.parse(params[:newval])
+    @confirmations = @milestone.depending_from_this_start_date.collect do |milestone|
+      "Milestone ##{milestone.id} #{milestone.name}, start date will be changed from #{milestone.start_date.strftime('%d-%m-%Y')} to #{milestone.start_date_offset.days.since(@newval).strftime('%d-%m-%Y')}"
+    end.join("\n")
+    @confirmations += "\n"+@milestone.depending_from_this_planned_end_date.reject{|x| x.planned_end_date_offset.nil?}.collect do |milestone|
+      "Milestone ##{milestone.id} #{milestone.name}, planned end date will be changed from #{milestone.planned_end_date.strftime('%d-%m-%Y')} to #{milestone.planned_end_date_offset.days.since(@newval).strftime('%d-%m-%Y')}"
+    end.join("\n")
+  end
+
 private
   def find_project
     @project = Project.find(params[:project_id])
