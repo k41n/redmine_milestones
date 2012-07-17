@@ -90,13 +90,15 @@
                   <% end %>
                   /
                   <% if @milestone.actual_start_date.present? %>
-                    <%= @milestone.actual_start_date.strftime("%d-%m/%Y") %>
+                    <%= @milestone.actual_start_date.strftime("%d-%m-%Y") %>
                   <% else %>
                     <%= t(:n_a) %>
                   <% end %>
                   <% if @milestone.actual_start_date.present? and @milestone.start_date.present? and @milestone.actual_start_date > @milestone.start_date %>
+                    (
                     <%= distance_of_time_in_words(@milestone.actual_start_date, @milestone.start_date) %>
                     <%= t(:days_delay) %>
+                    )
                   <% end %>
                 </td>
               </tr>
@@ -112,13 +114,15 @@
                   <% end %>
                   /
                   <% if @milestone.actual_date.present? %>
-                      <%= @milestone.actual_date.strftime("%d-%m/%Y") %>
+                      <%= @milestone.actual_date.strftime("%d-%m-%Y") %>
                   <% else %>
                       <%= t(:n_a) %>
                   <% end %>
                   <% if @milestone.actual_date.present? and @milestone.planned_end_date.present? and @milestone.actual_date > @milestone.planned_end_date %>
+                      (
                       <%= distance_of_time_in_words(@milestone.actual_date, @milestone.planned_end_date) %>
                       <%= t(:days_delay) %>
+                      )
                   <% end %>
                 </td>
               </tr>

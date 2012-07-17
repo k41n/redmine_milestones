@@ -66,7 +66,7 @@ en:
   actual_date: Actual end date
   planned_actual_start_date: "Planned/actual start date"
   planned_actual_end_date: "Planned/actual end date"
-  days_delay: days delay
+  days_delay: delay
   label_reports: Reports
   report_for_version: Report for version {{version}}
   label_name: Milestone name
