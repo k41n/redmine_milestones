@@ -34,7 +34,8 @@
           <h3 class="version"><%= tag 'a', :name => version.name.gsub(' ','_') %><%= link_to_version version %></h3>
           <%= render :partial => 'versions/overview', :locals => {:version => version} %>
           <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
-          <% @issues = @issues_by_version[version].uniq %>
+          <% @issues = @issues_by_version[version] %>
+          <% @issues = @issues.uniq unless @issues.nil? %>
           <% if (@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones]) %>
               <% unless @issues.nil? %>
                 <% @issues = @issues.select{|x| x.milestone.nil?} %>
