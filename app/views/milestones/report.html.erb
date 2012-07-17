@@ -37,13 +37,13 @@
           <%= milestone.start_date.strftime("%d-%m-%Y") if milestone.start_date.present? %>
         </td>
         <td>
-          <%= milestone.actual_start_date.milestone_url(@milestone) if milestone.actual_start_date.present? %>
+          <%= milestone.actual_start_date.strftime("%d-%m-%Y") if milestone.actual_start_date.present? %>
         </td>
         <td>
-          <%= milestone.planned_end_date.milestone_url(@milestone) if milestone.planned_end_date.present? %>
+          <%= milestone.planned_end_date.strftime("%d-%m-%Y") if milestone.planned_end_date.present? %>
         </td>
         <td>
-          <%= milestone.actual_date.milestone_url(@milestone) if milestone.actual_date.present? %>
+          <%= milestone.actual_date.strftime("%d-%m-%Y") if milestone.actual_date.present? %>
         </td>
         <td>
           <%= distance_of_time_in_words(milestone.planned_end_date, milestone.actual_date) if milestone.planned_end_date.present? and milestone.actual_date.present? and milestone.actual_date > milestone.planned_end_date %>
