@@ -58,3 +58,24 @@ ru:
   change_start_date_confirmation: Пересчитать все зависящие даты?
   change_planned_date_confirmation: Пересчитать все зависящие даты?
   label_related_milestones: Связанные этапы
+  dates: Даты
+  planned_start_date: Планируемая дата начала
+  n_a: НД
+  actual_start_date: Фактическая дата начала
+  planned_end_date: Планируемая дата завершения
+  actual_date: Фактическая дата завершения
+  planned_actual_start_date: "Планируемая/фактическая дата начала"
+  planned_actual_end_date: "Планируемая/фактическая дата завершения"
+  days_delay: задержка
+  label_reports: Отчеты
+  report_for_version: Отчет по версии {{version}}
+  label_name: Название этапа
+  label_owner: Владелец
+  label_planned_start_date: Планируемая дата начала
+  label_actual_start_date: Фактическая дата начала
+  label_planned_due_date: Планируемая дата завершения
+  label_actual_due_date: Фактическая дата завершения
+  label_difference: Разница
+  report_for_milestone: Отчет по этапу {{milestone}}
+  piechart_title: График готовности
+  not_enough_data_for_piechart: Недостаточно данных для графика (требуется хотя бы 2 задачи с ненулевой готовностью)
