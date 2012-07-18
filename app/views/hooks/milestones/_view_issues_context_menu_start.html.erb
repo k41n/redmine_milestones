@@ -2,7 +2,7 @@
     <li class="folder">
       <a href="#" class="submenu"><%= l(:field_milestone) %></a>
       <ul>
-        <% params[:ids].collect{|x| Issue.find(x).project.milestones}.uniq.flatten.sort.each do |milestone| -%>
+        <% params[:ids].collect{|x| Issue.find(x).project.milestones}.flatten.uniq{|x| x.id}.sort.each do |milestone| -%>
             <li><%= context_menu_link milestone.name, {:controller => 'issues', :action => 'bulk_update', :ids => @issues.collect(&:id), :issue => {'milestone_id' => milestone}, :back_url => @back}, :method => :post,
                                       :selected => (@issue && milestone == @issue.milestone), :disabled => !@can[:update] %></li>
         <% end -%>
