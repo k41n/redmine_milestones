@@ -309,6 +309,34 @@ function confirm_planned_end_date_change(milestone_id, old_val)
     });
 }
 
+function start_date_changed(milestone_id, old_val)
+{
+    var new_val = $('milestone_start_date').value;
+
+
+    if (new_val != undefined && new_val != old_val)
+    {
+        new Ajax.Request('/milestones/'+milestone_id+'/start_date_changed',
+            {
+                method:'get',
+                parameters: {newval: new_val, oldval: old_val},
+                onSuccess: function(transport){
+                    var response = transport.responseText || "no response text";
+                    //eval(response);
+                },
+                onFailure: function(){ alert('Something went wrong...') }
+            });
+    }
+    return true;
+}
+
+function confirm_start_date_change(milestone_id, old_val)
+{
+    Event.observe('milestone_start_date', 'change', function(event){
+        start_date_changed(milestone_id, old_val);
+    });
+}
+
 function draw_chart(data, title)
 {
     window.data = data;

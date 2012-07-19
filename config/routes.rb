@@ -22,6 +22,7 @@ ActionController::Routing::Routes.draw do |map|
   },:member => {
       :status_by => :post,
       :report => [:get],
-      :planned_end_date_changed => [:get]
+      :planned_end_date_changed => [:get],
+      :start_date_changed => [:get]
   }
 end

@@ -29,7 +29,10 @@
     <%= f.radio_button :fixed_start_date, true, :style=> 'display: inline-block; position: relative; top: -15px', :checked=>@milestone.fixed_start_date, :onchange => 'start_date_radio_changed()' %>
     <div style="display: inline-block; top: -15px; position: relative" >
       <%= text_field_tag "milestone[start_date]", @milestone.start_date.nil? ? "" : @milestone.start_date.strftime('%d-%m-%Y'), :size => 10, :disabled => !@milestone.fixed_start_date %>
-      <%= special_calendar_for('milestone_start_date', "return true;") %>
+      <%= special_calendar_for('milestone_start_date', "start_date_changed(\"#{@milestone.id}\",\"#{@milestone.start_date.nil? ? "" : @milestone.start_date.strftime('%d-%m-%Y')}\")") %>
+      <% javascript_tag do %>
+          confirm_start_date_change('<%= @milestone.id %>','<%= @milestone.start_date.nil? ? "" : @milestone.start_date.strftime('%d-%m-%y') %>');
+      <% end %>
     </div>
     <br>
     <%= f.radio_button :fixed_start_date, false, :style=>'display: inline-block;', :onchange => 'start_date_radio_changed()', :checked => !@milestone.fixed_start_date %>

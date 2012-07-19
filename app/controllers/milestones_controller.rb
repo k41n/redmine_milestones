@@ -172,6 +172,7 @@ class MilestonesController < ApplicationController
   def planned_end_date_changed
     @milestone = Milestone.find(params[:id])
     @newval = Date.parse(params[:newval])
+    @oob_warning = I18n.t(:planned_oob_warning)
     @confirmations = @milestone.depending_from_this_start_date.collect do |milestone|
       "Milestone ##{milestone.id} #{milestone.name}, start date will be changed from #{milestone.start_date.strftime('%d-%m-%Y')} to #{milestone.start_date_offset.days.since(@newval).strftime('%d-%m-%Y')}"
     end.join("\n")
@@ -180,7 +181,13 @@ class MilestonesController < ApplicationController
     end.join("\n")
   end
 
-private
+  def start_date_changed
+    @milestone = Milestone.find(params[:id])
+    @newval = Date.parse(params[:newval])
+    @oob_warning = I18n.t(:start_oob_warning)
+  end
+
+  private
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound

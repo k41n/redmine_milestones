@@ -1,0 +1,6 @@
+<% if @milestone.version.present? and @milestone.version.start_date.present? and @milestone.version.start_date > @newval %>
+    if (!confirm('<%= escape_javascript(@oob_warning) %>'))
+    {
+        $('milestone_start_date').value = '<%= params[:oldval] %>';
+    }
+<% end %>
