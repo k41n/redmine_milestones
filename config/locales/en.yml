@@ -81,3 +81,6 @@ en:
   not_enough_data_for_piechart: Not enough data for piechart (need at least 2 items with nonzero completeness)
   start_oob_warning: "Start date for MS is out of range for version are you sure?"
   planned_oob_warning: "Planned date for MS is out of range for version are you sure?"
+  started: Started
+  later: later
+  delay: delay

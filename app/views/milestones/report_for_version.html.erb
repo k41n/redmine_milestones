@@ -46,7 +46,15 @@
         <%= milestone.actual_date.strftime("%d-%m-%Y") if milestone.actual_date.present? %>
       </td>
       <td>
-        <%= distance_of_time_in_words(milestone.planned_end_date, milestone.actual_date) if milestone.planned_end_date.present? and milestone.actual_date.present? and milestone.actual_date > milestone.planned_end_date %>
+      <td>
+        <% if milestone.actual_start_date.present? and milestone.start_date.present? and milestone.actual_start_date > milestone.start_date %>
+            <%= t(:started) %>
+            <%= distance_of_time_in_words(milestone.start_date, milestone.actual_start_date) %>
+            <%= t(:later) %>
+            <br/>
+        <% end %>
+        <%= distance_of_time_in_words(milestone.planned_end_date, milestone.actual_date) + ' ' + t(:delay) if milestone.planned_end_date.present? and milestone.actual_date.present? and milestone.actual_date > milestone.planned_end_date %>
+      </td>
       </td>
     </tr>
   <% end %>
