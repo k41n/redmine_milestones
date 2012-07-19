@@ -1,1 +1,3 @@
-$('milestone_placeholder').replace("<%= escape_javascript(render :partial => "available_milestones") %>")
+$('milestone_start_date').value = '<%= @version.start_date %>';
+$('milestone_planned_end_date').value = '<%= @version.due_date %>';
+

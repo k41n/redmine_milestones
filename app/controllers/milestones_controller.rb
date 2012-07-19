@@ -149,9 +149,6 @@ class MilestonesController < ApplicationController
   def milestone_version_changed
     @project = Project.find(params[:project_id])
     @version = Version.find(params[:id])
-    @milestones = @version.milestones + @project.milestones.versionless
-  rescue
-    @milestones = @project.milestones.versionless
   end
 
   def report_for_version
