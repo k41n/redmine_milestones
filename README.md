@@ -11,7 +11,7 @@ issues connected to milestones.
 Milestones can be hierarchically included one into other, thus making possible to create aggregate milestones, joining
 submilestones and issues from different projects.
 
-Developed in 2012 by Andrew V. Malyshev
+Developed in 2012 by RedmineCRM (http://redminecrm.com)
 
 Installation
 ============
