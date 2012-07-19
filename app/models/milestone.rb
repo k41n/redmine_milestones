@@ -161,6 +161,10 @@ class Milestone < ActiveRecord::Base
     end
   end
 
+  def completed?
+    self.status == 'closed'
+  end
+
   def issues_progress(open)
     @issues_progress ||= {}
     @issues_progress[open] ||= begin
