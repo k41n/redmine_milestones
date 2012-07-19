@@ -8,7 +8,7 @@
       <%=  milestone.description %>
     </p>
     <% if milestone.completed? %>
-        <p><%= milestone.actual_date.strftime('%d-%m-%Y') %></p>
+        <p><%= milestone.actual_date.strftime('%d-%m-%Y') if milestone.actual_date.present? %></p>
     <% elsif milestone.actual_date %>
         <p><strong><%= due_date_distance_in_words(milestone.actual_date) %></strong> (<%= milestone.actual_date.strftime('%d-%m-%Y') %>)</p>
     <% end %>
