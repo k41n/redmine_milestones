@@ -148,7 +148,7 @@ class MilestonesController < ApplicationController
 
   def milestone_version_changed
     @project = Project.find(params[:project_id])
-    @version = Version.find(params[:id])
+    @version = Version.find(params[:id]) unless params[:id].to_i.zero? or params[:id].nil?
   end
 
   def report_for_version
