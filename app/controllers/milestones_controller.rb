@@ -28,7 +28,7 @@ class MilestonesController < ApplicationController
     else
       @default_show_closed_milestones.update_attribute(:value, "false")
     end
-    redirect_to settings_project_path(@project)
+    redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
   end
 
   def update
