@@ -285,8 +285,7 @@ function select_assigned()
 function planned_date_changed(milestone_id, old_val)
 {
     var new_val = $('milestone_planned_end_date').value;
-    console.log('old_val = '+old_val+', new_val = '+new_val);
-    if (new_val != undefined && new_val != old_val)
+    if ((new_val != undefined && new_val != old_val) && (milestone_id != ''))
     {
         new Ajax.Request('/milestones/'+milestone_id+'/planned_end_date_changed',
             {
@@ -313,8 +312,7 @@ function start_date_changed(milestone_id, old_val)
 {
     var new_val = $('milestone_start_date').value;
 
-
-    if (new_val != undefined && new_val != old_val)
+    if ((new_val != undefined && new_val != old_val) && (milestone_id != ''))
     {
         new Ajax.Request('/milestones/'+milestone_id+'/start_date_changed',
             {

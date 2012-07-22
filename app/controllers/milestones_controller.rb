@@ -170,15 +170,18 @@ class MilestonesController < ApplicationController
   end
 
   def planned_end_date_changed
-    @milestone = Milestone.find(params[:id])
+    @milestone = Milestone.find(params[:id]) unless params[:id].to_i == -1
     @newval = Date.parse(params[:newval])
     @oob_warning = I18n.t(:planned_oob_warning)
-    @confirmations = @milestone.depending_from_this_start_date.collect do |milestone|
-      "Milestone ##{milestone.id} #{milestone.name}, start date will be changed from #{milestone.start_date.strftime('%d-%m-%Y')} to #{milestone.start_date_offset.days.since(@newval).strftime('%d-%m-%Y')}"
-    end.join("\n")
-    @confirmations += "\n"+@milestone.depending_from_this_planned_end_date.reject{|x| x.planned_end_date_offset.nil?}.collect do |milestone|
-      "Milestone ##{milestone.id} #{milestone.name}, planned end date will be changed from #{milestone.planned_end_date.strftime('%d-%m-%Y')} to #{milestone.planned_end_date_offset.days.since(@newval).strftime('%d-%m-%Y')}"
-    end.join("\n")
+    @confirmations = ''
+    if @milestone.present?
+      @confirmations = @milestone.depending_from_this_start_date.collect do |milestone|
+        "Milestone ##{milestone.id} #{milestone.name}, start date will be changed from #{milestone.start_date.strftime('%d-%m-%Y')} to #{milestone.start_date_offset.days.since(@newval).strftime('%d-%m-%Y')}"
+      end.join("\n")
+      @confirmations += "\n"+@milestone.depending_from_this_planned_end_date.reject{|x| x.planned_end_date_offset.nil?}.collect do |milestone|
+        "Milestone ##{milestone.id} #{milestone.name}, planned end date will be changed from #{milestone.planned_end_date.strftime('%d-%m-%Y')} to #{milestone.planned_end_date_offset.days.since(@newval).strftime('%d-%m-%Y')}"
+      end.join("\n")
+    end
   end
 
   def start_date_changed

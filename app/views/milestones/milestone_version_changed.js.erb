@@ -1,6 +1,6 @@
-<% if @milestone.present? %>
-    $('milestone_start_date').value = '<%= @version.start_date %>';
-    $('milestone_planned_end_date').value = '<%= @version.due_date %>';
+<% if @version.present? %>
+    $('milestone_start_date').value = '<%= @version.start_date.strftime('%d-%m-%Y') %>';
+    $('milestone_planned_end_date').value = '<%= @version.due_date.strftime('%d-%m-%Y') %>';
 <% else %>
     $('milestone_start_date').value = '';
     $('milestone_planned_end_date').value = '';
