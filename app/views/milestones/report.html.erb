@@ -25,7 +25,14 @@
       <%= t(:label_difference) %>
     </th>
   </tr>
-  <% @milestone.children.each do |milestone| %>
+  <% if @milestone.children.empty?
+       @children = [@milestone]
+     else
+       @children = @milestone.children
+     end
+  %>
+
+  <% @children.each do |milestone| %>
       <tr class="<%= milestone.cssclass %>">
         <td>
           <%= link_to milestone.name, milestone_path(milestone) %>
