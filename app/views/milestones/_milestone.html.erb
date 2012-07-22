@@ -10,7 +10,7 @@
     <% if milestone.completed? %>
         <p><%= milestone.actual_date.strftime('%d-%m-%Y') if milestone.actual_date.present? %></p>
     <% elsif milestone.actual_date %>
-        <p><strong><%= due_date_distance_in_words(milestone.actual_date) %></strong> (<%= milestone.actual_date.strftime('%d-%m-%Y') %>)</p>
+        <p><strong><%= due_date_distance_in_words(milestone.actual_date) %></strong> (<%= milestone.actual_date.strftime('%d-%m-%Y') %>) owner: <%= milestone.user.name if milestone.user.present? %></p>
     <% end %>
     <% if milestone.issues_count > 0 %>
         <%= progress_bar([milestone.closed_pourcent, milestone.completed_pourcent], :width => '35em', :legend => '%0.0f%' % (milestone.closed_issues_count > 0 ? milestone.completed_pourcent : 0)) %>
