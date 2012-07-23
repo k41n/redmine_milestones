@@ -3,12 +3,12 @@
 <script>
   window.version_id = <%= @milestone.version.present? ? @milestone.version.id : 0 %>;
   <% if @milestone.start_date.present? %>
-    window.old_start_val = <%= @milestone.start_date.strftime('%d-%m-%Y') %>
+    window.old_start_val = '<%= @milestone.start_date.strftime('%d-%m-%Y') %>';
   <% else %>
     window.old_start_val = '';
   <% end %>
   <% if @milestone.planned_end_date.present? %>
-      window.old_due_val = <%= @milestone.planned_end_date.strftime('%d-%m-%Y') %>
+      window.old_due_val = '<%= @milestone.planned_end_date.strftime('%d-%m-%Y') %>';
   <% else %>
       window.old_due_val = '';
   <% end %>
@@ -44,7 +44,7 @@
       <%= text_field_tag "milestone[start_date]", @milestone.start_date.nil? ? "" : @milestone.start_date.strftime('%d-%m-%Y'), :size => 10, :disabled => !@milestone.fixed_start_date %>
       <%= special_calendar_for('milestone_start_date', "start_date_changed(window.version_id, \"#{@milestone.id}\", window.old_start_val)") %>
       <% javascript_tag do %>
-          confirm_start_date_change(window.version_id,'<%= @milestone.id %>','<%= @milestone.start_date.nil? ? "" : @milestone.start_date.strftime('%d-%m-%y') %>');
+          confirm_start_date_change(window.version_id,'<%= @milestone.id %>',window.old_start_val);
       <% end %>
     </div>
     <br>
