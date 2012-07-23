@@ -13,6 +13,7 @@
 <table width='100%'>
   <tr valign='top'>
     <td valign='top'>
+      <%= render :partial => 'milestones/overview', :locals => {:milestone => @milestone} %>
       <% if @issues.present? %>
           <% form_tag({}) do -%>
               <table class="list related-issues">
@@ -27,7 +28,6 @@
           <%= context_menu issues_context_menu_path %>
       <% end %>
 
-      <%= render :partial => 'milestones/overview', :locals => {:milestone => @milestone} %>
       <% unless @milestone.children.empty? %>
           <table class="list related-issues">
             <caption><%= l(:label_related_milestones) %></caption>
