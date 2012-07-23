@@ -30,24 +30,18 @@ module Milestones
 
       def available_filters_milestone
         # && !RedmineContacts.settings[:issues_filters]
-        if @available_filters.blank? && (@project.blank? || @project.module_enabled?(:milestones_module))
+        if @available_filters.blank? && (project.blank? || project.module_enabled?(:milestones_module))
           select_fields = "#{Milestone.table_name}.name, #{Milestone.table_name}.id"
           available_filters_original_milestone.merge!({ 'milestone' => {
               :type   => :list,
               :order  => 6,
-              :values => @project.milestones.find(:all, :select => select_fields, :limit => 500).collect{ |t| [t.name, t.id.to_s] }.uniq
-            }}) if !available_filters_original_milestone.key?("milestone") && (@project.blank? || User.current.allowed_to?(:view_milestones, @project))
+              :values => project.milestones.find(:all, :select => select_fields, :limit => 500).collect{ |t| [t.name, t.id.to_s] }.uniq
+            }}) if !available_filters_original_milestone.key?("milestone") && (project.blank? || User.current.allowed_to?(:view_milestones, project))
         else
           available_filters_original_milestone
         end
         @available_filters
       end
     end
-  end
-end
-require 'dispatcher'
-Dispatcher.to_prepare do  
-  unless Query.included_modules.include?(Milestones::QueryPatch)
-    Query.send(:include, Milestones::QueryPatch)
   end
 end

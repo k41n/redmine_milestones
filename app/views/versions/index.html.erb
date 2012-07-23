@@ -42,7 +42,7 @@
               <% end %>
           <% end %>
           <% unless @issues.nil? or @issues.empty? %>
-              <% form_tag({}) do -%>
+              <%= form_tag({}) do -%>
                   <table class="list related-issues">
                     <caption><%= l(:label_related_issues) %></caption>
                     <% @issues.each do |issue| -%>

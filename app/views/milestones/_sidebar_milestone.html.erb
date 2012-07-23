@@ -2,7 +2,7 @@
 <% visited_milestones << sidebar_milestone.id %>
 <% level = 0 if level.nil? %>
 <div>
-    <% prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '') %>
+    <% prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ').html_safe : '') %>
     <%= prefix %>
     <%=  link_to sidebar_milestone.name, milestone_path(sidebar_milestone) %>
     <% unless sidebar_milestone.children.empty? %>

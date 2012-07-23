@@ -27,7 +27,7 @@
 
   </div>
   <% unless milestone.issues.empty? %>
-      <% form_tag({}) do -%>
+      <%= form_tag({}) do -%>
           <table class="list related-issues">
             <caption><%= l(:label_related_issues) %></caption>
             <% milestone.issues.visible.each do |issue| -%>

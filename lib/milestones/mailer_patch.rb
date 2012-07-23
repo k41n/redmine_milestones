@@ -1,5 +1,3 @@
-require 'dispatcher'
-
 module RedmineMilestones
   module MailerPatch
     module ClassMethods
@@ -27,19 +25,14 @@ module RedmineMilestones
       receiver.send :include, InstanceMethods
       receiver.class_eval do
         unloadable
-        self.instance_variable_get("@inheritable_attributes")[:view_paths] << RAILS_ROOT + "/vendor/plugins/redmine_milestones/app/views"
+        if (Redmine::VERSION::MAJOR == 2)
+          puts self.instance_variable_get("@inheritable_attributes")
+        else
+          self.instance_variable_get("@inheritable_attributes")[:view_paths] << Rails.root + "/vendor/plugins/redmine_milestones/app/views"
+        end
       end
     end
 
   end
 
 end
-
-Dispatcher.to_prepare do
-
-  unless Mailer.included_modules.include?(RedmineMilestones::MailerPatch)
-    Mailer.send(:include, RedmineMIlestones::MailerPatch)
-  end
-
-end
-

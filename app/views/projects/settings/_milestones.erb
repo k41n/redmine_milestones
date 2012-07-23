@@ -2,7 +2,7 @@
 <% @default_show_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_milestones") %>
 <% @default_show_closed_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_closed_milestones") %>
 <h2><%= t(:milestone_settings) %></h2>
-<% form_tag update_settings_milestones_path do %>
+<%= form_tag update_settings_milestones_path do %>
     <%= hidden_field_tag :project_id, @project.id %>
     <%= label_tag :default_show_milestones, t(:default_show_milestones), {:style=>'width: 300px; display: inline-block'} %>
     <%= check_box_tag :default_show_milestones, 0, (@default_show_milestones.value == "true") %>

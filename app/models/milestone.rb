@@ -20,10 +20,10 @@ class Milestone < ActiveRecord::Base
   belongs_to :previous_start_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_start_date_milestone_id
   belongs_to :previous_planned_end_date_milestone, :class_name => 'Milestone', :foreign_key => :previous_planned_end_date_milestone_id
 
-  named_scope :opened, :conditions => {:status => %w(open locked)}
-  named_scope :direct_children_of_version, lambda {|version| {:conditions=>["version_id = ? and (parent_milestone_id IS NULL or parent_milestone_id = 0)", version.id], :order => 'start_date ASC'}}
-  named_scope :orphaned, :conditions => ['parent_milestone_id IS NULL or parent_milestone_id = ?', 0]
-  named_scope :versionless, :conditions => ['version_id IS NULL OR version_id = ?', 0]
+  scope :opened, where(:status => %w(open locked))
+  scope :direct_children_of_version, lambda {|version| {:conditions=>["version_id = ? and (parent_milestone_id IS NULL or parent_milestone_id = 0)", version.id], :order => 'start_date ASC'}}
+  scope :orphaned, where(['parent_milestone_id IS NULL or parent_milestone_id = ?', 0])
+  scope :versionless, where(['version_id IS NULL OR version_id = ?', 0])
 
   has_many :milestone_project_assignments
   has_many :projects, :through => :milestone_project_assignments
