@@ -2,10 +2,16 @@
     <% if @version.start_date.present? %>
         $('milestone_start_date').value = '<%= @version.start_date.strftime('%d-%m-%Y') %>';
         window.old_start_val = '<%= @version.start_date.strftime('%d-%m-%Y') %>';
+    <% else %>
+        $('milestone_start_date').value = '';
+        window.old_start_val = '';
     <% end %>
     <% if @version.due_date.present? %>
         $('milestone_planned_end_date').value = '<%= @version.due_date.strftime('%d-%m-%Y') %>';
         window.old_due_val = '<%= @version.due_date.strftime('%d-%m-%Y') %>';
+    <% else %>
+        $('milestone_planned_end_date').value = '';
+        window.old_due_val = '';
     <% end %>
     window.version_id = <%= @version.id %>;
 <% else %>
