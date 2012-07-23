@@ -35,7 +35,7 @@ module Milestones
           available_filters_original_milestone.merge!({ 'milestone' => {
               :type   => :list,
               :order  => 6,
-              :values => project.milestones.find(:all, :select => select_fields, :limit => 500).collect{ |t| [t.name, t.id.to_s] }.uniq
+              :values => (project.nil? ? Milestone : project.milestones).find(:all, :select => select_fields, :limit => 500).collect{ |t| [t.name, t.id.to_s] }.uniq
             }}) if !available_filters_original_milestone.key?("milestone") && (project.blank? || User.current.allowed_to?(:view_milestones, project))
         else
           available_filters_original_milestone
