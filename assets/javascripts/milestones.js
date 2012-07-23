@@ -282,15 +282,21 @@ function select_assigned()
     return true;
 }
 
-function planned_date_changed(milestone_id, old_val)
+function planned_date_changed(version_id, milestone_id, old_val)
 {
     var new_val = $('milestone_planned_end_date').value;
-    if ((new_val != undefined && new_val != old_val) && (milestone_id != ''))
+
+    if ((milestone_id == '') || (milestone_id == 'undefined'))
+    {
+        milestone_id = -1;
+    }
+
+    if ((new_val != undefined && new_val != old_val) && (milestone_id != '') && (version_id != 0) && (version_id != 'undefined'))
     {
         new Ajax.Request('/milestones/'+milestone_id+'/planned_end_date_changed',
             {
                 method:'get',
-                parameters: {newval: new_val, oldval: old_val},
+                parameters: {newval: new_val, oldval: old_val, version_id: version_id},
                 onSuccess: function(transport){
                     var response = transport.responseText || "no response text";
                     //eval(response);
@@ -301,23 +307,28 @@ function planned_date_changed(milestone_id, old_val)
     return true;
 }
 
-function confirm_planned_end_date_change(milestone_id, old_val)
+function confirm_planned_end_date_change(version_id, milestone_id, old_val)
 {
     Event.observe('milestone_planned_end_date', 'change', function(event){
-        planned_date_changed(milestone_id, old_val);
+        planned_date_changed(version_id, milestone_id, old_val);
     });
 }
 
-function start_date_changed(milestone_id, old_val)
+function start_date_changed(version_id, milestone_id, old_val)
 {
     var new_val = $('milestone_start_date').value;
 
-    if ((new_val != undefined && new_val != old_val) && (milestone_id != ''))
+    if ((milestone_id == '') || (milestone_id == 'undefined'))
+    {
+        milestone_id = -1;
+    }
+
+    if ((new_val != undefined && new_val != old_val) && (version_id != '') && (version_id != 0))
     {
         new Ajax.Request('/milestones/'+milestone_id+'/start_date_changed',
             {
                 method:'get',
-                parameters: {newval: new_val, oldval: old_val},
+                parameters: {newval: new_val, oldval: old_val, version_id: version_id},
                 onSuccess: function(transport){
                     var response = transport.responseText || "no response text";
                     //eval(response);
@@ -328,10 +339,10 @@ function start_date_changed(milestone_id, old_val)
     return true;
 }
 
-function confirm_start_date_change(milestone_id, old_val)
+function confirm_start_date_change(version_id, milestone_id, old_val)
 {
     Event.observe('milestone_start_date', 'change', function(event){
-        start_date_changed(milestone_id, old_val);
+        start_date_changed(version_id, milestone_id, old_val);
     });
 }
 

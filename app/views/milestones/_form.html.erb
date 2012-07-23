@@ -1,6 +1,19 @@
 <%= back_url_hidden_field_tag %>
 <%= error_messages_for 'milestone' %>
+<script>
+  window.version_id = <%= @milestone.version.present? ? @milestone.version.id : 0 %>;
+  <% if @milestone.start_date.present? %>
+    window.old_start_val = <%= @milestone.start_date.strftime('%d-%m-%Y') %>
+  <% else %>
+    window.old_start_val = '';
+  <% end %>
+  <% if @milestone.planned_end_date.present? %>
+      window.old_due_val = <%= @milestone.planned_end_date.strftime('%d-%m-%Y') %>
+  <% else %>
+      window.old_due_val = '';
+  <% end %>
 
+</script>
 <div class="box tabular">
   <p><%= f.text_field :name, :size => 60, :required => true %></p>
   <p><%= f.text_field :description, :size => 60 %></p>
@@ -29,9 +42,9 @@
     <%= f.radio_button :fixed_start_date, true, :style=> 'display: inline-block; position: relative; top: -15px', :checked=>@milestone.fixed_start_date, :onchange => 'start_date_radio_changed()' %>
     <div style="display: inline-block; top: -15px; position: relative" >
       <%= text_field_tag "milestone[start_date]", @milestone.start_date.nil? ? "" : @milestone.start_date.strftime('%d-%m-%Y'), :size => 10, :disabled => !@milestone.fixed_start_date %>
-      <%= special_calendar_for('milestone_start_date', "start_date_changed(\"#{@milestone.id}\",\"#{@milestone.start_date.nil? ? "" : @milestone.start_date.strftime('%d-%m-%Y')}\")") %>
+      <%= special_calendar_for('milestone_start_date', "start_date_changed(window.version_id, \"#{@milestone.id}\", window.old_start_val)") %>
       <% javascript_tag do %>
-          confirm_start_date_change('<%= @milestone.id %>','<%= @milestone.start_date.nil? ? "" : @milestone.start_date.strftime('%d-%m-%y') %>');
+          confirm_start_date_change(window.version_id,'<%= @milestone.id %>','<%= @milestone.start_date.nil? ? "" : @milestone.start_date.strftime('%d-%m-%y') %>');
       <% end %>
     </div>
     <br>
@@ -52,9 +65,9 @@
     <div style="display: inline-block; top: -15px; position: relative" >
       <%= text_field_tag "milestone[planned_end_date]", @milestone.planned_end_date.nil? ? "" : @milestone.planned_end_date.strftime('%d-%m-%Y'), :size => 10, :disabled => !@milestone.fixed_planned_end_date %>
       <% unless @milestone.depending_from_this_planned_end_date.empty? and @milestone.depending_from_this_start_date.empty? %>
-          <%= special_calendar_for('milestone_planned_end_date', "planned_date_changed(\"#{@milestone.id}\",\"#{@milestone.planned_end_date.nil? ? "" : @milestone.planned_end_date.strftime('%d-%m-%Y')}\")") %>
+          <%= special_calendar_for('milestone_planned_end_date', "planned_date_changed(window.version_id, \"#{@milestone.id}\", window.old_due_val)") %>
           <% javascript_tag do %>
-              confirm_planned_end_date_change('<%= @milestone.id %>','<%= @milestone.planned_end_date.nil? ? "" : @milestone.planned_end_date.strftime('%d-%m-%y') %>');
+              confirm_planned_end_date_change(window.version_id,'<%= @milestone.id %>', window.old_due_val);
           <% end %>
       <% else %>
           <%= special_calendar_for('milestone_planned_end_date', "return true;") %>

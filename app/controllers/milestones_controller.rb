@@ -171,6 +171,7 @@ class MilestonesController < ApplicationController
 
   def planned_end_date_changed
     @milestone = Milestone.find(params[:id]) unless params[:id].to_i == -1
+    @version = Version.find(params[:version_id])
     @newval = Date.parse(params[:newval])
     @oob_warning = I18n.t(:planned_oob_warning)
     @confirmations = ''
@@ -185,7 +186,8 @@ class MilestonesController < ApplicationController
   end
 
   def start_date_changed
-    @milestone = Milestone.find(params[:id])
+    @milestone = Milestone.find(params[:id]) unless params[:id].nil? or params[:id].to_i == -1
+    @version = Version.find(params[:version_id])
     @newval = Date.parse(params[:newval])
     @oob_warning = I18n.t(:start_oob_warning)
   end

@@ -1,18 +1,22 @@
-<% if @milestone.version.present? and @milestone.version.due_date.present? and @milestone.version.due_date < @newval %>
+<% if @version.present? and @version.due_date.present? and @version.due_date < @newval %>
     if (!confirm('<%= escape_javascript(@oob_warning) %>'))
     {
         $('milestone_planned_end_date').value = '<%= params[:oldval] %>';
     }
     else
     {
+        <% if @milestone.present? %>
+            if (!confirm('<%= escape_javascript(@confirmations) %>'))
+            {
+                $('milestone_planned_end_date').value = '<%= params[:oldval] %>';
+            }
+        <% end %>
+    }
+<% else %>
+    <% if @milestone.present? %>
         if (!confirm('<%= escape_javascript(@confirmations) %>'))
         {
             $('milestone_planned_end_date').value = '<%= params[:oldval] %>';
         }
-    }
-<% else %>
-    if (!confirm('<%= escape_javascript(@confirmations) %>'))
-    {
-        $('milestone_planned_end_date').value = '<%= params[:oldval] %>';
-    }
+    <% end %>
 <% end %>
