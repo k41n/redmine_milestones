@@ -5,39 +5,45 @@
   <%= link_to l(:label_reports), report_milestone_path(@milestone), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @milestone.project) %>
 </div>
 
-<h2>
-  <%= "#{h(@milestone.version.name)}/" unless @milestone.version.nil? %>
-  <%= h(@milestone.name) %>
-</h2>
-
 <table width='100%'>
   <tr valign='top'>
     <td valign='top'>
-      <% if @issues.present? %>
+      <h3>
+        <%= link_to @milestone.name, milestone_path(@milestone) %>
+      </h3>
+      <p>
+        <%=  @milestone.description %>
+      </p>
+      <% if @milestone.completed? %>
+          <p><%= @milestone.actual_date.strftime('%d-%m-%Y') if @milestone.actual_date.present? %></p>
+      <% elsif @milestone.actual_date %>
+          <p><strong><%= due_date_distance_in_words(@milestone.actual_date) %></strong> (<%= @milestone.actual_date.strftime('%d-%m-%Y') %>) owner: <%= @milestone.user.name if @milestone.user.present? %></p>
+      <% end %>
+      <% if @milestone.issues_count > 0 %>
+          <%= progress_bar([@milestone.closed_pourcent, @milestone.completed_pourcent], :width => '35em', :legend => '%0.0f%' % @milestone.completed_pourcent) %>
+          <p class="progress-info">
+            <%= link_to_if(@milestone.closed_issues_count > 0, l(:label_x_closed_issues_abbr, :count => @milestone.closed_issues_count), :controller => 'issues', :action => 'index', :project_id => @milestone.project, :status_id => 'c', :milestone_id => @milestone.id, :set_filter => 1) %>
+            (<%= '%0.0f' % (@milestone.closed_issues_count.to_f / @milestone.issues.count * 100) %>%)
+            &#160;
+            <%= link_to_if(@milestone.open_issues_count > 0, l(:label_x_open_issues_abbr, :count => @milestone.open_issues_count), :controller => 'issues', :action => 'index', :project_id => @milestone.project, :status_id => 'o', :milestone_id => @milestone.id, :set_filter => 1) %>
+            (<%= '%0.0f' % (@milestone.open_issues_count.to_f / @milestone.issues.count * 100) %>%)
+          </p>
+      <% else %>
+          <p class="progress-info"><%= l(:label_roadmap_no_issues) %></p>
+      <% end %>
+      <% unless @milestone.issues.empty? %>
           <% form_tag({}) do -%>
               <table class="list related-issues">
                 <caption><%= l(:label_related_issues) %></caption>
-                <%- @issues.each do |issue| -%>
+                <% @milestone.issues.visible.each do |issue| -%>
                     <tr class="hascontextmenu">
                       <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
                     </tr>
-                <% end %>
+                <% end -%>
               </table>
           <% end %>
-          <%= context_menu issues_context_menu_path %>
       <% end %>
 
-      <%= render :partial => 'milestones/overview', :locals => {:milestone => @milestone} %>
-      <% unless @milestone.children.empty? %>
-          <table class="list related-issues">
-            <caption><%= l(:label_related_milestones) %></caption>
-            <%- @milestone.children.each do |milestone| -%>
-                <tr class="hascontextmenu">
-                  <td><%= link_to_milestone(milestone) %></td>
-                </tr>
-            <% end %>
-          </table>
-      <% end %>
     </td>
     <td width="540px" valign='top'>
       <% if @milestone.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
