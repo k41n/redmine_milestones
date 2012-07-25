@@ -16,7 +16,7 @@ function milestone_type_changed()
 function new_milestone_project_selected()
 {
     selected = $('milestone_project_id').value;
-    new Ajax.Request(base_location_for_app + '/milestones/parent_project_changed/?id='+selected,
+    new Ajax.Request(window.root_path + '/milestones/parent_project_changed/?id='+selected,
         {
             method:'get',
             onSuccess: function(transport){
@@ -34,7 +34,7 @@ function new_milestone_subproject_selected()
     {
         selected = $('milestone_project_id').value;
     }
-    new Ajax.Request(base_location_for_app + '/milestones/subproject_changed/?id='+selected,
+    new Ajax.Request(window.root_path + '/milestones/subproject_changed/?id='+selected,
         {
             method:'get',
             onSuccess: function(transport){
@@ -91,7 +91,7 @@ function recalculate_start_date()
 {
     from_milestone = $('milestone_previous_start_date_milestone_id').value;
     offset = $('milestone_start_date_offset').value;
-    new Ajax.Request(base_location_for_app + '/milestones/recalculate_start_date',
+    new Ajax.Request(window.root_path + '/milestones/recalculate_start_date',
         {
             method:'post',
             parameters: {
@@ -110,7 +110,7 @@ function recalculate_planned_end_date()
 {
     from_milestone = $('milestone_previous_planned_end_date_milestone_id').value;
     offset = $('milestone_planned_end_date_offset').value;
-    new Ajax.Request(base_location_for_app + '/milestones/recalculate_planned_end_date',
+    new Ajax.Request(window.root_path + '/milestones/recalculate_planned_end_date',
         {
             method:'post',
             parameters: {
@@ -127,7 +127,7 @@ function recalculate_planned_end_date()
 
 function recalculate_actual_date(id)
 {
-    new Ajax.Request(base_location_for_app + '/milestones/recalculate_actual_date',
+    new Ajax.Request(window.root_path + '/milestones/recalculate_actual_date',
         {
             method:'get',
             parameters: {id: id},
@@ -142,7 +142,7 @@ function recalculate_actual_date(id)
 function issue_version_changed(project)
 {
     val = $('issue_fixed_version_id').value;
-    new Ajax.Request(base_location_for_app + '/milestones/issue_version_changed',
+    new Ajax.Request(window.root_path + '/milestones/issue_version_changed',
         {
             method:'get',
             parameters: {id: val, project_id: project},
@@ -157,7 +157,7 @@ function issue_version_changed(project)
 function milestone_version_changed(project)
 {
     val = $('milestone_version_id').value;
-    new Ajax.Request(base_location_for_app + '/milestones/milestone_version_changed',
+    new Ajax.Request(window.root_path + '/milestones/milestone_version_changed',
         {
             method:'get',
             parameters: {id:val, project_id: project},
@@ -293,7 +293,7 @@ function planned_date_changed(version_id, milestone_id, old_val)
 
     if ((new_val != undefined && new_val != old_val) && (milestone_id != '') && (version_id != 0) && (version_id != 'undefined'))
     {
-        new Ajax.Request(base_location_for_app + '/milestones/'+milestone_id+'/planned_end_date_changed',
+        new Ajax.Request(window.root_path + '/milestones/'+milestone_id+'/planned_end_date_changed',
             {
                 method:'get',
                 parameters: {newval: new_val, oldval: old_val, version_id: version_id},
@@ -325,7 +325,7 @@ function start_date_changed(version_id, milestone_id, old_val)
 
     if ((new_val != undefined && new_val != old_val) && (version_id != '') && (version_id != 0))
     {
-        new Ajax.Request(base_location_for_app + '/milestones/'+milestone_id+'/start_date_changed',
+        new Ajax.Request(window.root_path + '/milestones/'+milestone_id+'/start_date_changed',
             {
                 method:'get',
                 parameters: {newval: new_val, oldval: old_val, version_id: version_id},

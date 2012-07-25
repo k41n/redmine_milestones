@@ -6,7 +6,7 @@
 <% content_for :header_tags do %>
     <%= javascript_include_tag "milestones.js", :plugin => 'redmine_milestones' %>
     <script>
-        window.root_path = "<%= home_path.gsub(/\//,'') %>";
+        window.root_path = "<%= home_path.gsub(/\/$/,'') %>";
         document.observe("dom:loaded", function(){
             Event.observe($("issue_fixed_version_id"), "change", function() {
                 issue_version_changed("<%= @project.id %>");
