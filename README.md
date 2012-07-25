@@ -31,6 +31,11 @@ $ RAILS_ENV=production rake db:migrate:plugin NAME=redmine_milestones
 
 Login into Redmine, enable plugin on project plugins page and enjoy.
 
+Warning!
+
+If you are updating plugin from earlier version make sure you have cleared your browser cache as far
+some cases reported when deprecated javascript gets into cache and leads to problems.
+
 Credits
 =======
 
