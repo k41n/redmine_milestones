@@ -1,8 +1,10 @@
-<% if issue.milestone.present? %>
-    <th>
-      <%= t(:field_milestone) %>
-    </th>
-    <td>
-      <%= issue.milestone.name %>
-    </td>
+<% if issue.project.module_enabled?(:milestones_module) %>
+    <% if issue.milestone.present? %>
+        <th>
+          <%= t(:field_milestone) %>
+        </th>
+        <td>
+          <%= issue.milestone.name %>
+        </td>
+    <% end %>
 <% end %>

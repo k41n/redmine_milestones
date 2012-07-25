@@ -1,52 +1,53 @@
-
-<% @default_show_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_milestones") %>
-<% @default_show_closed_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_closed_milestones") %>
-<h2><%= t(:milestone_settings) %></h2>
-<% form_tag update_settings_milestones_path do %>
-    <%= hidden_field_tag :project_id, @project.id %>
-    <%= label_tag :default_show_milestones, t(:default_show_milestones), {:style=>'width: 300px; display: inline-block'} %>
-    <%= check_box_tag :default_show_milestones, 0, (@default_show_milestones.value == "true") %>
-    <br/>
-    <%= label_tag :default_show_closed_milestones, t(:default_show_closed_milestones),{:style=>'width: 300px; display: inline-block'} %>
-    <%= check_box_tag :default_show_closed_milestones,  0, (@default_show_closed_milestones.value == "true") %>
-    <br/>
-    <%= submit_tag t(:update) %>
+<% if @project.module_enabled?(:milestones_module) %>
+    <% @default_show_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_milestones") %>
+    <% @default_show_closed_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_closed_milestones") %>
+    <h2><%= t(:milestone_settings) %></h2>
+    <% form_tag update_settings_milestones_path do %>
+        <%= hidden_field_tag :project_id, @project.id %>
+        <%= label_tag :default_show_milestones, t(:default_show_milestones), {:style=>'width: 300px; display: inline-block'} %>
+        <%= check_box_tag :default_show_milestones, 0, (@default_show_milestones.value == "true") %>
+        <br/>
+        <%= label_tag :default_show_closed_milestones, t(:default_show_closed_milestones),{:style=>'width: 300px; display: inline-block'} %>
+        <%= check_box_tag :default_show_closed_milestones,  0, (@default_show_closed_milestones.value == "true") %>
+        <br/>
+        <%= submit_tag t(:update) %>
+    <% end %>
+    <% logger.info "Calling all_milestones" %>
+    <% unless @project.all_milestones.empty? %>
+        <table class="list versions">
+          <thead><tr>
+            <th><%= l(:label_milestone) %></th>
+            <th><%= l(:field_description) %></th>
+            <th><%= l(:field_start_date) %></th>
+            <th><%= l(:field_planned_end_date) %></th>
+            <th><%= l(:field_actual_date) %></th>
+            <th><%= l(:field_status) %></th>
+            <th><%= l(:field_sharing) %></th>
+            <th style="width:15%"></th>
+          </tr></thead>
+          <tbody>
+          <% for milestone in @project.all_milestones.sort %>
+              <tr class="version <%= cycle 'odd', 'even' %> <%=h milestone.status %> <%= 'shared' if milestone.project != @project %>">
+                <td class="name"><%= link_to milestone.name, milestone_path(milestone) %></td>
+                <td class="description"><%=h milestone.description %></td>
+                <td class="date"><%= format_date(milestone.start_date) %></td>
+                <td class="date"><%= format_date(milestone.planned_end_date) %></td>
+                <td class="date"><%= format_date(milestone.actual_date) %></td>
+                <td class="status"><%= l("version_status_#{milestone.status}") %></td>
+                <td class="sharing"><%=h format_milestone_sharing(milestone.sharing) %></td>
+                <td class="buttons">
+                  <% if milestone.project == @project && User.current.allowed_to?(:manage_milestones, @project) %>
+                      <%= link_to l(:button_edit), edit_milestone_path(milestone), :class => 'icon icon-edit' %>
+                      <%= link_to l(:button_delete), milestone_path(milestone), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+                  <% end %>
+                </td>
+              </tr>
+          <% end; reset_cycle %>
+          </tbody>
+        </table>
+    <% else %>
+        <p class="nodata"><%= l(:label_no_data) %></p>
+    <% end %>
+    
+    <p><%= link_to l(:label_milestone_new), new_project_milestone_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_milestones, @project) %></p>
 <% end %>
-<% logger.info "Calling all_milestones" %>
-<% unless @project.all_milestones.empty? %>
-    <table class="list versions">
-      <thead><tr>
-        <th><%= l(:label_milestone) %></th>
-        <th><%= l(:field_description) %></th>
-        <th><%= l(:field_start_date) %></th>
-        <th><%= l(:field_planned_end_date) %></th>
-        <th><%= l(:field_actual_date) %></th>
-        <th><%= l(:field_status) %></th>
-        <th><%= l(:field_sharing) %></th>
-        <th style="width:15%"></th>
-      </tr></thead>
-      <tbody>
-      <% for milestone in @project.all_milestones.sort %>
-          <tr class="version <%= cycle 'odd', 'even' %> <%=h milestone.status %> <%= 'shared' if milestone.project != @project %>">
-            <td class="name"><%= link_to milestone.name, milestone_path(milestone) %></td>
-            <td class="description"><%=h milestone.description %></td>
-            <td class="date"><%= format_date(milestone.start_date) %></td>
-            <td class="date"><%= format_date(milestone.planned_end_date) %></td>
-            <td class="date"><%= format_date(milestone.actual_date) %></td>
-            <td class="status"><%= l("version_status_#{milestone.status}") %></td>
-            <td class="sharing"><%=h format_milestone_sharing(milestone.sharing) %></td>
-            <td class="buttons">
-              <% if milestone.project == @project && User.current.allowed_to?(:manage_milestones, @project) %>
-                  <%= link_to l(:button_edit), edit_milestone_path(milestone), :class => 'icon icon-edit' %>
-                  <%= link_to l(:button_delete), milestone_path(milestone), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
-              <% end %>
-            </td>
-          </tr>
-      <% end; reset_cycle %>
-      </tbody>
-    </table>
-<% else %>
-    <p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-
-<p><%= link_to l(:label_milestone_new), new_project_milestone_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_milestones, @project) %></p>

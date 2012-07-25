@@ -1,10 +1,12 @@
-<% unless version.milestones.empty? %>
-    <table class="list related-issues">
-      <caption><%= l(:label_related_milestones) %></caption>
-      <%- version.milestones.each do |milestone| -%>
-          <tr class="hascontextmenu">
-            <td><%= link_to_milestone(milestone) %></td>
-          </tr>
-      <% end %>
-    </table>
+<% if @project.module_enabled?(:milestones_module) %>
+    <% unless version.milestones.empty? %>
+        <table class="list related-issues">
+          <caption><%= l(:label_related_milestones) %></caption>
+          <%- version.milestones.each do |milestone| -%>
+              <tr class="hascontextmenu">
+                <td><%= link_to_milestone(milestone) %></td>
+              </tr>
+          <% end %>
+        </table>
+    <% end %>
 <% end %>
