@@ -1,7 +1,7 @@
 require 'redmine'
 
 VERSION_NUMBER = '1.0.0'
-VERSION_STATUS = '-alpha1'
+VERSION_STATUS = 'RC1'
 
 require_dependency 'milestones/hooks'
 require_dependency 'milestones/helper_issues_show_detail_after_setting_hook'
