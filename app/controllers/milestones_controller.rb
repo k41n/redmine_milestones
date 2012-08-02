@@ -60,10 +60,13 @@ class MilestonesController < ApplicationController
   def destroy
     @milestone = Milestone.find(params[:id])
     @milestone.destroy
-    if params[:back_url]
-      redirect_to params[:back_url]
+    if request.xhr?
     else
-      redirect_to settings_project_path(@milestone.project, :tab => :milestones)
+      if params[:back_url]
+        redirect_to params[:back_url]
+      else
+        redirect_to settings_project_path(@milestone.project, :tab => :milestones)
+      end
     end
   end
 
@@ -199,6 +202,10 @@ class MilestonesController < ApplicationController
       @milestone = Milestone.find(params[:id])
       @actual = @milestone.actual_date
     end
+  end
+
+  def confirm_delete
+    @milestone = Milestone.find(params[:id])
   end
 
   private

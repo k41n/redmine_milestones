@@ -1,0 +1,5 @@
+<% if params[:back_url] and not params[:back_url].empty? %>
+    location.href = '<%= params[:back_url] %>';
+<% else %>
+    location.href = '<%= settings_project_path(@milestone.project, :tab => :milestones) %>';
+<% end %>

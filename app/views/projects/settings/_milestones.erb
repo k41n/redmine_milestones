@@ -38,8 +38,14 @@
                 <td class="buttons">
                   <% if milestone.project == @project && User.current.allowed_to?(:manage_milestones, @project) %>
                       <%= link_to l(:button_edit), edit_milestone_path(milestone), :class => 'icon icon-edit' %>
-                      <%= link_to l(:button_delete), milestone_path(milestone), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
-                  <% end %>
+                      <% if milestone.issues.empty? %>
+                          <%= link_to l(:button_delete), milestone_path(milestone), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+                      <% else %>
+                          <%= link_to_remote l(:button_delete), :url => confirm_delete_milestone_path(milestone), :html=>{:class => 'icon icon-del'} %>
+
+                      <% end %>
+
+                <% end %>
                 </td>
               </tr>
           <% end; reset_cycle %>

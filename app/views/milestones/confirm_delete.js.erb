@@ -1,0 +1,16 @@
+if (confirm("Are you sure"))
+{
+    if (confirm("The Milestone has <%= @milestone.issues.count %> issues, are you really sure?"))
+    {
+        new Ajax.Request('<%= milestone_path(@milestone) %>',
+            {
+                method:'delete',
+                parameters: {back_url: '<%= params[:back_url] %>'},
+                onSuccess: function(transport){
+                    var response = transport.responseText || "no response text";
+                    //eval(response);
+                },
+                onFailure: function(){ alert('Something went wrong...') }
+            });
+    }
+}
