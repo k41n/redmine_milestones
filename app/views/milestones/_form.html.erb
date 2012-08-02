@@ -72,6 +72,7 @@
       <% else %>
           <%= special_calendar_for('milestone_planned_end_date', "return true;") %>
       <% end %>
+      <%= link_to_function t(:set_planned_to_actual), "set_planned_to_actual(#{@milestone.id})" %>
     </div>
     <br>
     <%= f.radio_button :fixed_planned_end_date, false, :style=>'display: inline-block', :onchange => 'planned_end_date_radio_changed()', :checked => !@milestone.fixed_planned_end_date %>

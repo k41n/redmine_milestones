@@ -1,0 +1,3 @@
+<% if @actual %>
+    $('milestone_planned_end_date').value = '<%= @actual.strftime('%d-%m-%Y') %>';
+<% end %>

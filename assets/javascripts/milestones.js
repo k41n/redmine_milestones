@@ -370,4 +370,29 @@ function draw_chart(data, title)
             this.label[0].animate({ r: 5 }, 500, "bounce");
             this.label[1].attr({ "font-weight": 400 });
         }
-    });}
+    });
+}
+
+function set_planned_to_actual(milestone_id)
+{
+    assigned_milestones = $('milestone_assigned_milestones');
+    assigned_milestone_ids = ""
+    for (i = 0;i < assigned_milestones.options.length; i++)
+    {
+        if (assigned_milestones.options[i].selected)
+        {
+            assigned_milestone_ids = assigned_milestone_ids + "|" + assigned_milestones.options[i].value;
+        }
+    }
+    new Ajax.Request(window.root_path + '/milestones/'+milestone_id+'/set_planned_to_actual',
+        {
+            method:'get',
+            parameters: {assigned_milestones_ids: assigned_milestone_ids},
+            onSuccess: function(transport){
+                var response = transport.responseText || "no response text";
+                //eval(response);
+            },
+            onFailure: function(){ alert('Something went wrong...') }
+        });
+
+}

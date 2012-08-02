@@ -192,6 +192,15 @@ class MilestonesController < ApplicationController
     @oob_warning = I18n.t(:start_oob_warning)
   end
 
+  def set_planned_to_actual
+    @assigned_milestones = params[:assigned_milestones_ids].split("|").reject{|x| x.empty?}.map{|x| Milestone.find(x)}
+    @actual = @assigned_milestones.reject{|x| x.actual_date.nil?}.max{|a,b| a.actual_date <=> b.actual_date}.actual_date unless params[:assigned_milestones_ids].nil? or params[:assigned_milestones_ids].empty?
+    if params[:id] != 'undefined'
+      @milestone = Milestone.find(params[:id])
+      @actual = @milestone.actual_date
+    end
+  end
+
   private
   def find_project
     @project = Project.find(params[:project_id])
