@@ -61,7 +61,7 @@ module GanttPatch
         @number_of_rows += 1
         return if abort?
 
-        issues = version_issues(project, version)
+        issues = version_issues(project, version).select{|x| x.milestone.nil?}
         if issues
           sort_issues!(issues)
           # Indent issues
