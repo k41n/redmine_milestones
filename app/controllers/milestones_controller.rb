@@ -34,6 +34,9 @@ class MilestonesController < ApplicationController
   def update
     @milestone = Milestone.find(params[:id])
     params[:milestone][:observers] ||= []
+    if params[:milestone].present? and params[:milestone][:assigned_milestones].nil?
+      params[:milestone][:assigned_milestones] = []
+    end
     @project = @milestone.project
     if params[:milestone]
       attributes = params[:milestone].dup
