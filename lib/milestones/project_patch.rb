@@ -35,8 +35,12 @@ module ProjectPatch
       end
     end
 
-    def all_milestones
-      (shared_milestones + assigned_milestones).uniq
+    def all_milestones(omit_subprojects = true)
+      if omit_subprojects
+        (shared_milestones + assigned_milestones).uniq
+      else
+        (shared_milestones + assigned_milestones + descendants.active.collect{|x| x.all_milestones}.flatten).uniq
+      end
     end
   end
 
