@@ -1,3 +1,6 @@
 <% if @actual %>
     $('milestone_planned_end_date').value = '<%= @actual.strftime('%d-%m-%Y') %>';
+    alert("<%= t(:planned_date_set_to_actual) %>")
+<% else %>
+    alert("<%= t(:actual_not_found) %>")
 <% end %>
