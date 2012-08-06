@@ -87,3 +87,4 @@ en:
   set_planned_to_actual: Set planned due date as actual due date
   planned_date_set_to_actual: Planned date has been set to actual
   actual_not_found: Cannot define actual date to set to
+  label_roadmap_no_issues_for_milestone: No issues for this milestone

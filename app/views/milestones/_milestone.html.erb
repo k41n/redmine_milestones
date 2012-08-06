@@ -24,7 +24,7 @@
           (<%= '%0.0f' % (milestone.open_issues_count.to_f / milestone.issues.count * 100) %>%)
         </p>
     <% else %>
-        <p class="progress-info"><%= l(:label_roadmap_no_issues) %></p>
+        <p class="progress-info"><%= l(:label_roadmap_no_issues_for_milestone) %></p>
     <% end %>
 
   </div>
