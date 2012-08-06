@@ -17,7 +17,7 @@
 <div class="box tabular">
   <p><%= f.text_field :name, :size => 60, :required => true %></p>
   <p><%= f.text_field :description, :size => 60 %></p>
-  <p><%= f.select :version_id, [['', 0]] + (@project.versions  + @project.shared_versions.open).uniq.collect{|x| [x.project.id == @project.id ? "#{x.name}" : "#{x.project.name}/#{x.name}", x.id]}, {}, {:onclick => "milestone_version_changed('#{@project.id}')"} %></p>
+  <p><%= f.select :version_id, [['', 0]] + (@project.versions  + @project.shared_versions.open).uniq.collect{|x| [ "#{x.project.name}/#{x.name}", x.id]}, {}, {:onclick => "milestone_version_changed('#{@project.id}')"} %></p>
   <div id="aggregate_milestone_form_part">
     <p>
       <label>
