@@ -10,9 +10,9 @@
     <% if milestone.completed? %>
         <p><%= milestone.actual_date.strftime('%d-%m-%Y') if milestone.actual_date.present? %></p>
     <% elsif milestone.actual_date %>
-        <p style='text-decoration: underline'><strong><%= due_date_distance_in_words(milestone.actual_date) %></strong> (<%= milestone.actual_date.strftime('%d-%m-%Y') %>) owner: <%= milestone.user.name if milestone.user.present? %></p>
+        <p style='text-decoration: underline'  title="<%= t(:Actual_date)%> "><strong><%= due_date_distance_in_words(milestone.actual_date) %></strong> (<%= milestone.actual_date.strftime('%d-%m-%Y') %>) owner: <%= milestone.user.name if milestone.user.present? %></p>
     <% elsif milestone.planned_end_date %>
-        <p><strong><%= due_date_distance_in_words(milestone.planned_end_date) %></strong> (<%= milestone.planned_end_date.strftime('%d-%m-%Y') %>) owner: <%= milestone.user.name if milestone.user.present? %></p>
+        <p><strong title="<%= t(:label_planned_due_date) %>"><%= due_date_distance_in_words(milestone.planned_end_date) %></strong> (<%= milestone.planned_end_date.strftime('%d-%m-%Y') %>) owner: <%= milestone.user.name if milestone.user.present? %></p>
   <% end %>
     <% if milestone.issues_count > 0 %>
         <%= progress_bar([milestone.closed_pourcent, milestone.completed_pourcent], :width => '35em', :legend => '%0.0f%' % milestone.completed_pourcent) %>
