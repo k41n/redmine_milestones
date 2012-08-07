@@ -7,16 +7,17 @@
 <% if @project.module_enabled?(:milestones_module) %>
     <% @default_show_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_milestones") %>
     <% @default_show_closed_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_closed_milestones") %>
-    <% if ((@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones])) and not @project.milestones.versionless.empty? %>
+    <% @milestones = @project.all_milestones(params[:with_subprojects] == '0') %>
+    <% if ((@default_show_milestones.enabled? and not params[:hide_milestones] == '1') or (@default_show_milestones.disabled? and params[:milestones])) and not @milestones.select{|x| x.version.nil?}.empty? %>
         <h3>
           <%= t(:aggregate_milestones) %>
         </h3>
         <div id="roadmap">
-            <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones] == '1') or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
-                <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.versionless? and x.orphaned?} %>
-            <% else %>
-                <%= render :partial => "milestones/milestone", :collection => @project.all_milestones.select{|x| x.versionless? and x.orphaned? and x.opened?} %>
-            <% end %>
+          <% if (@default_show_closed_milestones.enabled? and not params[:hide_completed_milestones] == '1') or (@default_show_closed_milestones.disabled? and params[:completed_milestones]) %>
+              <%= render :partial => "milestones/milestone", :collection => @milestones.select{|x| x.versionless? and x.orphaned?} %>
+          <% else %>
+              <%= render :partial => "milestones/milestone", :collection => @milestones.select{|x| x.versionless? and x.orphaned? and x.opened?} %>
+          <% end %>
         </div>
     <% end %>
 <% end %>    

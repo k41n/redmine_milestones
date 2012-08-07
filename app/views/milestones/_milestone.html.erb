@@ -2,7 +2,7 @@
   <%= image_tag('milestone.png', :plugin=>'redmine_milestones', :style=>'vertical-align: top; float: left') %>
   <div style="display: padding-left: 20px">
     <h3>
-      <%= link_to milestone.name, milestone_path(milestone) %>
+      <%= link_to milestone.project.id == @project.id ? milestone.name : "#{milestone.project.name}/#{milestone.name}", milestone_path(milestone) %>
     </h3>
     <p>
       <%=  milestone.description %>
