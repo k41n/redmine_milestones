@@ -14,27 +14,25 @@
     <% elsif milestone.planned_end_date %>
         <p><strong title="<%= t(:label_planned_due_date) %>"><%= due_date_distance_in_words(milestone.planned_end_date) %></strong> (<%= milestone.planned_end_date.strftime('%d-%m-%Y') %>) owner: <%= milestone.user.name if milestone.user.present? %></p>
   <% end %>
-    <% if milestone.issues_count > 0 %>
-        <%= progress_bar([milestone.closed_pourcent, milestone.completed_pourcent], :width => '35em', :legend => '%0.0f%' % milestone.completed_pourcent) %>
-        <p class="progress-info">
-          <%= link_to_if(milestone.closed_issues_count > 0, l(:label_x_closed_issues_abbr, :count => milestone.closed_issues_count), :controller => 'issues', :action => 'index', :project_id => milestone.project, :status_id => 'c', :milestone_id => milestone.id, :set_filter => 1) %>
-          (<%= '%0.0f' % (milestone.closed_issues_count.to_f / milestone.issues.count * 100) %>%)
-          &#160;
-          <%= link_to_if(milestone.open_issues_count > 0, l(:label_x_open_issues_abbr, :count => milestone.open_issues_count), :controller => 'issues', :action => 'index', :project_id => milestone.project, :status_id => 'o', :milestone_id => milestone.id, :set_filter => 1) %>
-          (<%= '%0.0f' % (milestone.open_issues_count.to_f / milestone.issues.count * 100) %>%)
-        </p>
-    <% else %>
-        <p class="progress-info"><%= l(:label_roadmap_no_issues_for_milestone) %></p>
-    <% end %>
-
-  </div>
-  <% unless milestone.issues.empty? %>
+        <% if milestone.issues_count > 0 %>
+            <%= progress_bar([milestone.closed_pourcent, milestone.completed_pourcent], :width => '35em', :legend => '%0.0f%' % milestone.completed_pourcent) %>
+            <p class="progress-info">
+              <%= link_to_if(milestone.closed_issues_count > 0, l(:label_x_closed_issues_abbr, :count => milestone.closed_issues_count), :controller => 'issues', :action => 'index', :project_id => milestone.project, :status_id => 'c', :milestone_id => milestone.id, :set_filter => 1) %>
+              (<%= '%0.0f' % (milestone.closed_issues_count.to_f / milestone.issues.count * 100) %>%)
+              &#160;
+              <%= link_to_if(milestone.open_issues_count > 0, l(:label_x_open_issues_abbr, :count => milestone.open_issues_count), :controller => 'issues', :action => 'index', :project_id => milestone.project, :status_id => 'o', :milestone_id => milestone.id, :set_filter => 1) %>
+              (<%= '%0.0f' % (milestone.open_issues_count.to_f / milestone.issues.count * 100) %>%)
+            </p>
+        <% else %>
+            <p class="progress-info"><%= l(:label_roadmap_no_issues_for_milestone) %></p>
+        <% end %>
+    </div>
+  <% unless milestone.issues.empty? or defined? :draw_hr %>
       <% form_tag({}) do -%>
           <table class="list related-issues">
             <caption><%= l(:label_related_issues) %></caption>
             <% milestone.issues.visible.each do |issue| -%>
                 <tr class="hascontextmenu">
-                  <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
                   <td><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
                 </tr>
             <% end -%>
@@ -51,3 +49,6 @@
     <% end %>
   <% end %>
 </div>
+<% if defined? :draw_hr %>
+  <hr/>
+<% end %>
