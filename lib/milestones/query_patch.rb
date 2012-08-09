@@ -23,7 +23,7 @@ module Milestones
     module InstanceMethods
       def sql_for_milestone_field(field, operator, value)
         compare = operator == '=' ? 'IN' : 'NOT IN'
-        milestones_select = "(#{value.join(',')})"
+        milestones_select = "#{value.join(',')}"
 
         "(#{Issue.table_name}.milestone_id #{compare} (#{milestones_select}))"
       end
