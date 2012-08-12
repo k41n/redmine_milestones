@@ -17,8 +17,8 @@
     <% elsif milestone.planned_end_date %>
         <p><strong title="<%= t(:label_planned_due_date) %>"><%= due_date_distance_in_words(milestone.planned_end_date) %></strong> (<%= milestone.planned_end_date.strftime('%d-%m-%Y') %>) owner: <%= milestone.user.name if milestone.user.present? %></p>
     <% end %>
-    <br/>
         <% if milestone.issues_count > 0 %>
+            <br/>
             <%= progress_bar([milestone.closed_pourcent, milestone.completed_pourcent], :width => '35em', :legend => '%0.0f%' % milestone.completed_pourcent) %>
             <p class="progress-info">
               <%= link_to_if(milestone.closed_issues_count > 0, l(:label_x_closed_issues_abbr, :count => milestone.closed_issues_count), :controller => 'issues', :action => 'index', :project_id => milestone.project, :status_id => 'c', :milestone_id => milestone.id, :set_filter => 1) %>
