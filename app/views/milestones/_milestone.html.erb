@@ -9,7 +9,6 @@
     <p>
       <%=  milestone.description %>
     </p>
-    <br/>
     <% if milestone.completed? %>
         <p><%= milestone.actual_date.strftime('%d-%m-%Y') if milestone.actual_date.present? %></p>
     <% elsif milestone.actual_date %>
