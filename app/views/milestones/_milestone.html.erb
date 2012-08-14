@@ -29,7 +29,7 @@
             <p class="progress-info"><%= l(:label_roadmap_no_issues_for_milestone) %></p>
         <% end %>
     </div>
-  <% unless milestone.issues.empty? or defined? :draw_hr %>
+  <% unless milestone.issues.empty? %>
       <% form_tag({}) do -%>
           <table class="list related-issues">
             <caption><%= l(:label_related_issues) %></caption>
