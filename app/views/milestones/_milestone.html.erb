@@ -45,7 +45,7 @@
   <% visited_milestones << milestone.id %>
   <% unless milestone.children.empty? %>
       <% @default_show_sub_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_sub_milestones") %>
-      <% if ((@default_show_sub_milestones.enabled? and not params[:hide_sub_milestones] == '1') or (@default_show_sub_milestones.disabled? and params[:show_sub_milestones])) or draw_hr %>
+      <% if ((@default_show_sub_milestones.enabled? and not params[:hide_sub_milestones] == '1') or (@default_show_sub_milestones.disabled? and params[:show_sub_milestones])) or @milestone.present? %>
         <% if params[:completed_milestones] %>
           <%= render :partial => "milestones/milestone", :collection => milestone.children.reject{|x| visited_milestones.include? x.id}, :locals => {:visited_milestones => visited_milestones} %>
         <% else %>
