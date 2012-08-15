@@ -28,6 +28,12 @@ class MilestonesController < ApplicationController
     else
       @default_show_closed_milestones.update_attribute(:value, "false")
     end
+    @default_show_sub_milestones = MilestonesSettings.find_by_key_and_project_id("default_show_sub_milestones", @project.id)
+    if params[:default_show_sub_milestones]
+      @default_show_sub_milestones.update_attribute(:value, "true")
+    else
+      @default_show_sub_milestones.update_attribute(:value, "false")
+    end
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
   end
 

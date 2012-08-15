@@ -212,7 +212,6 @@ function remove_fields(link)
 function show_milestones_changed()
 {
     var val = $('show_milestones').checked;
-    console.log(val);
     if (val == '1')
     {
         $('hide_milestones').value = '0';
@@ -226,7 +225,6 @@ function show_milestones_changed()
 function show_hidden_milestones_changed()
 {
     var val = $('show_completed_milestones').checked;
-    console.log(val);
     if (val == '1')
     {
         $('hide_completed_milestones').value = '0';
@@ -234,6 +232,19 @@ function show_hidden_milestones_changed()
     else
     {
         $('hide_completed_milestones').value = '1';
+    }
+}
+
+function show_sub_milestones_changed()
+{
+    var val = $('show_sub_milestones').checked;
+    if (val == '1')
+    {
+        $('hide_sub_milestones').value = '0';
+    }
+    else
+    {
+        $('hide_sub_milestones').value = '1';
     }
 }
 

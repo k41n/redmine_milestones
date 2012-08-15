@@ -88,3 +88,5 @@ en:
   planned_date_set_to_actual: Planned date has been set to actual
   actual_not_found: No actual due date, nothing to do
   label_roadmap_no_issues_for_milestone: No issues for this milestone
+  default_show_sub_milestones: Show sub-milestones on the Roadmap
+  label_show_sub_milestones: Show sub-milestones

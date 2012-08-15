@@ -24,6 +24,7 @@
 
 <% @default_show_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_milestones") %>
 <% @default_show_closed_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_closed_milestones") %>
+<% @default_show_sub_milestones = MilestonesSettings.find_or_create_by_project_id_and_key(@project.id, "default_show_sub_milestones") %>
 
 <h3><%= t(:versions) %></h3>
 <% if @versions.empty? %>
@@ -86,6 +87,13 @@
                 <%= hidden_field_tag "hide_completed_milestones", params[:hide_completed_milestones] %>
             <% else %>
                 <label for="completed_milestones"><%= check_box_tag "completed_milestones", 1, params[:completed_milestones] %> <%= l(:label_show_completed_milestones) %></label>
+            <% end %>
+            <br/>
+            <% if @default_show_sub_milestones.enabled? %>
+                <label for="show_sub_milestones"><%= check_box_tag "show_sub_milestones", 1, params[:hide_sub_milestones] != '1', :onclick => 'show_sub_milestones_changed()' %> <%= l(:label_show_sub_milestones) %></label>
+                <%= hidden_field_tag "hide_sub_milestones", params[:hide_sub_milestones] %>
+            <% else %>
+                <label for="show_sub_milestones"><%= check_box_tag "show_sub_milestones", 1, params[:show_sub_milestones] %> <%= l(:label_show_sub_milestones) %></label>
             <% end %>
         <% end %>
         <% if @project.descendants.active.any? %>
