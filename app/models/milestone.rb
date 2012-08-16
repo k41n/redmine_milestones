@@ -25,6 +25,8 @@ class Milestone < ActiveRecord::Base
   named_scope :orphaned, :conditions => ['parent_milestone_id IS NULL or parent_milestone_id = ?', 0]
   named_scope :versionless, :conditions => ['version_id IS NULL OR version_id = ?', 0]
 
+  named_scope :for_project, lambda {|project| {:conditions => {:project_id => project.id}}}
+
   has_many :milestone_project_assignments
   has_many :projects, :through => :milestone_project_assignments
 
