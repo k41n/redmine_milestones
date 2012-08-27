@@ -35,8 +35,6 @@ class Milestone < ActiveRecord::Base
   has_many :child_milestone_assignments, :class_name => 'MilestoneAssignment', :foreign_key => :child_id
   has_many :parents, :through => :child_milestone_assignments, :as => :child
 
-  after_save :break_shared_assignments
-
   serialize :observers
 
   accepts_nested_attributes_for :milestone_project_assignments, :allow_destroy => true

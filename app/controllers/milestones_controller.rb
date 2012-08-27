@@ -61,6 +61,7 @@ class MilestonesController < ApplicationController
       @milestone.safe_attributes = attributes
     end
     if @milestone.save
+      @milestone.break_shared_assignments
       flash[:notice] = l(:notice_successful_update)
       if params[:back_url]
         uri = URI.parse(CGI.unescape(params[:back_url].to_s))
