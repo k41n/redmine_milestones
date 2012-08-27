@@ -25,6 +25,7 @@ ActionController::Routing::Routes.draw do |map|
       :planned_end_date_changed => [:get],
       :start_date_changed => [:get],
       :set_planned_to_actual => [:get],
-      :confirm_delete => [:post]
+      :confirm_delete => [:post],
+      :check_visibility_lost => [:get]
   }
 end

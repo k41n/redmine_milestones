@@ -35,6 +35,8 @@ class Milestone < ActiveRecord::Base
   has_many :child_milestone_assignments, :class_name => 'MilestoneAssignment', :foreign_key => :child_id
   has_many :parents, :through => :child_milestone_assignments, :as => :child
 
+  after_save :break_shared_assignments
+
   serialize :observers
 
   accepts_nested_attributes_for :milestone_project_assignments, :allow_destroy => true
@@ -295,6 +297,14 @@ class Milestone < ActiveRecord::Base
   def cssclass
     return "yellow" if not self.planned_end_date.nil? and not self.actual_date.nil? and self.planned_end_date == self.actual_date
     return "rose" if not self.planned_end_date.nil? and not self.actual_date.nil? and self.planned_end_date < self.actual_date
+  end
+
+  def break_shared_assignments
+    self.parents.each do |parent|
+      if parent.project.id != self.project.id and not parent.project.shared_milestones.map(&:id).include? self.id
+        parent.children.delete(self)
+      end
+    end
   end
 
 end

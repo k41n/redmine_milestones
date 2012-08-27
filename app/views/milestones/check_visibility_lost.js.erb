@@ -1,0 +1,26 @@
+<% if @visibility_lost > 0 %>
+  if (confirm("Changing sharing model to this value will cause losing bond with <%= @visibility_lost %> parent milestones from other projects"))
+  {
+    if (val == "specific")
+    {
+      $('assigned_projects_placeholder').show();
+    }
+    else
+    {
+      $('assigned_projects_placeholder').hide();
+    }
+  }
+  else
+  {
+    $('milestone_sharing').value = '<%= @old_sharing_model %>';
+  }
+<% else %>
+  if (val == "specific")
+  {
+    $('assigned_projects_placeholder').show();
+  }
+  else
+  {
+    $('assigned_projects_placeholder').hide();
+  }
+<% end %>

@@ -169,16 +169,31 @@ function milestone_version_changed(project)
         });
 }
 
-function milestone_sharing_changed(project)
+function milestone_sharing_changed(project, ask, milestone_id)
 {
     val = $('milestone_sharing').value;
-    if (val == "specific")
+    if (ask)
     {
-        $('assigned_projects_placeholder').show();
+        new Ajax.Request(window.root_path + '/milestones/' + milestone_id + '/check_visibility_lost',
+            {
+                method:'get',
+                parameters: {new_val: val},
+                onSuccess: function(transport){
+                    eval(response);
+                },
+                onFailure: function(){ alert('Something went wrong...') }
+            });
     }
     else
     {
-        $('assigned_projects_placeholder').hide();
+        if (val == "specific")
+        {
+            $('assigned_projects_placeholder').show();
+        }
+        else
+        {
+            $('assigned_projects_placeholder').hide();
+        }
     }
 }
 

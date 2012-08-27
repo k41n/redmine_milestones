@@ -37,6 +37,17 @@ class MilestonesController < ApplicationController
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'milestones', :id => @project
   end
 
+  def check_visibility_lost
+    @milestone = Milestone.find(params[:id])
+    @old_sharing_model = @milestone.sharing
+    @parents = @milestone.parents.select{|x| x.project.id != @milestone.project.id}
+    @milestone.update_attribute(:sharing, params[:new_val])
+    @visibility_lost = @parents.select do |x|
+      not x.project.shared_milestones.map(&:id).include? @milestone.id
+    end.count
+    @milestone.update_attribute(:sharing, @old_sharing_model)
+  end
+
   def update
     @milestone = Milestone.find(params[:id])
     params[:milestone][:observers] ||= []
