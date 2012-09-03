@@ -1,6 +1,5 @@
 module GanttPatch
   def self.included(base) # :nodoc:
-    puts "Self.included"
     base.class_eval do
       def render(options={})
         options = {:top => 0, :top_increment => 20, :indent_increment => 20, :render => :subject, :format => :html}.merge(options)
