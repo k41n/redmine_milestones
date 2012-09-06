@@ -123,7 +123,7 @@ class Milestone < ActiveRecord::Base
   end
 
   def issues_count
-    issues.count
+    all_issues.count
   end
 
   def start_date
@@ -172,11 +172,10 @@ class Milestone < ActiveRecord::Base
     @issues_progress[open] ||= begin
       progress = 0
       if issues_count > 0
-        ratio = open ? 'done_ratio' : 100
-
-        done = issues.sum("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}",
-                                :joins => :status,
-                                :conditions => ["#{IssueStatus.table_name}.is_closed = ?", !open]).to_f
+        done = all_issues.select{|x| x.status.is_closed != open}.inject(0){ |sum,x| sum + (estimated_hours.present? ? estimated_hours : estimated_average) * (open ? x.done_ratio : 100)}
+        #("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}",
+        #                        :joins => :status,
+        #                        :conditions => ["#{IssueStatus.table_name}.is_closed = ?", !open]).to_f
         progress = done / (estimated_average * issues_count)
       end
       progress
@@ -218,15 +217,20 @@ class Milestone < ActiveRecord::Base
     @spent_hours ||= TimeEntry.sum(:hours, :joins => :issue, :conditions => ["#{Issue.table_name}.milestone_id = ?", id]).to_f
   end
 
+  def all_issues(visited = [])
+    visited << self.id
+    issues + children.reject{ |x| visited.include? x.id }.collect{ |x| x.all_issues(visited) }.flatten
+  end
+
   def load_issue_counts
     unless @issue_count
       @open_issues_count = 0
       @closed_issues_count = 0
-      issues.count(:all, :group => :status).each do |status, count|
+      all_issues.group_by{ |x| x.status }.each do |status, group|
         if status.is_closed?
-          @closed_issues_count += count
+          @closed_issues_count += group.size
         else
-          @open_issues_count += count
+          @open_issues_count += group.size
         end
       end
       @issue_count = @open_issues_count + @closed_issues_count
