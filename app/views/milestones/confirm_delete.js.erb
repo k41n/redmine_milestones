@@ -1,6 +1,6 @@
 if (confirm("Are you sure"))
 {
-    if (confirm("The Milestone has <%= @milestone.issues.count %> issues, are you really sure?"))
+    if (confirm("The Milestone has <%= @milestone.issues.count %> issues and <%= @milestone.children.count %> submilestones, are you really sure?"))
     {
         new Ajax.Request('<%= milestone_path(@milestone) %>',
             {
