@@ -234,7 +234,12 @@ class Milestone < ActiveRecord::Base
   end
 
   def actual_date
-    (self.children.map(&:planned_end_date) + self.issues.map(&:due_date)).reject{|x| x.nil?}.max
+    (self.children.map(&:effective_end_date) + self.issues.map(&:due_date)).reject{|x| x.nil?}.max
+  end
+
+  def effective_end_date
+    issues_end_dates = self.issues.map(&:due_date).reject{|x| x.nil?}
+    issues_end_dates.empty? ? planned_end_date : issues_end_dates.max
   end
 
   def to_s
