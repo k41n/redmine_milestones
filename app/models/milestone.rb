@@ -185,7 +185,7 @@ class Milestone < ActiveRecord::Base
   def estimated_average
     if @estimated_average.nil?
       meaning_issues = all_issues.select{|x| x.estimated_hours.present? }
-      average = meaning_issues.inject(0){|sum,x| sum + x.estimated_hours}.to_f / meaning_issues.size
+      average = meaning_issues.size.zero? ? 0 : meaning_issues.inject(0){|sum,x| sum + x.estimated_hours}.to_f / meaning_issues.size
       if average == 0
         average = 1
       end
