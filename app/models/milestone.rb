@@ -172,7 +172,7 @@ class Milestone < ActiveRecord::Base
     @issues_progress[open] ||= begin
       progress = 0
       if issues_count > 0
-        done = all_issues.select{|x| x.status.is_closed != open}.inject(0){ |sum,x| sum + (estimated_hours.present? ? estimated_hours : estimated_average) * (open ? x.done_ratio : 100)}
+        done = all_issues.select{|x| x.status.is_closed != open}.inject(0){ |sum,x| sum + (x.estimated_hours.present? ? x.estimated_hours : estimated_average) * (open ? x.done_ratio : 100)}
         #("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}",
         #                        :joins => :status,
         #                        :conditions => ["#{IssueStatus.table_name}.is_closed = ?", !open]).to_f
@@ -184,7 +184,8 @@ class Milestone < ActiveRecord::Base
 
   def estimated_average
     if @estimated_average.nil?
-      average = issues.average(:estimated_hours).to_f
+      meaning_issues = all_issues.select{|x| x.estimated_hours.present? }
+      average = meaning_issues.inject(0){|sum,x| sum + x.estimated_hours}.to_f / meaning_issues.size
       if average == 0
         average = 1
       end
