@@ -139,7 +139,11 @@ class Milestone < ActiveRecord::Base
       read_attribute(:planned_end_date)
     else
       return nil if planned_end_date_offset.nil?
-      planned_end_date_offset.days.since(self.previous_planned_end_date_milestone.planned_end_date) unless self.previous_planned_end_date_milestone.nil? or self.previous_planned_end_date_milestone.planned_end_date.nil?
+      unless self.previous_planned_end_date_milestone.nil? or self.previous_planned_end_date_milestone.planned_end_date.nil?
+        return planned_end_date_offset.days.since(self.previous_planned_end_date_milestone.planned_end_date)
+      else
+        return planned_end_date_offset.days.since(self.previous_planned_end_date_milestone.actual_date) if self.previous_planned_end_date_milestone.actual_date
+      end
     end
   end
 
