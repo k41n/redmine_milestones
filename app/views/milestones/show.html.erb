@@ -23,9 +23,9 @@
       <% if @milestone.completed? %>
           <p><%= @milestone.actual_date.strftime('%d-%m-%Y') if @milestone.actual_date.present? %></p>
       <% elsif @milestone.actual_date %>
-          <p style='text-decoration: underline'><strong><%= due_date_distance_in_words(@milestone.actual_date) %></strong> (Actual: <%= @milestone.actual_date.strftime('%d-%m-%Y') %>) owner: <%= @milestone.user.name if @milestone.user.present? %></p>
+          <p style='text-decoration: underline'><strong><%= due_date_distance_in_words(@milestone.actual_date) %> (Actual: <%= @milestone.actual_date.strftime('%d-%m-%Y') %>) </strong> owner: <%= @milestone.user.name if @milestone.user.present? %></p>
       <% elsif @milestone.planned_end_date %>
-          <p><strong><%= due_date_distance_in_words(@milestone.planned_end_date) %></strong> (Planned: <%= @milestone.planned_end_date.strftime('%d-%m-%Y') %>) owner: <%= @milestone.user.name if @milestone.user.present? %></p>
+          <p><strong><%= due_date_distance_in_words(@milestone.planned_end_date) %> (Planned: <%= @milestone.planned_end_date.strftime('%d-%m-%Y') %>) </strong> owner: <%= @milestone.user.name if @milestone.user.present? %></p>
       <% end %>
       <br/>
       <% if @milestone.issues_count > 0 %>
