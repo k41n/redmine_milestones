@@ -41,7 +41,7 @@ namespace :deploy do
                    else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
                  end
      #run "cd #{directory}; bundle update"
-     run "cd /var/data/saas/test/redmine; #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate:plugin NAME=redmine_milestones --trace"
+     run "cd /var/data/saas/test/redmine; #{rake} RAILS_ENV=#{rails_env} #{migrate_env}  bundle exec db:migrate:plugin NAME=redmine_milestones --trace"
    end
 
 end
