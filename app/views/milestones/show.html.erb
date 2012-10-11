@@ -56,11 +56,7 @@
       <% visited_milestones << @milestone.id %>
       <% unless @milestone.children.empty? %>
           <h4><%= l(:label_related_milestones) %></h4>
-          <% if params[:completed_milestones] %>
-              <%= render :partial => "milestones/milestone", :collection => @milestone.children.reject{|x| visited_milestones.include? x.id}, :locals => {:visited_milestones => visited_milestones, :draw_hr => true} %>
-          <% else %>
-              <%= render :partial => "milestones/milestone", :collection => @milestone.children.opened.reject{|x| visited_milestones.include? x.id}, :locals => {:visited_milestones => visited_milestones, :draw_hr=>true} %>
-          <% end %>
+          <%= render :partial => "milestones/milestone", :collection => @milestone.children.reject{|x| visited_milestones.include? x.id}, :locals => {:visited_milestones => visited_milestones, :draw_hr=>true} %>
       <% end %>
 
 
