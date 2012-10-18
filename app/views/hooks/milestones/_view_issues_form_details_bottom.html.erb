@@ -1,8 +1,10 @@
 <% if @project.module_enabled?(:milestones_module) %>
     <p id="milestone_placeholder">
+        <% @milestones = @project.milestones.versionless %>
         <% if issue.fixed_version.present? and not issue.fixed_version.milestones.empty? %>
-          <%= form.select :milestone_id, [['',0]] + Milestone.find_all_by_version_id(issue.fixed_version.id).collect{|x| [x.name, x.id]} %>
+            <% @milestones += issue.fixed_version.milestones %>
         <% end %>
+        <%= form.select :milestone_id, [['',0]] + @milestones.collect{|x| [x.name, x.id]} %>
     </p>
 <% end %>
 <% content_for :header_tags do %>

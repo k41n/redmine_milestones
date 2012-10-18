@@ -1,1 +1,6 @@
+if ($('issue_milestone_id'))
+    var oldval = $('issue_milestone_id').value
 $('milestone_placeholder').replace("<%= escape_javascript(render :partial => "available_milestones") %>")
+if (oldval)
+    $('issue_milestone_id').value = oldval
+
