@@ -77,6 +77,12 @@ class Milestone < ActiveRecord::Base
     visited.flatten.uniq
   end
 
+  def descendants(visited = [])
+    visited << self.id
+    visited << self.children.reject{|x| visited.include? x.id}.collect{|x| x.descendants} unless self.children.empty?
+    visited.flatten.uniq
+  end
+
   def assigned_projects=(projects)
     self.projects = projects.collect{|x| Project.find(x)}
   end
@@ -123,7 +129,8 @@ class Milestone < ActiveRecord::Base
   end
 
   def issues_count
-    all_issues.count
+    load_issue_counts
+    @issue_count
   end
 
   def start_date
@@ -263,12 +270,6 @@ class Milestone < ActiveRecord::Base
   def <=> (a)
     self.name <=> a.name
   end
-
-  #def level
-  #  return 0 if self.parent_milestone.nil? and self.kind == "aggregate"
-  #  return 1 if self.parent_milestone.nil? and self.kind == "internal"
-  #  return parent_milestone.level + 1
-  #end
 
   def versionless?
     self.version.nil?

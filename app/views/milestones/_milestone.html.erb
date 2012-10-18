@@ -19,10 +19,11 @@
         <% if milestone.issues_count > 0 %>
             <%= progress_bar([milestone.closed_pourcent, milestone.completed_pourcent], :width => '35em', :legend => '%0.0f%' % milestone.completed_pourcent) %>
             <p class="progress-info">
-              <%= link_to_if(milestone.closed_issues_count > 0, l(:label_x_closed_issues_abbr, :count => milestone.closed_issues_count), :controller => 'issues', :action => 'index', :project_id => milestone.project, :status_id => 'c', :milestone_id => milestone.id, :set_filter => 1) %>
+              <%= link_to_if(milestone.closed_issues_count > 0, l(:label_x_closed_issues_abbr, :count => milestone.closed_issues_count), :controller => 'issues', :action => 'index', :project_id => milestone.project, :status_id => 'c', :milestone => milestone, :set_filter => 1) %>
               (<%= '%0.0f' % (milestone.closed_issues_count.to_f / milestone.issues_count * 100) %>%)
               &#160;
-              <%= link_to_if(milestone.open_issues_count > 0, l(:label_x_open_issues_abbr, :count => milestone.open_issues_count), :controller => 'issues', :action => 'index', :project_id => milestone.project, :status_id => 'o', :milestone_id => milestone.id, :set_filter => 1) %>
+              <%= link_to_if(milestone.open_issues_count > 0, l(:label_x_open_issues_abbr, :count => milestone.open_issues_count), :controller => 'issues', :action => 'index', :project_id => milestone.project, :status_id => 'o', :milestone => milestone, :set_filter => 1) %>
+              <% logger.info "====================== #{milestone.open_issues_count.to_f} / #{milestone.issues_count} ==============" %>
               (<%= '%0.0f' % (milestone.open_issues_count.to_f / milestone.issues_count * 100) %>%)
             </p>
         <% else %>

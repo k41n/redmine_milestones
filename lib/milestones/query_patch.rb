@@ -8,9 +8,6 @@ module Milestones
       base.class_eval do
         unloadable
 
-        # alias_method :statement_original_contacts, :statement
-        # alias_method :statement, :statement_contacts
-
         alias_method :available_filters_original_milestone, :available_filters
         alias_method :available_filters, :available_filters_milestone
 
@@ -23,7 +20,9 @@ module Milestones
     module InstanceMethods
       def sql_for_milestone_field(field, operator, value)
         compare = operator == '=' ? 'IN' : 'NOT IN'
-        milestones_select = "#{value.join(',')}"
+        milestones = Milestone.find(:all, :conditions => {:id => value})
+        values = milestones.map(&:descendants).flatten.uniq
+        milestones_select = "#{values.join(',')}"
 
         "(#{Issue.table_name}.milestone_id #{compare} (#{milestones_select}))"
       end
