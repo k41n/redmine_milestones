@@ -1,3 +1,14 @@
+<%
+   # We need that because original Redmine versions controller throws out versions without issues and don't care whether they have milestones
+   @versions = @project.shared_versions || []
+   @versions += @project.rolled_up_versions.visible if @with_subprojects
+   @versions = @versions.uniq.sort
+   unless params[:completed]
+     @completed_versions = @versions.select {|version| version.closed? || version.completed? }
+     @versions -= @completed_versions
+   end
+%>
+
 <div class="contextual">
   <%= link_to l(:label_version_new), new_project_version_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
   <%= link_to l(:label_milestone_new), new_project_milestone_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) and @project.module_enabled?(:milestones_module) %>
