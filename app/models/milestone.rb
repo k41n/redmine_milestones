@@ -9,6 +9,7 @@ class Milestone < ActiveRecord::Base
   MILESTONE_SHARINGS = %w(none descendants hierarchy tree system specific)
 
   validates_inclusion_of :sharing, :in => MILESTONE_SHARINGS
+  validates_presence_of :name
 
   belongs_to :project
   belongs_to :user
