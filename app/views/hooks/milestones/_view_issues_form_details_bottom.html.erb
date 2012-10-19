@@ -1,7 +1,7 @@
 <% if @project.module_enabled?(:milestones_module) %>
     <p id="milestone_placeholder">
         <% @milestones = @project.milestones.versionless %>
-        <% @milestones += @project.shared_milestones %>
+        <% @milestones += @project.all_milestones(false) %>
         <% if issue.fixed_version.present? and not issue.fixed_version.milestones.empty? %>
             <% @milestones += issue.fixed_version.milestones %>
         <% end %>
