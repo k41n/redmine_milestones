@@ -4,7 +4,9 @@
         <% if issue.fixed_version.present? and not issue.fixed_version.milestones.empty? %>
             <% @milestones += issue.fixed_version.milestones %>
         <% end %>
-        <%= form.select :milestone_id, [['',0]] + @milestones.collect{|x| [x.name, x.id]} %>
+        <% unless @milestones.empty? %>
+            <%= form.select :milestone_id, [['',0]] + @milestones.collect{|x| [x.name, x.id]} %>
+        <% end %>
     </p>
 <% end %>
 <% content_for :header_tags do %>
