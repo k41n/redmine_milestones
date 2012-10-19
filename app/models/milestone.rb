@@ -260,6 +260,7 @@ class Milestone < ActiveRecord::Base
     issues_end_dates = self.issues.map(&:due_date).reject{|x| x.nil?}
     ret = issues_end_dates.empty? ? planned_end_date : issues_end_dates.max
     act = actual_date(visited)
+    return act if ret.nil?
     (act.present? && act > ret) ? act : ret
   end
 
