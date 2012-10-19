@@ -165,7 +165,7 @@ class MilestonesController < ApplicationController
   def issue_version_changed
     @project = Project.find(params[:project_id])
     @version = Version.find(params[:id])
-    @milestones = @version.milestones + @project.milestones.versionless
+    @milestones = @version.milestones + @project.milestones.versionless + @project.shared_milestones
   rescue
     @milestones = @project.milestones.versionless
   end
