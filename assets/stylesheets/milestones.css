@@ -2,6 +2,12 @@
 {
     padding-left: 20px;
 }
+
+.milestone p
+{
+    margin-top: 10px;
+}
+
 .icon-milestone { background-image: url(/plugin_assets/redmine_milestones/images/milestone.png); }
 
 .yellow
