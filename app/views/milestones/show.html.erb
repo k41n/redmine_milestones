@@ -160,3 +160,6 @@
 
 
 <% html_title @milestone.name %>
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "milestones", :plugin => 'redmine_milestones' %>
+<% end %>
