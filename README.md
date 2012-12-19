@@ -1,3 +1,9 @@
+This project is a fork of the original redmine_milestones from   
+https://github.com/k41n/redmine_milestones 
+I have made plugin compatible with Redmine 2.2.0.stable.11055 
+all prototype dependent javascript statements were removed.. 
+
+
 redmine_milestones
 ==================
 
