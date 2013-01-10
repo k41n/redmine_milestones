@@ -32,6 +32,7 @@ module Milestones
         if @available_filters.blank? && (@project.blank? || @project.module_enabled?(:milestones_module))
           select_fields = "#{Milestone.table_name}.name, #{Milestone.table_name}.id"
           available_filters_original_milestone.merge!({ 'milestone' => {
+              :name   => l(:label_milestone),
               :type   => :list,
               :order  => 6,
               :values => (@project.nil? ? Milestone.find(:all, :select => select_fields, :limit => 500) : @project.all_milestones).collect{ |t| [t.name, t.id.to_s] }.uniq
