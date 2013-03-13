@@ -20,14 +20,21 @@ This version has been tested with redmine branches 1.3 and 1.4 as far as with My
 
 Clone repository into vendor/plugins:
 
+```
 $ cd <your redmine root directory>
+```
+
+```
 $ git clone git://github.com/k41n/redmine_milestones.git vendor/plugin/redmine_milestones
+```
 
 Run migrations
 
 Before this step make sure there is no table named milestones in your database.
 
+```
 $ RAILS_ENV=production rake db:migrate:plugin NAME=redmine_milestones
+```
 
 Login into Redmine, enable plugin on project plugins page and enjoy.
 
