@@ -88,7 +88,7 @@ module GanttPatch
         @number_of_rows += 1
         return if abort?
 
-        issues = milestone.issues
+        issues = milestone_issues(project, milestone)
         if issues
           sort_issues!(issues)
           # Indent issues
@@ -96,6 +96,10 @@ module GanttPatch
           render_issues(issues, options)
           options[:indent] -= options[:indent_increment]
         end
+      end
+      
+      def milestone_issues(project, milestone)
+        project_issues(project).select {|issue| issue.milestone == milestone}
       end
 
       def subject_for_milestone(milestone, options)
